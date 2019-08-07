@@ -17,7 +17,6 @@ static const char *WINDOW_TITLE = "Bomberman";
 
 class Bomberman : private AMainLoop
 {
-
 private:
 	sf::RenderWindow window;
 	Engine engine;
