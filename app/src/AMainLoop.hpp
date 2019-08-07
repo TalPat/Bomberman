@@ -20,12 +20,15 @@ private:
 	bool _running = false;
 
 protected:
+	// This function will be called on every loop
 	virtual void updateFunc() = 0;
 
 public:
 	virtual ~AMainLoop() {}
 
+	// Start the Main Loop
 	void start();
+	// Stops the Main Loop
 	void stop();
 };
 
