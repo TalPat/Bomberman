@@ -20,9 +20,6 @@ void Bomberman::startGame()
 
 void Bomberman::updateFunc()
 {
-	// TODO: Impliment Delta Time
-	double deltaTime = 0.01; //Placeholder until deltatime is implimented
-
 	if (!this->window.isOpen())
 		this->stop();
 
@@ -61,6 +58,12 @@ void Bomberman::updateFunc()
 				break;
 		}
 	}
+
+	double deltaTime;
+	if (this->_sleep.tv_nsec > this->_perFrameTime.tv_nsec)
+		deltaTime = static_cast<double>(this->_diff.tv_nsec) / 1000000000;
+	else
+		deltaTime = static_cast<double>(this->_perFrameTime.tv_nsec) / 1000000000;
 
 	// TODO: Need a class to map key to event
 	this->engine.update(deltaTime, engEvent);

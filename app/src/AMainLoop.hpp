@@ -8,20 +8,21 @@ class AMainLoop
 {
 private:
 	const double frameRate = 60.0;
-	timespec _perFrameTime = {0, 1 * 1000000000 / 60}; // Second to nano
 
 	void loop();
 
 	timespec _loopStart;
 	timespec _loopEnd;
-	timespec _sleep;
-	timespec _diff;
 
 	bool _running = false;
 
 protected:
 	// This function will be called on every loop
 	virtual void updateFunc() = 0;
+
+	timespec _perFrameTime = {0, 1 * 1000000000 / 60}; // Second to nano
+	timespec _diff;
+	timespec _sleep;
 
 public:
 	virtual ~AMainLoop() {}
