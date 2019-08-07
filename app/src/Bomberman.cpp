@@ -30,7 +30,8 @@ void Bomberman::updateFunc()
 	EngineEvent engEvent = EngineEvent::stop;
 	while (this->window.pollEvent(event))
 	{
-		switch (event.type) {
+		switch (event.type)
+		{
 			case sf::Event::Closed:
 				this->stop();
 				this->window.close();
@@ -58,11 +59,6 @@ void Bomberman::updateFunc()
 						break;
 				}
 				break;
-		}
-		if (event.type == sf::Event::Closed)
-		{
-			this->stop();
-			window.close();
 		}
 	}
 
