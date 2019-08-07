@@ -20,7 +20,7 @@ protected:
 	// This function will be called on every loop
 	virtual void updateFunc() = 0;
 
-	timespec _perFrameTime = {0, 1 * 1000000000 / 60}; // Second to nano
+	timespec _perFrameTime = {0, 1 * 1000000000 / static_cast<long>(frameRate)}; // Second to nano
 	timespec _diff;
 	timespec _sleep;
 
