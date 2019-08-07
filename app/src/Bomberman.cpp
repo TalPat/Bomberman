@@ -34,7 +34,6 @@ void Bomberman::updateFunc()
 			this->stop();
 			window.close();
 		}
-		std::cout << event.type << std::endl;
 	}
 
 	// TODO: Need a class to map key to event

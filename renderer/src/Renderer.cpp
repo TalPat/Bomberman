@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-void Renderer::render()
+void Renderer::render(sf::RenderWindow &window)
 {
 	std::cout << "Rendering..." << std::endl;
 }
