@@ -15,4 +15,4 @@ include_directories(
 
 add_subdirectory(engine)
 add_subdirectory(renderer)
-add_subdirectory(core)
+add_subdirectory(app)

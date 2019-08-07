@@ -4,14 +4,22 @@
 #include "./AMainLoop.hpp"
 
 #include <Engine.hpp>
+#include <EngineEvent.hpp>
 #include <Renderer.hpp>
+#include <SFML/Graphics.hpp>
+
 #include <vector>
 #include <ctime>
+
+static const uint WINDOW_WIDTH = 640;
+static const uint WINDOW_HEIGHT = 400;
+static const char *WINDOW_TITLE = "Bomberman";
 
 class Bomberman : private AMainLoop
 {
 
 private:
+	sf::RenderWindow window;
 	Engine engine;
 	Renderer renderer;
 
@@ -23,7 +31,5 @@ public:
 
 	void startGame();
 };
-
-static timespec diff_ts(const timespec &t1, const timespec &t2);
 
 #endif
