@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-void Engine::update(double deltaTime, EngineEvent action)
+void Engine::update(double deltaTime, std::vector<EngineEvent> action)
 {
 	std::cout << "Updating Engine" << std::endl;
 }

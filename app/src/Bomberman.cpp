@@ -24,7 +24,7 @@ void Bomberman::updateFunc()
 		this->stop();
 
 	sf::Event event;
-	EngineEvent engEvent = EngineEvent::stop;
+	std::vector<EngineEvent> actions;
 	while (this->window.pollEvent(event))
 	{
 		switch (event.type)
@@ -34,30 +34,15 @@ void Bomberman::updateFunc()
 				this->window.close();
 				break;
 			case sf::Event::KeyPressed:
-				switch (event.key.code) {
-					case sf::Keyboard::Escape:
-						this->stop();
-						this->window.close();
-						break;
-					case sf::Keyboard::Up:
-						engEvent = EngineEvent::move_up;
-						break;
-					case sf::Keyboard::Down:
-						engEvent = EngineEvent::move_down;
-						break;
-					case sf::Keyboard::Left:
-						engEvent = EngineEvent::move_left;
-						break;
-					case sf::Keyboard::Right:
-						engEvent = EngineEvent::move_right;
-						break;
-					case sf::Keyboard::Space:
-						engEvent = EngineEvent::place_bomb;
-						break;
-				}
+				EngineEvent pressed = this->input.getInput(event.key.code);
+				if (pressed != EngineEvent::unknown)
+					actions.push_back(pressed);
 				break;
 		}
 	}
+
+	if (actions.size() == 0)
+		actions.push_back(EngineEvent::stop);
 
 	double deltaTime;
 	if (this->_sleep.tv_nsec > this->_perFrameTime.tv_nsec)
@@ -66,7 +51,7 @@ void Bomberman::updateFunc()
 		deltaTime = static_cast<double>(this->_perFrameTime.tv_nsec) / 1000000000;
 
 	// TODO: Need a class to map key to event
-	this->engine.update(deltaTime, engEvent);
+	this->engine.update(deltaTime, actions);
 
 	// Check might need to be done
 	this->renderer.render(this->window);

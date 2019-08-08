@@ -2,6 +2,7 @@
 #define _Bomberman_hpp_
 
 #include "./AMainLoop.hpp"
+#include "./Input.hpp"
 
 #include <Engine.hpp>
 #include <EngineEvent.hpp>
@@ -21,6 +22,7 @@ private:
 	sf::RenderWindow window;
 	Engine engine;
 	Renderer renderer;
+	Input input;
 
 	virtual void updateFunc();
 
