@@ -5,8 +5,11 @@
 #include <iostream>
 
 Bomberman::Bomberman()
-	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE)
+	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE),
+	  renderTime(0), engineTime(0)
 {
+	this->deltaClock.restart();
+	this->frameClock.restart();
 }
 
 Bomberman::~Bomberman()
@@ -44,15 +47,20 @@ void Bomberman::updateFunc()
 	if (actions.size() == 0)
 		actions.push_back(EngineEvent::stop);
 
-	double deltaTime;
-	if (this->_sleep.tv_nsec > this->_perFrameTime.tv_nsec)
-		deltaTime = static_cast<double>(this->_diff.tv_nsec) / 1000000000;
-	else
-		deltaTime = static_cast<double>(this->_perFrameTime.tv_nsec) / 1000000000;
+	// Record the time elapsed since starting last render
+	this->renderTime = this->deltaClock.getElapsedTime().asSeconds();
+	this->deltaClock.restart();
 
-	// TODO: Need a class to map key to event
-	this->engine.update(deltaTime, actions);
+	this->engine.update(this->renderTime + this->engineTime, actions);
 
-	// Check might need to be done
-	this->renderer.render(this->window);
+	// Record the time taken by the engine
+	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
+	this->deltaClock.restart();
+
+	// Only render if required to enforce frameRate
+	if (this->frameClock.getElapsedTime().asSeconds() > this->perFrameSeconds)
+	{
+		this->renderer.render(this->window);
+		this->frameClock.restart();
+	}
 }

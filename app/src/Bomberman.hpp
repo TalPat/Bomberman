@@ -24,6 +24,11 @@ private:
 	Renderer renderer;
 	Input input;
 
+	sf::Clock deltaClock;
+	sf::Clock frameClock;
+	float renderTime;
+	float engineTime;
+
 	virtual void updateFunc();
 
 public:
