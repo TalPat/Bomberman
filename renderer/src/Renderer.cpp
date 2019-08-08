@@ -1,8 +1,80 @@
+
 #include "../include/Renderer.hpp"
 
 #include <iostream>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
-void Renderer::render(sf::RenderWindow &window)
+// TODO: COMPLETE CHANGE ALL THIS CODE
+// I repeat, this is a prototype
+unsigned char* map_pix;
+sf::Texture map_tex;
+sf::Sprite map_sprite;
+
+unsigned char* cc_pix;
+sf::Texture cc_tex;
+sf::Sprite cc_sprite;
+
+Renderer::Renderer() {
+    map_pix = new unsigned char[21*21*4];
+    cc_pix = new unsigned char[1*1*4];
+    map_tex.create(21, 21);
+    map_sprite.setTexture(map_tex, true);
+    map_sprite.setScale(sf::Vector2f(16.0f, 16.0f));
+    map_sprite.setPosition(sf::Vector2f(0.f, 0.f));
+
+    cc_tex.create(1, 1);
+    cc_sprite.setTexture(cc_tex, true);
+    cc_sprite.setScale(sf::Vector2f(16.0f, 16.0f));
+    cc_pix[0] = 255;
+    cc_pix[1] = 255;
+    cc_pix[2] = 255;
+    cc_pix[3] = 255;
+    cc_tex.update(cc_pix);
+}
+Renderer::~Renderer() {}
+
+void Renderer::render(sf::RenderWindow &window, Engine &engine)
 {
-	std::cout << "Rendering..." << std::endl;
+
+    window.clear();
+
+    // TODO: remove prototype graphics    
+    for (int i = 0; i < 21; ++i)
+    {
+        for (int j = 0; j < 21; ++j)
+        {
+            map_pix[(i * 21 + j)*4+0] = engine.getMapAt(i, j) * 80;
+            map_pix[(i * 21 + j)*4+1] = engine.getMapAt(i, j) * 80;
+            map_pix[(i * 21 + j)*4+2] = engine.getMapAt(i, j) * 80;
+            map_pix[(i * 21 + j)*4+3] = 255;
+        }
+    }
+    map_tex.update(map_pix);
+    window.draw(map_sprite);
+    cc_sprite.setPosition(sf::Vector2f((engine.x)*16, (engine.y)*16));
+    window.draw(cc_sprite);
+    for (const Bomb& bomb : engine.bombs) {
+        if ((bomb.tick / 4000) % 2 == 0) {
+            cc_sprite.setPosition(sf::Vector2f(bomb.x*16, bomb.y*16));
+            window.draw(cc_sprite);
+        }
+        if (bomb.tick > 25000) {
+            cc_sprite.setPosition(sf::Vector2f(bomb.x*16, bomb.y*16));
+            window.draw(cc_sprite);
+            cc_sprite.setPosition(sf::Vector2f((bomb.x-1)*16, (bomb.y  )*16));
+            window.draw(cc_sprite);
+            cc_sprite.setPosition(sf::Vector2f((bomb.x+1)*16, (bomb.y  )*16));
+            window.draw(cc_sprite);
+            cc_sprite.setPosition(sf::Vector2f((bomb.x  )*16, (bomb.y+1)*16));
+            window.draw(cc_sprite);
+            cc_sprite.setPosition(sf::Vector2f((bomb.x  )*16, (bomb.y-1)*16));
+            window.draw(cc_sprite);
+        }
+    }
+
+    window.display();
+
+
+	//std::cout << "Rendering..." << std::endl;
 }
