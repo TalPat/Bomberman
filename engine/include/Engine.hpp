@@ -11,7 +11,7 @@ public:
 	// deltaTime should be expressed in seconds
 	// action might need to be vector as multiple keys can be pressed
 	// in a single frame
-	void update(double deltaTime, std::vector<EngineEvent> actions);
+	void update(double deltaTime, std::vector<EngineEvent> &actions);
 };
 
 #endif
