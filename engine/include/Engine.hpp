@@ -12,9 +12,6 @@ public:
 	// action might need to be vector as multiple keys can be pressed
 	// in a single frame
 	void update(double deltaTime, std::vector<EngineEvent> &actions);
-
-	template <typename T>
-	bool checkColide(T other);
 };
 
 #endif
