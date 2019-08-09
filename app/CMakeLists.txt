@@ -9,6 +9,7 @@ target_link_libraries(App
     sfml-system
     Engine 
     Renderer
+    Models
 )
 
 add_executable(bomberman src/main.cpp)

@@ -3,11 +3,11 @@
 
 enum EngineEvent
 {
-	move_up,
+	move_up_downkey,
+	move_up_upkey,
 	move_right,
 	move_down,
 	move_left,
-	stop,
 	place_bomb,
 };
 

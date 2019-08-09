@@ -37,8 +37,11 @@ void Bomberman::updateFunc()
 	}
 
 	// TODO: Need a class to map key to event
-	this->engine.update(deltaTime, EngineEvent::stop);
+	std::vector<EngineEvent> events = {EngineEvent::move_down};
+	this->engine.update(deltaTime, events);
 
-	// Check might need to be done
-	this->renderer.render(this->window);
+	// TODO: Remove temp player
+	Player player;
+	std::vector<IRenderable *> renders = {&player};
+	this->renderer.render(this->window, renders);
 }
