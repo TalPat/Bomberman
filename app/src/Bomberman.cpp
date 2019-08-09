@@ -58,7 +58,7 @@ void Bomberman::updateFunc()
 	this->deltaClock.restart();
 
 	// Only render if required to enforce frameRate
-	if (this->frameClock.getElapsedTime().asSeconds() > this->perFrameSeconds)
+	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
 		this->renderer.render(this->window);
 		this->frameClock.restart();
