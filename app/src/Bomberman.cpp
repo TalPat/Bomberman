@@ -32,15 +32,15 @@ void Bomberman::updateFunc()
 	{
 		switch (event.type)
 		{
-			case sf::Event::Closed:
-				this->stop();
-				this->window.close();
-				break;
-			case sf::Event::KeyPressed:
-				EngineEvent pressed = this->input.getInput(event.key.code);
-				if (pressed != EngineEvent::unknown)
-					actions.push_back(pressed);
-				break;
+		case sf::Event::Closed:
+			this->stop();
+			this->window.close();
+			break;
+		case sf::Event::KeyPressed:
+			EngineEvent pressed = this->input.getInput(event.key.code);
+			if (pressed != EngineEvent::unknown)
+				actions.push_back(pressed);
+			break;
 		}
 	}
 
@@ -60,7 +60,8 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		this->renderer.render(this->window);
+		std::vector<IRenderable *> renders = {};
+		this->renderer.render(this->window, renders);
 		this->frameClock.restart();
 	}
 }
