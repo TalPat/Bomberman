@@ -1,6 +1,7 @@
 add_library(App STATIC
     src/AMainLoop.cpp
     src/Bomberman.cpp
+    src/Input.cpp
 )
 
 target_link_libraries(App

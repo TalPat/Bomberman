@@ -5,8 +5,11 @@
 #include <iostream>
 
 Bomberman::Bomberman()
-	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE)
+	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE),
+	  renderTime(0), engineTime(0)
 {
+	this->deltaClock.restart();
+	this->frameClock.restart();
 }
 
 Bomberman::~Bomberman()
@@ -20,28 +23,45 @@ void Bomberman::startGame()
 
 void Bomberman::updateFunc()
 {
-	// TODO: Impliment Delta Time
-	double deltaTime = 0.01; //Placeholder until deltatime is implimented
-
 	if (!this->window.isOpen())
 		this->stop();
 
 	sf::Event event;
+	std::vector<EngineEvent> actions;
 	while (this->window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed)
+		switch (event.type)
 		{
+		case sf::Event::Closed:
 			this->stop();
-			window.close();
+			this->window.close();
+			break;
+		case sf::Event::KeyPressed:
+			EngineEvent pressed = this->input.getInput(event.key.code);
+			if (pressed != EngineEvent::unknown)
+				actions.push_back(pressed);
+			break;
 		}
 	}
 
-	// TODO: Need a class to map key to event
-	std::vector<EngineEvent> events = {EngineEvent::move_down};
-	this->engine.update(deltaTime, events);
+	if (actions.size() == 0)
+		actions.push_back(EngineEvent::stop);
 
-	// TODO: Remove temp player
-	Player player;
-	std::vector<IRenderable *> renders = {&player};
-	this->renderer.render(this->window, renders);
+	// Record the time elapsed since starting last render
+	this->renderTime = this->deltaClock.getElapsedTime().asSeconds();
+	this->deltaClock.restart();
+
+	this->engine.update(this->renderTime + this->engineTime, actions);
+
+	// Record the time taken by the engine
+	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
+	this->deltaClock.restart();
+
+	// Only render if required to enforce frameRate
+	if (this->frameClock.getElapsedTime().asSeconds() > this->perFrameSeconds)
+	{
+		std::vector<IRenderable *> renders = {};
+		this->renderer.render(this->window, renders);
+		this->frameClock.restart();
+	}
 }
