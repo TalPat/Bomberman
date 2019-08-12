@@ -3,12 +3,15 @@
 
 enum EngineEvent
 {
-	move_up,
-	move_right,
-	move_down,
-	move_left,
-	stop,
-	place_bomb,
+	UP,
+    DOWN,
+	RIGHT,
+	LEFT,
+	ACTION,
+
+    COUNT // trick to get enum length
+    // C++ spec: If the first enumerator has no initializer, 
+    // the value of the corresponding constant is zero.
 };
 
 #endif

@@ -1,85 +1,99 @@
 
 #include "../include/Engine.hpp"
 
+#include <SFML/Audio.hpp>
 #include <iostream>
+#include <string>
 
-Engine::Engine() {
-    this->x = 1;
-    this->y = 1;
-    this->width = 21;
-    this->height = 21;
-    this->map = new int[this->width * this->height];
-    // TODO: In Map Class, change tile values, 0, 1, 2 to an enum
-    for (int i = 0; i < this->height; ++i)
-    {
-        for (int j = 0; j < this->width; ++j)
+Engine::Engine() { 
+    this->keys = new bool[EngineEvent::COUNT];
+}
+
+Engine::~Engine() {
+    delete this->keys;
+}
+
+void Engine::loadLevel(GameState &game, int level) {
+    // This will be changed significantly
+    // TODO: discuss level loading/switching
+    if (level == 0) {
+        game.pos = sf::Vector2f(1.01, 1.01);
+        game.initMap(21, 21);
+        // TODO: In Map Class, change tile values, 0, 1, 2 to an enum
+        for (int i = 0; i < game.height; ++i)
         {
-            if (i==0 || i==this->width-1 || j==0 || j==this->height-1) {
-                setMapAt(i, j, 1); // border
-            } else if (i % 2 == 0 && j % 2 == 0) {
-                setMapAt(i, j, 1); // solid walls
-            } else {
-                setMapAt(i, j, 0); // clear
-                if (rand() % 5 == 0 && (i > 3 || j > 3)) {
-                    setMapAt(i, j, 2); // destructible walls
+            for (int j = 0; j < game.width; ++j)
+            {
+                if (i==0 || i==game.width-1 || j==0 || j==game.height-1) {
+                    game.setTile(i, j, 1); // border
+                } else if (i % 2 == 0 && j % 2 == 0) {
+                    game.setTile(i, j, 1); // solid walls
+                } else {
+                    game.setTile(i, j, 0); // clear
+                    if (rand() % 5 == 0 && (i > 3 || j > 3)) {
+                        game.setTile(i, j, 2); // destructible walls
+                    }
                 }
             }
         }
     }
-    std::cout << "test" << "\n";
 }
 
-Engine::~Engine() {
-    delete map;
-}
+void Engine::key_pressed( EngineEvent event, GameState &game, double dt ) {
+    bool held = this->keys[event];
 
-void Engine::setMapAt(int x_coord, int y_coord, int val) {
-    this->map[ y_coord * this->width + x_coord ] = val;
-}
-
-int Engine::getMapAt(int x_coord, int y_coord) {
-    return this->map[ y_coord * this->width + x_coord ];
-}
-
-// TODO: We need a consistent way of determining whether a key was released pressed
-bool spaceDown = false;
-void Engine::update()
-{
-    // update bombs
-    std::list<Bomb>::iterator i = this->bombs.begin();
-    while (i != this->bombs.end())
-    {
-        (*i).tick += this->dt; // update bomb tick with game deltatime
-        // When bomb reaches end of life, remove walls, remove bomb from bomb list
-        if ((*i).tick > 26000) {
-            if (getMapAt( ((*i).y+1), ((*i).x) ) == 2) setMapAt( ((*i).y+1), ((*i).x), 0);
-            if (getMapAt( ((*i).y-1), ((*i).x) ) == 2) setMapAt( ((*i).y-1), ((*i).x), 0);
-            if (getMapAt( ((*i).y), ((*i).x+1) ) == 2) setMapAt( ((*i).y), ((*i).x+1), 0);
-            if (getMapAt( ((*i).y), ((*i).x-1) ) == 2) setMapAt( ((*i).y), ((*i).x-1), 0);
-            this->bombs.erase(i++);
+    // TODO: proper mode handling
+    // There needs to be state handling(i.e. main menu, playing, paused etc..)
+    //if (level == MAIN_MENU)
+    //    handleMainMenu();
+    //else if (level == ...)
+    //    hanlde...();
+    if (game.mode == 0) { 
+        if (!held && event == EngineEvent::ACTION) {
+            game.mode++;
+            loadLevel(game, 0);
         }
-        else
-            i++;
+        // TODO: Implement proper menu selection logic
+        else if (!held && event == EngineEvent::UP){
+            game.option--;
+        }
+        else if (!held && event == EngineEvent::DOWN){  
+            game.option++;
+        }
+        if (game.option < 0) game.option = 0;
+        if (game.option > 4) game.option = 4;
+    } else if (game.mode == 1) {
+    // else if (game.mode == PLAYING) ...
+        // TODO: change '< 1' to amount of bombs that can be placed
+        if (!held && event == EngineEvent::ACTION && game.bombs.size() < 1) {
+            game.placeBomb();
+        }
     }
-    // bomb keyboard interaction
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && spaceDown == false && this->bombs.size() < 1 ) {
-        Bomb new_bomb = { .x = (int)(x+0.5), .y = (int)(y+0.5), .tick = 0 };
-        this->bombs.push_back(new_bomb);
-        spaceDown = true;
-    }
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        spaceDown = false;
-    }
+    // Set key
+    this->keys[event] = true;
+}
+
+void Engine::key_released( EngineEvent event, GameState &game, double dt ) {
+    // Handle the event
+    // ...Your event code here...
+
+    // Set key
+    this->keys[event] = false;
+}
+
+
+void Engine::tickGame(double dt, GameState &game) {
+
+    game.tickBombs(dt);
 
     // TODO: Change player movement to direction, vector based 
     // handle keyboard for movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  this->x -= 0.00035f * this->dt;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) this->x += 0.00035f * this->dt;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    this->y -= 0.00035f * this->dt;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  this->y += 0.00035f * this->dt;
-    // movement collision detection
-    if (getMapAt((this->y + 0.1), (this->x + 0.5)) == 0) this->y -= 0.00035f * this->dt;
-    if (getMapAt((this->y + 0.9), (this->x + 0.5)) == 0) this->y += 0.00035f * this->dt;
-    if (getMapAt((this->y + 0.5), (this->x + 0.1)) == 0) this->x -= 0.00035f * this->dt;
-    if (getMapAt((this->y + 0.5), (this->x + 0.9)) == 0) this->x += 0.00035f * this->dt;
+    // TODO: put in function
+    game.movePlayer(keys, 2.5f * dt); // 2.5f here is player speed, move to gamestate
+}
+
+void Engine::update(double dt, GameState &game)
+{
+    if (game.mode == 1)
+        tickGame(dt, game);
 }

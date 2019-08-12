@@ -8,7 +8,7 @@
 class Renderer
 {
 public:
-	void render(sf::RenderWindow &window, Engine &engine);
+	void render(sf::RenderWindow &window, GameState &state);
     Renderer();
     ~Renderer();
 };
