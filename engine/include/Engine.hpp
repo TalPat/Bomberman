@@ -2,6 +2,7 @@
 #define _ENGINE_HPP
 
 #include "./EngineEvent.hpp"
+#include "GameState.hpp"
 
 #include <vector>
 
@@ -12,6 +13,9 @@ public:
 	// action might need to be vector as multiple keys can be pressed
 	// in a single frame
 	void update(double deltaTime, std::vector<EngineEvent> &actions);
+
+	void movePlayer(EngineEvent event, float dd);
+	void tickBombs(float deltaTime);
 };
 
 #endif
