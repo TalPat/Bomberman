@@ -12,6 +12,7 @@ include_directories(
     engine/include
     renderer/include
     models/include
+    app/include
 )
 
 add_subdirectory(engine)

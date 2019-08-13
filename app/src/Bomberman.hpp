@@ -8,7 +8,7 @@
 #include <EngineEvent.hpp>
 #include <Renderer.hpp>
 #include <SFML/Graphics.hpp>
-#include <Player.hpp>
+#include <GameState.hpp>
 #include <interface/IRenderable.hpp>
 
 #include <vector>
@@ -25,6 +25,8 @@ private:
 	Engine engine;
 	Renderer renderer;
 	Input input;
+
+	GameState gameState;
 
 	sf::Clock deltaClock;
 	sf::Clock frameClock;

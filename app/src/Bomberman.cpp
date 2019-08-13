@@ -4,9 +4,14 @@
 #include <stdexcept>
 #include <iostream>
 
+const int MAP_WIDTH = 11;
+const int MAP_HEIGHT = 11;
+
 Bomberman::Bomberman()
 	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE),
-	  renderTime(0), engineTime(0)
+	  renderTime(0),
+	  engineTime(0),
+	  gameState(MAP_WIDTH, MAP_HEIGHT)
 {
 	this->deltaClock.restart();
 	this->frameClock.restart();
@@ -51,7 +56,7 @@ void Bomberman::updateFunc()
 	this->renderTime = this->deltaClock.getElapsedTime().asSeconds();
 	this->deltaClock.restart();
 
-	this->engine.update(this->renderTime + this->engineTime, actions);
+	this->engine.update(this->renderTime + this->engineTime, actions, this->gameState);
 
 	// Record the time taken by the engine
 	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();

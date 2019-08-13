@@ -8,7 +8,7 @@ target_link_libraries(App
     sfml-graphics
     sfml-window
     sfml-system
-    Engine 
+    Engine
     Renderer
     Models
 )
