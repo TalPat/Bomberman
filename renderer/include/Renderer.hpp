@@ -1,7 +1,7 @@
 #ifndef _Renderer_hpp_
 #define _Renderer_hpp_
 
-#include "interface/IRenderable.hpp"
+#include <GameState.hpp>
 
 #include <SFML/Graphics.hpp>
 
@@ -10,7 +10,7 @@
 class Renderer
 {
 public:
-	void render(sf::RenderWindow &window, const std::vector<IRenderable *>);
+	void render(sf::RenderWindow &window, const GameState &state);
 };
 
 #endif

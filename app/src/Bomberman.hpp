@@ -9,7 +9,6 @@
 #include <Renderer.hpp>
 #include <SFML/Graphics.hpp>
 #include <GameState.hpp>
-#include <interface/IRenderable.hpp>
 
 #include <vector>
 #include <ctime>
