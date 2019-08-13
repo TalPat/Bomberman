@@ -1,4 +1,5 @@
 
 add_library(Models STATIC
-    src/GameState.cpp
+    src/Map.cpp
+    src/Player.cpp
 )

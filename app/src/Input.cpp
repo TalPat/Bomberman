@@ -1,28 +1,92 @@
 #include "./Input.hpp"
 
+#include <iostream>
+
 Input::Input() : _up(Key::Up),
 				 _down(Key::Down),
 				 _left(Key::Left),
 				 _right(Key::Right),
 				 _bomb(Key::Space)
-{}
+{
+}
 
 Input::~Input() {}
 
-EngineEvent Input::getInput(Key key)
+// EngineEvent Input::getInput(Key key)
+// {
+// 	if (key == this->_up)
+// 		return EngineEvent::move_up;
+// 	else if (key == this->_down)
+// 		return EngineEvent::move_down;
+// 	else if (key == this->_left)
+// 		return EngineEvent::move_left;
+// 	else if (key == this->_right)
+// 		return EngineEvent::move_right;
+// 	else if (key == this->_bomb)
+// 		return EngineEvent::place_bomb;
+// 	else
+// 		return EngineEvent::unknown;
+// }
+
+// Need to be modified later
+void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
 {
-	if (key == this->_up)
-		return EngineEvent::move_up;
-	else if (key == this->_down)
-		return EngineEvent::move_down;
-	else if (key == this->_left)
-		return EngineEvent::move_left;
-	else if (key == this->_right)
-		return EngineEvent::move_right;
-	else if (key == this->_bomb)
-		return EngineEvent::place_bomb;
-	else
-		return EngineEvent::unknown;
+	sf::Event event;
+	EngineEvent eEvent = unknown;
+	// TODO: Break into functions
+	// TODO: Apply bindings
+	while (window.pollEvent(event))
+	{
+		switch (event.type)
+		{
+		case event.KeyPressed:
+		{
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Up:
+				eEvent = EngineEvent::move_up;
+				break;
+			case sf::Keyboard::Left:
+				eEvent = EngineEvent::move_left;
+				break;
+			case sf::Keyboard::Down:
+				eEvent = EngineEvent::move_down;
+				break;
+			case sf::Keyboard::Right:
+				eEvent = EngineEvent::move_right;
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		case event.KeyReleased:
+		{
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Up:
+				eEvent = EngineEvent::stop_up;
+				break;
+			case sf::Keyboard::Left:
+				eEvent = EngineEvent::stop_left;
+				break;
+			case sf::Keyboard::Down:
+				eEvent = EngineEvent::stop_down;
+				break;
+			case sf::Keyboard::Right:
+				eEvent = EngineEvent::stop_right;
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		if (eEvent != unknown)
+			engineEvents.push_back(eEvent);
+	}
 }
 
 Key Input::getUp() const

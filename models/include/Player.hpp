@@ -1,14 +1,32 @@
 #ifndef _Player_hpp_
 #define _Player_hpp_
 
-#include <interface/IRenderable.hpp>
+#include "Map.hpp"
 
-class Player : public IRenderable
+#include <SFML/System.hpp>
+
+struct MoveState
 {
-public:
-	virtual ~Player();
+	bool north;
+	bool east;
+	bool south;
+	bool west;
+};
 
-	virtual void render(sf::RenderWindow &ctx);
+class Player
+{
+	sf::Vector2f _position;
+
+	float _playerSpeed;
+
+public:
+	Player();
+	~Player();
+
+	MoveState moveState;
+
+	void move(float deltaTime);
+	const sf::Vector2f &position() const;
 };
 
 #endif

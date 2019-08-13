@@ -3,6 +3,7 @@
 
 #include <EngineEvent.hpp>
 
+#include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
 
 #include <map>
@@ -22,7 +23,8 @@ public:
 	Input();
 	~Input();
 
-	EngineEvent getInput(Key key);
+	void parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
+	// EngineEvent getInput(Key key);
 
 	Key getUp() const;
 	void setUp(Key key);
