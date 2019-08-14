@@ -78,23 +78,21 @@ void Input::loadConfig()
 	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
 	std::string in;
 	int key;
+	int up;
+	int down;
+	int left;
+	int right;
+	int bomb;
 	file.open(path);
 
-	file >> in;
-	key = stoi(in);
-	this->setUp(Key(key));
-	file >> in;
-	key = stoi(in);
-	this->setDown(Key(key));
-	file >> in;
-	key = stoi(in);
-	this->setLeft(Key(key));
-	file >> in;
-	key = stoi(in);
-	this->setRight(Key(key));
-	file >> in;
-	key = stoi(in);
-	this->setBomb(Key(key));
+	file >> up >> down >> left >> right >> bomb;
+
+	this->setUp(Key(up));
+	this->setDown(Key(down));
+	this->setLeft(Key(left));
+	this->setRight(Key(right));
+	this->setBomb(Key(bomb));
+
 	file.close();
 }
 
