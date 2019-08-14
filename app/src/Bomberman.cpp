@@ -3,65 +3,51 @@
 
 #include <stdexcept>
 #include <iostream>
-#include <sys/time.h> 
+
+const int MAP_WIDTH = 11;
+const int MAP_HEIGHT = 11;
 
 Bomberman::Bomberman()
-	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE)
+	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE),
+	  renderTime(0),
+	  engineTime(0)
 {
+	this->deltaClock.restart();
+	this->frameClock.restart();
 }
 
 Bomberman::~Bomberman()
 {
 }
 
-double currentTimeMicro()
-{
-    struct timeval currentTime;
-    gettimeofday(&currentTime, NULL);
-    return (currentTime.tv_sec * (int)1e6 + currentTime.tv_usec) / 1000000.0;
-}
-
 void Bomberman::startGame()
 {
-	// init deltatime
-	this->now = currentTimeMicro();
 	this->start();
 };
 
 void Bomberman::updateFunc()
 {
-
 	if (!this->window.isOpen())
 		this->stop();
-	
-	this->dt = currentTimeMicro() - this->now;
-	this->now = currentTimeMicro();
 
 	sf::Event event;
-	while (this->window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-		{
-			this->stop();
-			window.close();
-		}
-		else if (event.type == sf::Event::KeyPressed)
-		{
-			if (this->key_map.find(event.key.code) != this->key_map.end()) {
-				this->engine.key_pressed( this->key_map[ event.key.code ], this->state, this->dt );
-			}
-		}
-		else if (event.type == sf::Event::KeyReleased)
-		{
-			if (this->key_map.find(event.key.code) != this->key_map.end()) {
-				this->engine.key_released( this->key_map[ event.key.code ], this->state, this->dt );
-			}
-		}
-	}
+	std::vector<EngineEvent> actions;
+	input.parseKeys(actions, window);
 
-	//std::cout << this->dt << "\n";
-	this->engine.update(this->dt, this->state);
-	this->renderer.render(this->window, this->state);
-	
-	// deltatime
+	// Record the time elapsed since starting last render
+	this->renderTime = this->deltaClock.getElapsedTime().asSeconds();
+	this->deltaClock.restart();
+
+	this->engine.update(this->renderTime + this->engineTime, actions, this->gameState);
+
+	// Record the time taken by the engine
+	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
+	this->deltaClock.restart();
+
+	// Only render if required to enforce frameRate
+	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
+	{
+		this->renderer.render(this->window, this->gameState);
+		this->frameClock.restart();
+	}
 }

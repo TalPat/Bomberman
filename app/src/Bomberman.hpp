@@ -2,44 +2,35 @@
 #define _Bomberman_hpp_
 
 #include "./AMainLoop.hpp"
-#include <GameState.hpp>
+#include "./Input.hpp"
 
 #include <Engine.hpp>
 #include <EngineEvent.hpp>
 #include <Renderer.hpp>
 #include <SFML/Graphics.hpp>
+#include <GameState.hpp>
 
 #include <vector>
-#include <map>
 #include <ctime>
 
-static const uint WINDOW_WIDTH = 640;
-static const uint WINDOW_HEIGHT = 400;
+static const uint WINDOW_WIDTH = 800;
+static const uint WINDOW_HEIGHT = 800;
 static const char *WINDOW_TITLE = "Bomberman";
 
 class Bomberman : private AMainLoop
 {
-
 private:
 	sf::RenderWindow window;
 	Engine engine;
 	Renderer renderer;
+	Input input;
 
-    GameState state;
-    
-    // honestly not sure where the best place is to put this...
-    // TODO: this should be in a settings class later
-    std::map< sf::Keyboard::Key, EngineEvent > key_map
-     = {
-        { sf::Keyboard::Up,    EngineEvent::UP },
-        { sf::Keyboard::Down,  EngineEvent::DOWN },
-        { sf::Keyboard::Left,  EngineEvent::LEFT },
-        { sf::Keyboard::Right, EngineEvent::RIGHT },
-        { sf::Keyboard::Space, EngineEvent::ACTION }
-    };
-    
-    double now; // Deltatime vars
-    double dt;
+	GameState gameState;
+
+	sf::Clock deltaClock;
+	sf::Clock frameClock;
+	float renderTime;
+	float engineTime;
 
 	virtual void updateFunc();
 
