@@ -4,8 +4,14 @@ project(nibbler)
 set(CMAKE_CXX_STANDARD 17)
 
 if(APPLE)
-    include_directories(~/.brew/include)
-    link_directories(~/.brew/lib)
+    include_directories(
+        ~/.brew/include
+        /usr/local/Cellar/sfml/2.5.1/include
+        )
+    link_directories(
+        ~/.brew/lib
+        /usr/local/lib
+    )
 endif()
 
 include_directories(
