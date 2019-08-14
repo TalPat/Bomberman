@@ -23,7 +23,17 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 			{
 				cellPosition *= static_cast<int>(SCALE);
 				cell.setPosition(cellPosition.x, cellPosition.y);
-				cell.setFillColor(sf::Color(50, 150, 20));
+				switch (tile)
+				{
+				case Tile::Solid:
+					cell.setFillColor(sf::Color(50, 150, 20));
+					break;
+				case Tile::Destructible:
+					cell.setFillColor(sf::Color(50, 50, 150));
+					break;
+				default:
+					break;
+				}
 				window.draw(cell);
 			}
 		}

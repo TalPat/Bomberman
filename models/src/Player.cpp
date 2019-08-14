@@ -30,7 +30,7 @@ Player::~Player()
 
 bool Player::correctPlayerCellCollision(sf::Vector2i cell)
 {
-	const float RADIUS = 0.4999;
+	const float RADIUS = 0.5;
 
 	// Use variables to avoid multiple pointer refs
 	float playerX = this->_position.x;
@@ -58,7 +58,7 @@ bool Player::correctPlayerCellCollision(sf::Vector2i cell)
 	float distance = std::sqrt((diff.x * diff.x) + (diff.y * diff.y));
 
 	// If the distance is less than the radius, collision!
-	if (distance <= RADIUS)
+	if (distance <= RADIUS - 0.0001)
 	{
 		if (diff.y == 0)
 		{
