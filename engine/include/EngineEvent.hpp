@@ -3,11 +3,15 @@
 
 enum EngineEvent
 {
-	move_up,
+	unknown = -1,
+	move_up = 0,
+	stop_up,
 	move_right,
+	stop_right,
 	move_down,
+	stop_down,
 	move_left,
-	stop,
+	stop_left,
 	place_bomb,
 };
 
