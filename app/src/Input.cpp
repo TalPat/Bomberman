@@ -59,6 +59,45 @@ InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Rende
 	return InputResponse::resume;
 }
 
+void Input::saveConfig() const
+{
+	std::ofstream file;
+	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
+	file.open(path);
+	file << this->_up << std::endl;
+	file << this->_down << std::endl;
+	file << this->_left << std::endl;
+	file << this->_right << std::endl;
+	file << this->_bomb << std::endl;
+	file.close();
+}
+
+void Input::loadConfig()
+{
+	std::ifstream file;
+	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
+	std::string in;
+	int key;
+	file.open(path);
+
+	file >> in;
+	key = stoi(in);
+	this->setUp(Key(key));
+	file >> in;
+	key = stoi(in);
+	this->setDown(Key(key));
+	file >> in;
+	key = stoi(in);
+	this->setLeft(Key(key));
+	file >> in;
+	key = stoi(in);
+	this->setRight(Key(key));
+	file >> in;
+	key = stoi(in);
+	this->setBomb(Key(key));
+	file.close();
+}
+
 Key Input::getUp() const
 {
 	return this->_up;

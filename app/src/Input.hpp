@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <map>
+#include <fstream>
 
 typedef sf::Keyboard::Key Key;
 
@@ -32,7 +33,9 @@ public:
 	~Input();
 
 	InputResponse parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
-	// EngineEvent getInput(Key key);
+
+	void saveConfig() const;
+	void loadConfig();
 
 	Key getUp() const;
 	void setUp(Key key);

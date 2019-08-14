@@ -13,5 +13,9 @@ target_link_libraries(App
     Models
 )
 
+set(SETTINGS_DIR \"${CMAKE_BINARY_DIR}/settings\")
+file(MAKE_DIRECTORY ${SETTINGS_DIR})
+add_compile_definitions(SETTINGS_DIR=${SETTINGS_DIR})
+
 add_executable(bomberman src/main.cpp)
 target_link_libraries(bomberman App)
