@@ -20,7 +20,6 @@ class Player
 	float _playerSpeed;
 
 	bool correctPlayerCellCollision(sf::Vector2i cell);
-	bool correctPlayerCellCollisionDiag(sf::Vector2i cell);
 
 public:
 	Player();
