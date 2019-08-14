@@ -10,6 +10,13 @@
 
 typedef sf::Keyboard::Key Key;
 
+enum InputResponse
+{
+	resume,
+	quit,
+	pause
+};
+
 class Input
 {
 private:
@@ -18,12 +25,13 @@ private:
 	Key _left;
 	Key _right;
 	Key _bomb;
+	Key _pause;
 
 public:
 	Input();
 	~Input();
 
-	void parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
+	InputResponse parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
 	// EngineEvent getInput(Key key);
 
 	Key getUp() const;
@@ -40,6 +48,9 @@ public:
 
 	Key getBomb() const;
 	void setBomb(Key key);
+
+	Key getPause() const;
+	void setPause(Key key);
 };
 
 #endif

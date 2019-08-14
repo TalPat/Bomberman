@@ -32,7 +32,19 @@ void Bomberman::updateFunc()
 
 	sf::Event event;
 	std::vector<EngineEvent> actions;
-	input.parseKeys(actions, window);
+	InputResponse response = this->input.parseKeys(actions, this->window);
+	switch (response)
+	{
+	case InputResponse::quit:	
+		this->stop();
+		break;
+	case InputResponse::pause:
+		// Can be used to pause game with 'Esc' key
+		this->stop();
+		break;
+	default:
+		break;
+	}
 
 	// Record the time elapsed since starting last render
 	this->renderTime = this->deltaClock.getElapsedTime().asSeconds();

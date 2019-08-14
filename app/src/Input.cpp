@@ -6,14 +6,15 @@ Input::Input() : _up(Key::Up),
 				 _down(Key::Down),
 				 _left(Key::Left),
 				 _right(Key::Right),
-				 _bomb(Key::Space)
+				 _bomb(Key::Space),
+				 _pause(Key::Escape)
 {
 }
 
 Input::~Input() {}
 
 // Need to be modified later
-void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
+InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
 {
 	sf::Event event;
 	// TODO: Break into functions
@@ -32,6 +33,8 @@ void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &
 				engineEvents.push_back(EngineEvent::move_down);
 			else if (key == this->_right)
 				engineEvents.push_back(EngineEvent::move_right);
+			else if (key == this->_pause)
+				return InputResponse::pause;
 			break;
 		}
 		case event.KeyReleased:
@@ -47,10 +50,13 @@ void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &
 				engineEvents.push_back(EngineEvent::stop_right);
 			break;
 		}
+		case event.Closed:
+			return InputResponse::quit;
 		default:
 			break;
 		}
 	}
+	return InputResponse::resume;
 }
 
 Key Input::getUp() const
@@ -101,4 +107,14 @@ Key Input::getBomb() const
 void Input::setBomb(Key key)
 {
 	this->_bomb = key;
+}
+
+Key Input::getPause() const
+{
+	return this->_pause;
+}
+
+void Input::setPause(Key key)
+{
+	this->_pause = key;
 }
