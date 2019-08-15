@@ -7,7 +7,7 @@
 #include <Engine.hpp>
 #include <EngineEvent.hpp>
 #include <Renderer.hpp>
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include <GameState.hpp>
 
 #include <vector>
@@ -20,7 +20,7 @@ static const char *WINDOW_TITLE = "Bomberman";
 class Bomberman : private AMainLoop
 {
 private:
-	sf::RenderWindow window;
+	sf::Window* window;
 	Engine engine;
 	Renderer renderer;
 	Input input;

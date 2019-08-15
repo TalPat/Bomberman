@@ -29,7 +29,7 @@ Input::~Input() {}
 // }
 
 // Need to be modified later
-void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
+void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Window &window)
 {
 	sf::Event event;
 	EngineEvent eEvent = unknown;
