@@ -30,7 +30,6 @@ private:
   std::vector<Model_st> _models;
   Shader* _shader;
   Camera* _camera;
-  int _width, _height;
 public:
   Renderer(/* args */);
   ~Renderer();

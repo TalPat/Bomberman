@@ -58,6 +58,8 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
+		//fps -troubleshooting
+		/**/std::cout << 1/this->frameClock.getElapsedTime().asSeconds() <<std::endl;
 		this->renderer.render(*(this->window), this->gameState);
 		this->frameClock.restart();
 	}
