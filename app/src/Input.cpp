@@ -9,6 +9,11 @@ Input::Input() : _up(Key::Up),
 				 _bomb(Key::Space),
 				 _pause(Key::Escape)
 {
+	this->keyMap[Key::Up] = EngineEvent::move_up;
+	this->keyMap[Key::Down] = EngineEvent::move_down;
+	this->keyMap[Key::Left] = EngineEvent::move_left;
+	this->keyMap[Key::Right] = EngineEvent::move_right;
+	this->keyMap[Key::Space] = EngineEvent::move_up;
 }
 
 Input::~Input() {}
@@ -17,6 +22,7 @@ Input::~Input() {}
 InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
 {
 	sf::Event event;
+	EngineEvent eEvent = EngineEvent::unknown;
 	// TODO: Break into functions
 	while (window.pollEvent(event))
 	{
@@ -25,29 +31,23 @@ InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Rende
 		case event.KeyPressed:
 		{
 			Key key = event.key.code;
-			if (key == this->_up)
-				engineEvents.push_back(EngineEvent::move_up);
-			else if (key == this->_left)
-				engineEvents.push_back(EngineEvent::move_left);
-			else if (key == this->_down)
-				engineEvents.push_back(EngineEvent::move_down);
-			else if (key == this->_right)
-				engineEvents.push_back(EngineEvent::move_right);
-			else if (key == this->_pause)
+			if (key == this->_pause)
 				return InputResponse::pause;
+
+			eEvent = this->keyMap[key];
+			if (eEvent != EngineEvent::unknown)
+				engineEvents.push_back(eEvent);
+
 			break;
 		}
 		case event.KeyReleased:
 		{
 			Key key = event.key.code;
-			if (key == this->_up)
-				engineEvents.push_back(EngineEvent::stop_up);
-			else if (key == this->_left)
-				engineEvents.push_back(EngineEvent::stop_left);
-			else if (key == this->_down)
-				engineEvents.push_back(EngineEvent::stop_down);
-			else if (key == this->_right)
-				engineEvents.push_back(EngineEvent::stop_right);
+
+			eEvent = this->keyMap[key];
+			if (eEvent != EngineEvent::unknown && eEvent < EngineEvent::place_bomb)
+				engineEvents.push_back(EngineEvent(eEvent + 1));
+
 			break;
 		}
 		case event.Closed:
@@ -144,14 +144,4 @@ Key Input::getBomb() const
 void Input::setBomb(Key key)
 {
 	this->_bomb = key;
-}
-
-Key Input::getPause() const
-{
-	return this->_pause;
-}
-
-void Input::setPause(Key key)
-{
-	this->_pause = key;
 }

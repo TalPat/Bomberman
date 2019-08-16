@@ -28,6 +28,8 @@ private:
 	Key _bomb;
 	Key _pause;
 
+	std::map<Key, EngineEvent> keyMap;
+
 public:
 	Input();
 	~Input();
@@ -51,9 +53,6 @@ public:
 
 	Key getBomb() const;
 	void setBomb(Key key);
-
-	Key getPause() const;
-	void setPause(Key key);
 };
 
 #endif
