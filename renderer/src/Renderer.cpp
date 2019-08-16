@@ -28,6 +28,7 @@ void Renderer::init() {
   modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f,0.0f);
   modelLoad.initialScale = glm::vec3(0.5f);
   _models.push_back(modelLoad);
+
   modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj");
   modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
   modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f,0.0f);
@@ -47,18 +48,20 @@ void Renderer::init() {
   _camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
 }
 
-void Renderer::render(sf::Window &window, const GameState &state) {
-  sf::Vector2u size = window.getSize();
-  glViewport(0, 0, size.x, size.y);
-  glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  _shader->use();
-  glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x/(float)size.y, 0.1f,100.0f);
-  glm::mat4 view = _camera->getViewMatrix();
-  _shader->setMat4("projection", projection);
-  _shader->setMat4("view", view);
+void Renderer::player(sf::Window &window, const GameState &state)
+{
+  glm::mat4 model = glm::mat4(1.0f);
+	sf::Vector2f playerPosition(state.player.position());
+	playerPosition -= sf::Vector2f(0.5, 0.5);
+  model = glm::translate(model, _models[playerModel].initialPos + glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
+  model = glm::scale(model, _models[playerModel].initialScale);
+  model = glm::rotate(model, glm::radians(_models[playerModel].initialRot.w), glm::vec3(_models[playerModel].initialRot));
+  _shader->setMat4("model", model);
+  _models[playerModel].model->draw(*_shader);
+}
 
-  // Map
+void Renderer::map(sf::Window &window, const GameState &state)
+{
 	const Map &map = state.map;
 	const sf::Vector2i &mapSize = map.size();
 	Tile tile;
@@ -76,10 +79,10 @@ void Renderer::render(sf::Window &window, const GameState &state) {
 				switch (tile)
 				{
 				case Tile::Solid:
-          name = unbreakable;
+          name = unbreakableModel;
 					break;
 				case Tile::Destructible:
-					name = breakable;
+					name = breakableModel;
 					break;
 				default:
 					break;
@@ -92,17 +95,25 @@ void Renderer::render(sf::Window &window, const GameState &state) {
 			}
 		}
 	}
+}
 
-	// Player
-  glm::mat4 model = glm::mat4(1.0f);
+void Renderer::render(sf::Window &window, const GameState &state)
+{
+	sf::Vector2u size = window.getSize();
+  glViewport(0, 0, size.x, size.y);
+  glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  _shader->use();
+  glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x/(float)size.y, 0.1f,100.0f);
+  glm::mat4 view = _camera->getViewMatrix();
+  _shader->setMat4("projection", projection);
+  _shader->setMat4("view", view);
+
+	map(window, state);
+	player(window, state);
+	
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
-  model = glm::translate(model, _models[player].initialPos + glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
-  model = glm::scale(model, _models[player].initialScale);
-  model = glm::rotate(model, glm::radians(_models[player].initialRot.w), glm::vec3(_models[player].initialRot));
-  _shader->setMat4("model", model);
-  _models[player].model->draw(*_shader);
-
   _camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
   _camera->setYaw(270.0f);
   _camera->setPitch(-45.0f);

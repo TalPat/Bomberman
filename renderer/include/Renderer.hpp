@@ -14,7 +14,7 @@
 #include <Camera.hpp>
 
 enum modelNames {
-  breakable, unbreakable, player, bomb, balloon, robot
+  breakableModel, unbreakableModel, playerModel, bombModel, balloonModel, robotModel
 };
 
 struct Model_st {
@@ -30,6 +30,8 @@ private:
   std::vector<Model_st> _models;
   Shader* _shader;
   Camera* _camera;
+	void player(sf::Window &window, const GameState &state);
+	void map(sf::Window &window, const GameState &state);
 public:
   Renderer(/* args */);
   ~Renderer();
