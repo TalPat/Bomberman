@@ -59,41 +59,78 @@ InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Rende
 	return InputResponse::resume;
 }
 
-void Input::saveConfig() const
+// void Input::saveConfig() const
+// {
+// 	std::ofstream file;
+// 	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
+// 	file.open(path);
+// 	file << this->_up << std::endl;
+// 	file << this->_down << std::endl;
+// 	file << this->_left << std::endl;
+// 	file << this->_right << std::endl;
+// 	file << this->_bomb << std::endl;
+// 	file.close();
+// }
+
+// void Input::loadConfig()
+// {
+// 	std::ifstream file;
+// 	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
+// 	std::string in;
+// 	int key;
+// 	int up;
+// 	int down;
+// 	int left;
+// 	int right;
+// 	int bomb;
+// 	file.open(path);
+
+// 	file >> up >> down >> left >> right >> bomb;
+
+// 	this->setUp(Key(up));
+// 	this->setDown(Key(down));
+// 	this->setLeft(Key(left));
+// 	this->setRight(Key(right));
+// 	this->setBomb(Key(bomb));
+
+// 	file.close();
+// }
+
+void Input::setKey(EngineEvent event, Key key)
 {
-	std::ofstream file;
-	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
-	file.open(path);
-	file << this->_up << std::endl;
-	file << this->_down << std::endl;
-	file << this->_left << std::endl;
-	file << this->_right << std::endl;
-	file << this->_bomb << std::endl;
-	file.close();
+	EngineEvent current = this->keyMap[key];
+
+	// Handle stop_events being set
+	// This is more of a usage error than a runtime error
+	if (event % 2 == 0)
+		throw std::runtime_error("Cannot set stop events");
+
+	// Only set key if it hasn't already been mapped
+	if (current == EngineEvent::unknown)
+	{
+		this->removeMapping(event);
+		this->keyMap[key] = event;
+	}
+	else
+	{
+		throw std::runtime_error("Key already used");
+	}
 }
 
-void Input::loadConfig()
+void Input::removeMapping(EngineEvent event)
 {
-	std::ifstream file;
-	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
-	std::string in;
-	int key;
-	int up;
-	int down;
-	int left;
-	int right;
-	int bomb;
-	file.open(path);
+	std::map<Key, EngineEvent>::iterator it = this->keyMap.begin();
 
-	file >> up >> down >> left >> right >> bomb;
+	while (it != this->keyMap.end())
+	{
+		if (it->second == event)
+		{
+			std::cout << "Erasing: " << event << std::endl;
+			this->keyMap.erase(it);
+		}
 
-	this->setUp(Key(up));
-	this->setDown(Key(down));
-	this->setLeft(Key(left));
-	this->setRight(Key(right));
-	this->setBomb(Key(bomb));
-
-	file.close();
+		it++;
+	}
 }
 
 Key Input::getUp() const

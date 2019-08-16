@@ -30,14 +30,21 @@ private:
 
 	std::map<Key, EngineEvent> keyMap;
 
+	void removeMapping(EngineEvent event);
+
 public:
 	Input();
 	~Input();
 
 	InputResponse parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
 
-	void saveConfig() const;
-	void loadConfig();
+	// void saveConfig() const;
+	// void loadConfig();
+
+	// Throws a runtime_error if key is already mapped
+	void setKey(EngineEvent event, Key key);
+
+	// TODO: Maybe add function to get Key that returns a string representation.
 
 	Key getUp() const;
 	void setUp(Key key);
