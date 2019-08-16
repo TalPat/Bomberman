@@ -103,7 +103,7 @@ void Renderer::render(sf::Window &window, const GameState &state) {
   _shader->setMat4("model", model);
   _models[player].model->draw(*_shader);
 
-  _camera->setPosition(glm::vec3(playerPosition.x, 10.0f, playerPosition.y + 10.0f));
+  _camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
   _camera->setYaw(270.0f);
   _camera->setPitch(-45.0f);
 
