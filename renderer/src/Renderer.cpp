@@ -60,12 +60,8 @@ void Renderer::player(sf::Window &window, const GameState &state)
   _models[playerModel].model->draw(*_shader);
 }
 
-<<<<<<< HEAD
 void Renderer::map(sf::Window &window, const GameState &state)
 {
-=======
-  // Map
->>>>>>> 433261f9392c29cf6ff2522b864eee7658182492
 	const Map &map = state.map;
 	const sf::Vector2i &mapSize = map.size();
 	Tile tile;
@@ -99,10 +95,7 @@ void Renderer::map(sf::Window &window, const GameState &state)
 			}
 		}
 	}
-<<<<<<< HEAD
 }
-=======
->>>>>>> 433261f9392c29cf6ff2522b864eee7658182492
 
 void Renderer::render(sf::Window &window, const GameState &state)
 {
