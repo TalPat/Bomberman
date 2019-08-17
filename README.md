@@ -3,12 +3,12 @@
 https://www.retrogames.cz/play_085-NES.php?emulator=js
 
 ## Dependancies
-*CMake
-*pkg-config
-*SFML
-*GLEW
-*GLM
-*ASSIMP
+* CMake
+* pkg-config
+* SFML
+* GLEW
+* GLM
+* ASSIMP
 
 ### MacOS dependancy installation
     brew install cmake
@@ -16,7 +16,7 @@ https://www.retrogames.cz/play_085-NES.php?emulator=js
     brew install sfml
     brew install glew
     brew install glm
-    brew install assimp'''
+    brew install assimp
 
 ### Linux dependancy installation
     sudo apt-get install cmake
