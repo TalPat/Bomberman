@@ -10,8 +10,9 @@
 #include <iostream>
 #include <vector>
 
-struct GameState
+class GameState
 {
+public:
 	Player player;
 	Map map;
 	Bombs bombs;

@@ -18,7 +18,9 @@ private:
 	std::list<sBomb> _bombs;
 
 public:
+	Bombs();
 	void placeBomb(const Player &player, Map &map);
+	void update(float deltaTime, Map &map);
 };
 
 #endif
