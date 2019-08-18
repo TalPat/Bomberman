@@ -37,7 +37,6 @@ InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Rende
 		case event.KeyReleased:
 		{
 			Key key = event.key.code;
-
 			eEvent = this->keyMap[key];
 			if (eEvent != EngineEvent::unknown && eEvent < EngineEvent::place_bomb)
 				engineEvents.push_back(EngineEvent(eEvent + 1));
