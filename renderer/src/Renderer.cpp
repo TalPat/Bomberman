@@ -32,6 +32,9 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 	const sf::Vector2i &mapSize = map.size();
 	Tile tile;
 	sf::RectangleShape cell(sf::Vector2f(SCALE, SCALE));
+	sf::CircleShape bomb(SCALE / 2);
+	cell.setFillColor(sf::Color(250));
+
 	for (int y = 0; y < mapSize.y; y++)
 	{
 		for (int x = 0; x < mapSize.x; x++)
@@ -46,14 +49,18 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 				{
 				case Tile::Solid:
 					cell.setFillColor(sf::Color(50, 150, 20));
+					window.draw(cell);
 					break;
 				case Tile::Destructible:
 					cell.setFillColor(sf::Color(50, 50, 150));
+					window.draw(cell);
 					break;
+				case Tile::Bomb:
+					bomb.setPosition(cellPosition.x, cellPosition.y);
+					window.draw(bomb);
 				default:
 					break;
 				}
-				window.draw(cell);
 			}
 		}
 	}
