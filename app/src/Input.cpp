@@ -2,12 +2,7 @@
 
 #include <iostream>
 
-Input::Input() : _up(Key::Up),
-				 _down(Key::Down),
-				 _left(Key::Left),
-				 _right(Key::Right),
-				 _bomb(Key::Space),
-				 _pause(Key::Escape)
+Input::Input() : _pause(Key::Escape)
 {
 	this->keyMap[Key::Up] = EngineEvent::move_up;
 	this->keyMap[Key::Down] = EngineEvent::move_down;
@@ -18,7 +13,6 @@ Input::Input() : _up(Key::Up),
 
 Input::~Input() {}
 
-// Need to be modified later
 InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
 {
 	sf::Event event;
@@ -108,60 +102,9 @@ void Input::removeMapping(EngineEvent event)
 	{
 		if (it->second == event)
 		{
-			std::cout << "Erasing: " << event << std::endl;
 			this->keyMap.erase(it);
 		}
 
 		it++;
 	}
-}
-
-Key Input::getUp() const
-{
-	return this->_up;
-}
-
-void Input::setUp(Key key)
-{
-	this->_up = key;
-}
-
-Key Input::getDown() const
-{
-	return this->_down;
-}
-
-void Input::setDown(Key key)
-{
-	this->_down = key;
-}
-
-Key Input::getLeft() const
-{
-	return this->_left;
-}
-
-void Input::setLeft(Key key)
-{
-	this->_left = key;
-}
-
-Key Input::getRight() const
-{
-	return this->_right;
-}
-
-void Input::setRight(Key key)
-{
-	this->_right = key;
-}
-
-Key Input::getBomb() const
-{
-	return this->_bomb;
-}
-
-void Input::setBomb(Key key)
-{
-	this->_bomb = key;
 }

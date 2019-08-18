@@ -24,11 +24,6 @@ enum InputResponse
 class Input
 {
 private:
-	Key _up;
-	Key _down;
-	Key _left;
-	Key _right;
-	Key _bomb;
 	Key _pause;
 
 	std::map<Key, EngineEvent> keyMap;
@@ -56,21 +51,6 @@ public:
 	// TODO: Maybe add function to get Key
 	// that returns a string representation of said Key
 	// for display in a menu.
-
-	Key getUp() const;
-	void setUp(Key key);
-
-	Key getDown() const;
-	void setDown(Key key);
-
-	Key getLeft() const;
-	void setLeft(Key key);
-
-	Key getRight() const;
-	void setRight(Key key);
-
-	Key getBomb() const;
-	void setBomb(Key key);
 };
 
 #endif
