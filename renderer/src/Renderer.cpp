@@ -7,8 +7,27 @@ const float SCALE = 30;
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	window.clear(sf::Color::Black);
+	map(window, state);
+	player(window, state);
+	window.display();
+}
 
-	// Map
+void Renderer::player(sf::RenderWindow &window, const GameState &state)
+{
+	sf::CircleShape player(SCALE / 2);
+
+	sf::Vector2f playerPosition(state.player.position());
+	playerPosition -= sf::Vector2f(0.5, 0.5);
+	// playerPosition.y *= -1;
+	playerPosition *= SCALE;
+
+	player.setPosition(playerPosition);
+	player.setFillColor(sf::Color(250, 20, 50));
+	window.draw(player);
+}
+
+void Renderer::map(sf::RenderWindow &window, const GameState &state)
+{
 	const Map &map = state.map;
 	const sf::Vector2i &mapSize = map.size();
 	Tile tile;
@@ -38,18 +57,4 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 			}
 		}
 	}
-
-	// Player
-	sf::CircleShape player(SCALE / 2);
-
-	sf::Vector2f playerPosition(state.player.position());
-	playerPosition -= sf::Vector2f(0.5, 0.5);
-	// playerPosition.y *= -1;
-	playerPosition *= SCALE;
-
-	player.setPosition(playerPosition);
-	player.setFillColor(sf::Color(250, 20, 50));
-	window.draw(player);
-
-	window.display();
 }
