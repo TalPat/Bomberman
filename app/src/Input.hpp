@@ -6,6 +6,9 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/map.hpp>
+
 #include <map>
 #include <fstream>
 
@@ -36,15 +39,23 @@ public:
 	Input();
 	~Input();
 
+	template <class Archive>
+	void serialize(Archive &ar)
+	{
+		ar(this->keyMap);
+	}
+
 	InputResponse parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
 
-	// void saveConfig() const;
-	// void loadConfig();
+	void saveConfig() const;
+	void loadConfig();
 
 	// Throws a runtime_error if key is already mapped
 	void setKey(EngineEvent event, Key key);
 
-	// TODO: Maybe add function to get Key that returns a string representation.
+	// TODO: Maybe add function to get Key
+	// that returns a string representation of said Key
+	// for display in a menu.
 
 	Key getUp() const;
 	void setUp(Key key);

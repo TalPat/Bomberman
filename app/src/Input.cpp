@@ -59,42 +59,25 @@ InputResponse Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Rende
 	return InputResponse::resume;
 }
 
-// void Input::saveConfig() const
-// {
-// 	std::ofstream file;
-// 	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
-// 	file.open(path);
-// 	file << this->_up << std::endl;
-// 	file << this->_down << std::endl;
-// 	file << this->_left << std::endl;
-// 	file << this->_right << std::endl;
-// 	file << this->_bomb << std::endl;
-// 	file.close();
-// }
+void Input::saveConfig() const
+{
+	std::string path = SETTINGS_DIR + std::string("/input_map.cfg");
+	std::ofstream os(path, std::ios::binary);
 
-// void Input::loadConfig()
-// {
-// 	std::ifstream file;
-// 	std::string path = SETTINGS_DIR + std::string("/input_map.txt");
-// 	std::string in;
-// 	int key;
-// 	int up;
-// 	int down;
-// 	int left;
-// 	int right;
-// 	int bomb;
-// 	file.open(path);
+	cereal::BinaryOutputArchive archive(os);
 
-// 	file >> up >> down >> left >> right >> bomb;
+	Input input = *this;
+	archive(CEREAL_NVP(input));
+}
 
-// 	this->setUp(Key(up));
-// 	this->setDown(Key(down));
-// 	this->setLeft(Key(left));
-// 	this->setRight(Key(right));
-// 	this->setBomb(Key(bomb));
+void Input::loadConfig()
+{
+	std::string path = SETTINGS_DIR + std::string("/input_map.cfg");
+	std::ifstream is(path, std::ios::binary);
 
-// 	file.close();
-// }
+	cereal::BinaryInputArchive archive_in(is);
+	archive_in(this->keyMap);
+}
 
 void Input::setKey(EngineEvent event, Key key)
 {
