@@ -36,10 +36,16 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		case EngineEvent::stop_left:
 			moveState.west = false;
 			break;
+		case EngineEvent::place_bomb:
+		// This should most likly be a method on gameState;
+			if(Bombs::totalBombs < Player::maxBombs)
+				gameState.bombs.placeBomb(gameState.player, gameState.map);
+			break;
 		default:
 			break;
 		}
 	}
 
 	gameState.player.move(deltaTime, gameState.map);
+	gameState.bombs.update(deltaTime, gameState.map);
 }

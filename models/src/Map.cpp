@@ -27,7 +27,6 @@ Map::Map()
 			}
 		}
 	}
-
 	// Player starting cell
 	this->_tiles[1 * this->_size.x + 1] = Tile::Clear;
 }
@@ -39,6 +38,11 @@ Map::~Map()
 Tile Map::tileAt(sf::Vector2i pos) const
 {
 	return this->_tiles[pos.y * this->_size.x + pos.x];
+}
+
+void Map::setTile(sf::Vector2i pos, Tile tile)
+{
+	this->_tiles[pos.y * this->_size.x + pos.x] = tile;
 }
 
 const sf::Vector2i &Map::size() const

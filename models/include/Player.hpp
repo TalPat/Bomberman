@@ -26,7 +26,7 @@ public:
 	~Player();
 
 	MoveState moveState;
-
+	static int maxBombs;
 	void move(float deltaTime, const Map &map);
 	const sf::Vector2f &position() const;
 };

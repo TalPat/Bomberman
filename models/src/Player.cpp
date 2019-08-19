@@ -5,7 +5,7 @@
 
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
 const float DEFAULT_SPEED = 5;
-
+int Player::maxBombs = 5;
 // Testing order here is important
 // Test cardinals first
 const sf::Vector2i TEST_NEIGHBOURS[8] = {
@@ -20,7 +20,8 @@ const sf::Vector2i TEST_NEIGHBOURS[8] = {
 };
 
 Player::Player() : _position(DEFAULT_START),
-				   _playerSpeed(DEFAULT_SPEED)
+				_playerSpeed(DEFAULT_SPEED),
+				moveState({false, false, false, false})
 {
 }
 
@@ -101,7 +102,8 @@ void Player::move(float deltaTime, const Map &map)
 	for (sf::Vector2i direction : TEST_NEIGHBOURS)
 	{
 		sf::Vector2i cell = playerCell + direction;
-		if (map.tileAt(cell) != Tile::Clear)
+		Tile tile = map.tileAt(cell);
+		if (!(tile == Tile::Clear))
 		{
 			if (correctPlayerCellCollision(cell))
 				break;
