@@ -20,7 +20,8 @@ const sf::Vector2i TEST_NEIGHBOURS[8] = {
 };
 
 Player::Player() : _position(DEFAULT_START),
-				   _playerSpeed(DEFAULT_SPEED)
+				   _playerSpeed(DEFAULT_SPEED),
+				   moveState({false, false, false, false})
 {
 }
 
