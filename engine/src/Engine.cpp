@@ -36,10 +36,15 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		case EngineEvent::stop_left:
 			moveState.west = false;
 			break;
+		case EngineEvent::place_bomb:
+			gameState.bombs.addBomb(gameState.player.position());
+			break;
 		default:
 			break;
 		}
 	}
+
+	gameState.bombs.update(deltaTime, gameState.map);
 
 	gameState.player.move(deltaTime, gameState.map);
 }

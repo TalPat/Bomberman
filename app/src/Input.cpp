@@ -55,6 +55,9 @@ void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &
 			case sf::Keyboard::Right:
 				eEvent = EngineEvent::move_right;
 				break;
+			case sf::Keyboard::Space:
+				eEvent = EngineEvent::place_bomb;
+				break;
 			default:
 				break;
 			}

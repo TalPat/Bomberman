@@ -1,6 +1,7 @@
 #include "../include/Renderer.hpp"
 
 #include <iostream>
+#include <cmath>
 
 const float SCALE = 30;
 
@@ -8,8 +9,31 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	window.clear(sf::Color::Black);
 	map(window, state);
+	bombs(window, state);
 	player(window, state);
 	window.display();
+}
+
+void Renderer::bombs(sf::RenderWindow &window, const GameState &state)
+{
+
+	// position.y *= -1;
+
+	sf::CircleShape circle(SCALE / 2);
+	circle.setFillColor(sf::Color(250, 20, 50));
+	
+    std::list<Bomb> bombs = state.bombs.bomb_list;
+    std::list<Bomb>::iterator  i = bombs.begin();
+    while (i != bombs.end())
+    {
+		sf::Vector2i position((*i).position);
+		circle.setPosition((*i).position.x * SCALE,
+			(*i).position.y * SCALE);
+		if ((fmod((*i).tick, 0.4)) > 0.2)
+			window.draw(circle);	
+        i++;
+    }
+
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
