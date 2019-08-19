@@ -1,0 +1,12 @@
+[requires]
+sfml/2.5.1@bincrafters/stable
+cereal/1.2.2@conan/stable
+
+[options]
+sfml:graphics=True
+sfml:window=True
+sfml:audio=True
+sfml:network=False
+
+[generators]
+cmake

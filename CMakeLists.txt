@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.0)
 project(nibbler)
 set(CMAKE_CXX_STANDARD 17)
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 if(APPLE)
     include_directories(
         ~/.brew/include
