@@ -58,6 +58,11 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 				case Tile::Bomb:
 					bomb.setPosition(cellPosition.x, cellPosition.y);
 					window.draw(bomb);
+					break;
+				case Tile::Flame:
+					cell.setFillColor(sf::Color(255, 0, 0));
+					window.draw(cell);
+					break;
 				default:
 					break;
 				}
