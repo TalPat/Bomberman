@@ -6,17 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-if(APPLE)
-    include_directories(
-        ~/.brew/include
-        /usr/local/Cellar/sfml/2.5.1/include
-        )
-    link_directories(
-        ~/.brew/lib
-        /usr/local/lib
-    )
-endif()
-
 include_directories(
     engine/include
     renderer/include
