@@ -17,6 +17,7 @@ This requires the c++ package manager conan. These are the install instructions 
 
 #### Add remote repo
 This will add the repo where sfml lives.
+
 ```conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan```
 
 ### Install
