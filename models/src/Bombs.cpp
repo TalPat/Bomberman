@@ -29,6 +29,11 @@ void Bombs::update(float deltaTime, Map &map)
 	for (sBomb &bomb : this->_bombs)
 	{
 		bomb.timeLeft -= deltaTime;
+        // If current bomb is on a flame, detonate the bomb
+        if (map.tileAt(bomb.position) == Tile::Flame)
+        {
+            bomb.timeLeft = -1;
+        }
 		if (bomb.timeLeft < 0)
 		{
             for (int i = 1; i < BOMB_RANGE + 1; ++i)
@@ -38,13 +43,8 @@ void Bombs::update(float deltaTime, Map &map)
                 this->placeFlame(bomb.position + sf::Vector2i(0, -i), map);
                 this->placeFlame(bomb.position + sf::Vector2i(0, +i), map);
             }
-            map.setTile(bomb.position, Tile::Clear);
+            this->placeFlame(bomb.position, map);
 		}
-        // If current bomb is on a flame, detonate the bomb
-        if (map.tileAt(bomb.position) == Tile::Flame)
-        {
-            bomb.timeLeft = 0;
-        }
 	}
 	this->_bombs.remove_if([](sBomb &bomb) { return bomb.timeLeft < 0; });
 
