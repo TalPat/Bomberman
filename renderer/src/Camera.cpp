@@ -16,7 +16,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch):
   _worldUp(up),
   _yaw(yaw),
   _pitch(pitch),
-  _zoom(45)
+  _zoom(75)
 {
   updateCameraVectors();
 }

@@ -35,10 +35,16 @@ void Renderer::init() {
   modelLoad.initialScale = glm::vec3(0.5f);
   _models.push_back(modelLoad);
 
-  modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj");
+  // modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj");
+  // modelLoad.initialPos = glm::vec3(0.0f);
+  // modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+  // modelLoad.initialScale = glm::vec3(0.01f);
+  // _models.push_back(modelLoad);
+
+  modelLoad.model = new Model("../../renderer/res/models/cowboy/model.dae");
   modelLoad.initialPos = glm::vec3(0.0f);
   modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-  modelLoad.initialScale = glm::vec3(0.01f);
+  modelLoad.initialScale = glm::vec3(0.2f);
   _models.push_back(modelLoad);
 
   //compile shader programs
