@@ -23,32 +23,32 @@ void Renderer::init() {
   //Load objects into vram
   Model_st modelLoad;
 
-  modelLoad.model = new Model("../../renderer/res/models/box/wall.obj");
+  modelLoad.model = new Model("../../renderer3D/res/models/box/wall.obj");
   modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
   modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f,0.0f);
   modelLoad.initialScale = glm::vec3(0.5f);
   _models.push_back(modelLoad);
 
-  modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj");
+  modelLoad.model = new Model("../../renderer3D/res/models/wall/wall.obj");
   modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
   modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f,0.0f);
   modelLoad.initialScale = glm::vec3(0.5f);
   _models.push_back(modelLoad);
 
-  // modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj");
+  // modelLoad.model = new Model("../../renderer3D/res/models/giraffe/10021_Giraffe_v04.obj");
   // modelLoad.initialPos = glm::vec3(0.0f);
   // modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
   // modelLoad.initialScale = glm::vec3(0.01f);
   // _models.push_back(modelLoad);
 
-  modelLoad.model = new Model("../../renderer/res/models/cowboy/model.dae");
+  modelLoad.model = new Model("../../renderer3D/res/models/cowboy/model.dae");
   modelLoad.initialPos = glm::vec3(0.0f);
   modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
   modelLoad.initialScale = glm::vec3(0.2f);
   _models.push_back(modelLoad);
 
   //compile shader programs
-  _shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
+  _shader = new Shader("../../renderer3D/res/shaders/vertexShader.glsl", "../../renderer3D/res/shaders/fragmentShader.glsl");
 
   //build camera
   _camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);

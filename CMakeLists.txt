@@ -16,12 +16,12 @@ endif()
 
 include_directories(
     engine/include
-    renderer/include
+    renderer3D/include
     models/include
     app/include
 )
 
 add_subdirectory(engine)
-add_subdirectory(renderer)
+add_subdirectory(renderer3D)
 add_subdirectory(models)
 add_subdirectory(app)
