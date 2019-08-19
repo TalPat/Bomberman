@@ -1,7 +1,7 @@
 #include "../include/Bombs.hpp"
 
 const float FUSE_TIME = 2;
-const float FLAME_TIME = 0.2;
+const float FLAME_TIME = 0.3;
 
 Bombs::Bombs()
 	: _bombs()
@@ -23,7 +23,7 @@ void Bombs::placeBomb(const Player &player, Map &map)
 	}
 }
 
-const float BOMB_RANGE = 1; // TODO: change based on player powerups
+const float BOMB_RANGE = 3; // TODO: change based on player powerups
 void Bombs::update(float deltaTime, Map &map)
 {
 	for (sBomb &bomb : this->_bombs)
@@ -36,14 +36,11 @@ void Bombs::update(float deltaTime, Map &map)
         }
 		if (bomb.timeLeft < 0)
 		{
-            for (int i = 1; i < BOMB_RANGE + 1; ++i)
-            {
-                this->placeFlame(bomb.position + sf::Vector2i(+i, 0), map);
-                this->placeFlame(bomb.position + sf::Vector2i(-i, 0), map);
-                this->placeFlame(bomb.position + sf::Vector2i(0, -i), map);
-                this->placeFlame(bomb.position + sf::Vector2i(0, +i), map);
-            }
             this->placeFlame(bomb.position, map);
+            this->bombExplodeDirection(bomb, map, sf::Vector2i(+1, 0));
+            this->bombExplodeDirection(bomb, map, sf::Vector2i(-1, 0));
+            this->bombExplodeDirection(bomb, map, sf::Vector2i(0, -1));
+            this->bombExplodeDirection(bomb, map, sf::Vector2i(0, +1));
 		}
 	}
 	this->_bombs.remove_if([](sBomb &bomb) { return bomb.timeLeft < 0; });
@@ -57,6 +54,14 @@ void Bombs::update(float deltaTime, Map &map)
         }
     }
     this->_flames.remove_if([](sFlame &flame) { return flame.timeLeft < 0; });
+}
+
+void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
+{
+    sf::Vector2i pos = bomb.position;
+
+    for (int i = 0; i < BOMB_RANGE + 1 && map.tileAt(pos + dir * i) != Tile::Solid; ++i)
+        this->placeFlame(pos + dir * i, map);
 }
 
 void Bombs::placeFlame(sf::Vector2i pos, Map &map)
