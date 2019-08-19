@@ -23,9 +23,13 @@ This will add the repo where sfml lives.
 ### Install
 
 ```cd {BOMBERMAN_ROOT}```
+
 ```mkdir build && cd build```
+
 ```conan install ..```
+
 ```cmake ..```
+
 ```make```
 
 
