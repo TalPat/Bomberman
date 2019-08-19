@@ -27,8 +27,8 @@ private:
 public:
 	Bombs();
 	void placeBomb(const Player &player, Map &map);
+    void placeFlame(sf::Vector2i pos, Map &map);
 	void update(float deltaTime, Map &map);
-    void createExplosion(sf::Vector2i pos, Map &map);
 };
 
 #endif

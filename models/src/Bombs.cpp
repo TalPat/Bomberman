@@ -33,14 +33,13 @@ void Bombs::update(float deltaTime, Map &map)
 		{
             for (int i = 1; i < BOMB_RANGE + 1; ++i)
             {
-                this->createExplosion(bomb.position + sf::Vector2i(+i, 0), map);
-                this->createExplosion(bomb.position + sf::Vector2i(-i, 0), map);
-                this->createExplosion(bomb.position + sf::Vector2i(0, -i), map);
-                this->createExplosion(bomb.position + sf::Vector2i(0, +i), map);
+                this->placeFlame(bomb.position + sf::Vector2i(+i, 0), map);
+                this->placeFlame(bomb.position + sf::Vector2i(-i, 0), map);
+                this->placeFlame(bomb.position + sf::Vector2i(0, -i), map);
+                this->placeFlame(bomb.position + sf::Vector2i(0, +i), map);
             }
             map.setTile(bomb.position, Tile::Clear);
 		}
-        // Bomb propagation
         // If current bomb is on a flame, detonate the bomb
         if (map.tileAt(bomb.position) == Tile::Flame)
         {
@@ -60,7 +59,7 @@ void Bombs::update(float deltaTime, Map &map)
     this->_flames.remove_if([](sFlame &flame) { return flame.timeLeft < 0; });
 }
 
-void Bombs::createExplosion(sf::Vector2i pos, Map &map)
+void Bombs::placeFlame(sf::Vector2i pos, Map &map)
 {
     if (map.tileAt(pos) != Tile::Solid)
     {
