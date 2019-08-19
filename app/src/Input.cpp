@@ -8,7 +8,7 @@ Input::Input() : _pause(Key::Escape)
 	this->keyMap[Key::Down] = EngineEvent::move_down;
 	this->keyMap[Key::Left] = EngineEvent::move_left;
 	this->keyMap[Key::Right] = EngineEvent::move_right;
-	this->keyMap[Key::Space] = EngineEvent::move_up;
+	this->keyMap[Key::Space] = EngineEvent::place_bomb;
 }
 
 Input::~Input() {}
