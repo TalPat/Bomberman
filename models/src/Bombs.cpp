@@ -60,8 +60,18 @@ void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
 {
     sf::Vector2i pos = bomb.position;
 
-    for (int i = 0; i < BOMB_RANGE + 1 && map.tileAt(pos + dir * i) != Tile::Solid; ++i)
-        this->placeFlame(pos + dir * i, map);
+    for (int i = 0; i < BOMB_RANGE + 1; ++i)
+    {
+        Tile tile = map.tileAt(pos + dir * i);
+        if (tile != Tile::Solid)
+        {
+            this->placeFlame(pos + dir * i, map);
+        }
+        if (tile == Tile::Destructible)
+        {
+            break;
+        }
+    }
 }
 
 void Bombs::placeFlame(sf::Vector2i pos, Map &map)
