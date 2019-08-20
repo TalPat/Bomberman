@@ -67,7 +67,7 @@ void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
         {
             this->placeFlame(pos + dir * i, map);
         }
-        if (tile == Tile::Destructible)
+        if (tile == Tile::Destructible || tile == Tile::Solid)
         {
             break;
         }
