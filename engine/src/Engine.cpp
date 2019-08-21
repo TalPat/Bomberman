@@ -37,15 +37,14 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 			moveState.west = false;
 			break;
 		case EngineEvent::place_bomb:
-		// This should most likly be a method on gameState;
-			if(Bombs::totalBombs < Player::maxBombs)
-				gameState.bombs.placeBomb(gameState.player, gameState.map);
-			break;
+			// This should most likly be a method on gameState;
+			gameState.bombs.placeBomb(gameState.player, gameState.map);
 		default:
 			break;
 		}
 	}
 
 	gameState.player.move(deltaTime, gameState.map);
+	gameState.enemy.update(deltaTime, gameState.map);
 	gameState.bombs.update(deltaTime, gameState.map);
 }

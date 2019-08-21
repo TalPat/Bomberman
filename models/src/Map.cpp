@@ -27,6 +27,7 @@ Map::Map()
 			}
 		}
 	}
+
 	// Player starting cell
 	this->_tiles[1 * this->_size.x + 1] = Tile::Clear;
 }

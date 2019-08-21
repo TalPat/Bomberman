@@ -12,17 +12,24 @@ struct sBomb
 	float timeLeft;
 };
 
+struct sFlame
+{
+    sf::Vector2i position;
+    float timeLeft;
+};
+
 class Bombs
 {
 private:
 	std::list<sBomb> _bombs;
+	 std::list<sFlame> _flames;
 
 public:
-	// static int totalBombs;
-	static int totalBombs;
 	Bombs();
 	void placeBomb(const Player &player, Map &map);
 	void update(float deltaTime, Map &map);
+	void placeFlame(sf::Vector2i pos, Map &map);
+    void bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir);
 };
 
 #endif

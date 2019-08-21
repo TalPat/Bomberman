@@ -11,15 +11,13 @@ enum Tile
 	Clear,
 	Destructible,
 	Bomb,
+	Flame
 };
 
 class Map
 {
 private:
 	sf::Vector2i _size;
-	// Consider the map size to be the internal size.
-	// Its is redundant to specify borders when we know it will
-	// be at the edge of the map
 	std::vector<Tile> _tiles;
 
 public:

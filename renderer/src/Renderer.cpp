@@ -9,6 +9,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	window.clear(sf::Color::Black);
 	map(window, state);
 	player(window, state);
+	enemy(window, state);
 	window.display();
 }
 
@@ -24,6 +25,19 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
 	player.setPosition(playerPosition);
 	player.setFillColor(sf::Color(250, 20, 50));
 	window.draw(player);
+}
+void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
+{
+	sf::CircleShape enemy(SCALE / 2);
+
+	sf::Vector2f enemyPosition(state.enemy.position());
+	enemyPosition -= sf::Vector2f(0.5, 0.5);
+	// playerPosition.y *= -1;
+	enemyPosition *= SCALE;
+
+	enemy.setPosition(enemyPosition);
+	enemy.setFillColor(sf::Color(150, 120, 150));
+	window.draw(enemy);
 }
 
 void Renderer::map(sf::RenderWindow &window, const GameState &state)
@@ -59,10 +73,13 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					bomb.setPosition(cellPosition.x, cellPosition.y);
 					window.draw(bomb);
 					break;
+				case Tile::Flame:
+					cell.setFillColor(sf::Color(255, 0, 0));
+					window.draw(cell);
+					break;
 				default:
 					break;
 				}
-				// window.draw(cell);
 			}
 		}
 	}
