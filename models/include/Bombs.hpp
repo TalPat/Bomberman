@@ -22,14 +22,14 @@ class Bombs
 {
 private:
 	std::list<sBomb> _bombs;
-	 std::list<sFlame> _flames;
+    std::list<sFlame> _flames;
 
 public:
 	Bombs();
 	void placeBomb(const Player &player, Map &map);
-	void update(float deltaTime, Map &map);
-	void placeFlame(sf::Vector2i pos, Map &map);
+    void placeFlame(sf::Vector2i pos, Map &map);
     void bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir);
+	void update(float deltaTime, Map &map);
 };
 
 #endif

@@ -11,7 +11,7 @@ enum Tile
 	Clear,
 	Destructible,
 	Bomb,
-	Flame
+	Flame,
 };
 
 class Map

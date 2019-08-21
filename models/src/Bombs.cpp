@@ -16,7 +16,6 @@ void Bombs::placeBomb(const Player &player, Map &map)
 	if (map.tileAt(playerCell) == Tile::Clear)
 	{
 		map.setTile(playerCell, Tile::Bomb);
-
 		sBomb newBomb;
 		newBomb.position = playerCell;
 		newBomb.timeLeft = FUSE_TIME;
@@ -30,15 +29,14 @@ void Bombs::update(float deltaTime, Map &map)
 	for (sBomb &bomb : this->_bombs)
 	{
 		bomb.timeLeft -= deltaTime;
-		if (map.tileAt(bomb.position) == Tile::Flame)
+        // If current bomb is on a flame, detonate the bomb
+        if (map.tileAt(bomb.position) == Tile::Flame)
         {
             bomb.timeLeft = -1;
         }
 		if (bomb.timeLeft < 0)
 		{
-			// Explode logic here
-			// map.setTile(bomb.position, Tile::Clear);
-			this->placeFlame(bomb.position, map);
+            this->placeFlame(bomb.position, map);
             this->bombExplodeDirection(bomb, map, sf::Vector2i(+1, 0));
             this->bombExplodeDirection(bomb, map, sf::Vector2i(-1, 0));
             this->bombExplodeDirection(bomb, map, sf::Vector2i(0, -1));
@@ -46,7 +44,8 @@ void Bombs::update(float deltaTime, Map &map)
 		}
 	}
 	this->_bombs.remove_if([](sBomb &bomb) { return bomb.timeLeft < 0; });
-	for (sFlame &flame : this->_flames)
+
+    for (sFlame &flame : this->_flames)
     {
         flame.timeLeft -= deltaTime;
         if (flame.timeLeft < 0)
@@ -86,4 +85,4 @@ void Bombs::placeFlame(sf::Vector2i pos, Map &map)
         newFlame.timeLeft = FLAME_TIME;
         this->_flames.push_back(newFlame);
     }
-} 
+}
