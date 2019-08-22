@@ -30,6 +30,7 @@ void Model::draw(Shader shader) {
 }
 
 void Model::processNode(aiNode* node, const aiScene* scene) {
+  /**/std::cout << node->mName.C_Str() <<  "---------------------" << std::endl;
   for (unsigned int i = 0; i < node->mNumMeshes; i++) {
     aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
     _meshes.push_back(processMesh(mesh, scene));
