@@ -13,7 +13,9 @@ public:
 	void render(sf::RenderWindow &window, const GameState &state);
 private:
 	void player(sf::RenderWindow &window, const GameState &state);
-	void enemy(sf::RenderWindow &window, const GameState &state);
+	// void enemy(sf::RenderWindow &window, const GameState &state, const Ballom &e);
+	void enemy(sf::RenderWindow &window, const GameState &state,Enemy e);
+	void enemyList(sf::RenderWindow &window, const GameState &state);
 	void map(sf::RenderWindow &window, const GameState &state);
 };
 

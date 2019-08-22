@@ -1,8 +1,9 @@
 
 #include "../include/Engine.hpp"
-
+#include "../include/EnemiesList.hpp"
 #include <iostream>
 #include <vector>
+#include <list>
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
 {
@@ -45,6 +46,11 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 	}
 
 	gameState.player.move(deltaTime, gameState.map);
-	gameState.enemy.update(deltaTime, gameState.map);
+	// gameState.enemy.update(deltaTime, gameState.map);
+	// gameState.ballom.update(deltaTime, gameState.map);
+	// for(auto &e : gameState.eList.eList){
+	// 	e.update(deltaTime, gameState.map);
+	// }
+	gameState.eList.updateAll(deltaTime, gameState.map);
 	gameState.bombs.update(deltaTime, gameState.map);
 }

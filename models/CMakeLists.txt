@@ -4,4 +4,6 @@ add_library(Models STATIC
     src/Player.cpp
     src/Bombs.cpp
     src/Enemy.cpp
+    src/Ballom.cpp
+    src/EnemiesList.cpp
 )

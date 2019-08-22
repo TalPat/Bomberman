@@ -1,4 +1,5 @@
 #include "../include/Enemy.hpp"
+// #include "../include/EnemyType.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -7,25 +8,18 @@ const float AUTOSWITCH = 8;
 const sf::Vector2f DEFAULT_START(11.5, 11.5);
 const float DEFAULT_SPEED = 3.5;
 const int NUM_STATES = 4;
+const float AGGROTIME = 8;
 
 // Testing order here is important
 // Test cardinals first
-const sf::Vector2i TEST_NEIGHBOURS[8] = {
-	sf::Vector2i(0, 1),   //NORTH
-	sf::Vector2i(1, 0),   //EAST
-	sf::Vector2i(0, -1),  //SOUTH
-	sf::Vector2i(-1, 0),  //WEST
-	sf::Vector2i(1, 1),   //NE
-	sf::Vector2i(-1, 1),  //SE
-	sf::Vector2i(1, -1),  //SW
-	sf::Vector2i(-1, -1), //NW
-};
+
 
 Enemy::Enemy() : _position(DEFAULT_START),
 				   _enemySpeed(DEFAULT_SPEED),
 				   moveState(EnemyMoveState::north),
 				   _switchTime(AUTOSWITCH),
-				   appears({1,2})
+				   appears({1,2}),
+				   type(EnemyType::EGeneric)
 {
 }
 
@@ -92,84 +86,50 @@ bool Enemy::correctEnemyCellCollision(sf::Vector2i cell)
 }
 
 void Enemy::changeMoveState(){
-	// int max = 3;
-	// int min = 0;
-	int num;
-	num = (rand() % (NUM_STATES));
-	moveState = num;
-	// switch(num){
-	// 	case EnemyMoveState::north:
-	// 		moveState = EnemyMoveState::north;
-	// 		// moveState.south = false;
-	// 		// moveState.east = false;
-	// 		// moveState.west = false;
-	// 		break;
-	// 	case  EnemyMoveState::south:
-	// 		moveState = EnemyMoveState::south;
-	// 		// moveState.south = true;
-	// 		// moveState.north = false;
-	// 		// moveState.east = false;
-	// 		// moveState.west = false;
-	// 		break;
-	// 	case  EnemyMoveState::east:
-	// 		moveState = EnemyMoveState::east;
-	// 		// moveState.east = true;
-	// 		// moveState.west = false;
-	// 		// moveState.north = false;
-	// 		// moveState.south = false;
-	// 		break;
-	// 	case  EnemyMoveState::west:
-	// 		moveState = EnemyMoveState::west;
-	// 		// moveState.west = true;
-	// 		// moveState.east = false;
-	// 		// moveState.north = false;
-	// 		// moveState.south = false;
-	// 		break;
-	// 	default:
-	// 		moveState = EnemyMoveState::west;
-	// 		// moveState.north = false;
-	// 		// moveState.south = false;
-	// 		// moveState.east = false;
-	// 		// moveState.west = false;
-	// 		break;
-	// }
+	moveState = (rand() % (NUM_STATES));
 }
+
 void Enemy::update(float deltaTime, const Map &map){
 	_switchTime -= deltaTime;
+	// _aggression -= deltaTime;
+	
 	if(_switchTime <= 0){
 		changeMoveState();
 		_switchTime = AUTOSWITCH;
 	}
 	move(deltaTime, map);
 }
+void Enemy::changeAggression(){
+	return;
+};
 void Enemy::move(float deltaTime, const Map &map)
-{
-	int moveState = this->moveState;
-	sf::Vector2f movement(0, 0);
-	if(moveState == EnemyMoveState::east)
-		movement.x += 1;
-	if(moveState == EnemyMoveState::west)
-		movement.x -= 1;
-	if(moveState == EnemyMoveState::north)
-		movement.y -= 1;
-	if(moveState == EnemyMoveState::south)
-		movement.y += 1;
-	
-	this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
-	sf::Vector2i enemyCell(this->_position);
-
-	for (sf::Vector2i direction : TEST_NEIGHBOURS)
-	{
-		sf::Vector2i cell = enemyCell + direction;
-		Tile tile = map.tileAt(cell);
-		if (!(tile == Tile::Clear /*|| tile == Tile::Bomb*/))
 		{
-			if (correctEnemyCellCollision(cell)){
-				break;
+			int moveState = this->moveState;
+			sf::Vector2f movement(0, 0);
+			if(moveState == EnemyMoveState::east)
+				movement.x += 1;
+			if(moveState == EnemyMoveState::west)
+				movement.x -= 1;
+			if(moveState == EnemyMoveState::north)
+				movement.y -= 1;
+			if(moveState == EnemyMoveState::south)
+				movement.y += 1;
+
+			this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
+			sf::Vector2i enemyCell(this->_position);
+
+			for (sf::Vector2i direction : TEST_NEIGHBOURS)
+			{
+				sf::Vector2i cell = enemyCell + direction;
+				Tile tile = map.tileAt(cell);
+				if (!(tile == Tile::Clear || tile == Tile::Bomb))
+				{
+					if (correctEnemyCellCollision(cell)){
+						break;
+					}
+				}
 			}
 		}
-	}
-}
 
 const sf::Vector2f &Enemy::position() const
 {
