@@ -6,6 +6,7 @@
 const float AUTOSWITCH = 8;
 const sf::Vector2f DEFAULT_START(11.5, 11.5);
 const float DEFAULT_SPEED = 3.5;
+const int NUM_STATES = 4;
 
 // Testing order here is important
 // Test cardinals first
@@ -22,8 +23,9 @@ const sf::Vector2i TEST_NEIGHBOURS[8] = {
 
 Enemy::Enemy() : _position(DEFAULT_START),
 				   _enemySpeed(DEFAULT_SPEED),
-				   moveState({1, false, false, false}),
-				   _switchTime(AUTOSWITCH)
+				   moveState(EnemyMoveState::north),
+				   _switchTime(AUTOSWITCH),
+				   appears({1,2})
 {
 }
 
@@ -90,42 +92,47 @@ bool Enemy::correctEnemyCellCollision(sf::Vector2i cell)
 }
 
 void Enemy::changeMoveState(){
-	int max = 3;
-	int min = 0;
+	// int max = 3;
+	// int min = 0;
 	int num;
-	num = (rand() % (max + 1 - min)) + min;
-	switch(num){
-		case 0:
-			moveState.north = true;
-			moveState.south = false;
-			moveState.east = false;
-			moveState.west = false;
-			break;
-		case 1:
-			moveState.south = true;
-			moveState.north = false;
-			moveState.east = false;
-			moveState.west = false;
-			break;
-		case 2:
-			moveState.east = true;
-			moveState.west = false;
-			moveState.north = false;
-			moveState.south = false;
-			break;
-		case 3:
-			moveState.west = true;
-			moveState.east = false;
-			moveState.north = false;
-			moveState.south = false;
-			break;
-		default:
-			moveState.north = false;
-			moveState.south = false;
-			moveState.east = false;
-			moveState.west = false;
-			break;
-	}
+	num = (rand() % (NUM_STATES));
+	moveState = num;
+	// switch(num){
+	// 	case EnemyMoveState::north:
+	// 		moveState = EnemyMoveState::north;
+	// 		// moveState.south = false;
+	// 		// moveState.east = false;
+	// 		// moveState.west = false;
+	// 		break;
+	// 	case  EnemyMoveState::south:
+	// 		moveState = EnemyMoveState::south;
+	// 		// moveState.south = true;
+	// 		// moveState.north = false;
+	// 		// moveState.east = false;
+	// 		// moveState.west = false;
+	// 		break;
+	// 	case  EnemyMoveState::east:
+	// 		moveState = EnemyMoveState::east;
+	// 		// moveState.east = true;
+	// 		// moveState.west = false;
+	// 		// moveState.north = false;
+	// 		// moveState.south = false;
+	// 		break;
+	// 	case  EnemyMoveState::west:
+	// 		moveState = EnemyMoveState::west;
+	// 		// moveState.west = true;
+	// 		// moveState.east = false;
+	// 		// moveState.north = false;
+	// 		// moveState.south = false;
+	// 		break;
+	// 	default:
+	// 		moveState = EnemyMoveState::west;
+	// 		// moveState.north = false;
+	// 		// moveState.south = false;
+	// 		// moveState.east = false;
+	// 		// moveState.west = false;
+	// 		break;
+	// }
 }
 void Enemy::update(float deltaTime, const Map &map){
 	_switchTime -= deltaTime;
@@ -137,12 +144,16 @@ void Enemy::update(float deltaTime, const Map &map){
 }
 void Enemy::move(float deltaTime, const Map &map)
 {
-	EnemyMoveState &moveState = this->moveState;
+	int moveState = this->moveState;
 	sf::Vector2f movement(0, 0);
-	movement.x += moveState.east;
-	movement.x -= moveState.west;
-	movement.y -= moveState.north;
-	movement.y += moveState.south;
+	if(moveState == EnemyMoveState::east)
+		movement.x += 1;
+	if(moveState == EnemyMoveState::west)
+		movement.x -= 1;
+	if(moveState == EnemyMoveState::north)
+		movement.y -= 1;
+	if(moveState == EnemyMoveState::south)
+		movement.y += 1;
 	
 	this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
 	sf::Vector2i enemyCell(this->_position);
@@ -151,7 +162,7 @@ void Enemy::move(float deltaTime, const Map &map)
 	{
 		sf::Vector2i cell = enemyCell + direction;
 		Tile tile = map.tileAt(cell);
-		if (!(tile == Tile::Clear || tile == Tile::Bomb))
+		if (!(tile == Tile::Clear /*|| tile == Tile::Bomb*/))
 		{
 			if (correctEnemyCellCollision(cell)){
 				break;
