@@ -94,7 +94,6 @@ void Enemy::changeMoveState(){
 	int min = 0;
 	int num;
 	num = (rand() % (max + 1 - min)) + min;
-	// std::cout << num <<"\n";
 	switch(num){
 		case 0:
 			moveState.north = true;
@@ -129,7 +128,6 @@ void Enemy::changeMoveState(){
 	}
 }
 void Enemy::update(float deltaTime, const Map &map){
-	// std::cout << "update enemy function fired\n";
 	_switchTime -= deltaTime;
 	if(_switchTime <= 0){
 		changeMoveState();
@@ -139,16 +137,12 @@ void Enemy::update(float deltaTime, const Map &map){
 }
 void Enemy::move(float deltaTime, const Map &map)
 {
-	// std::cout << "move enemy function fired\n";
 	EnemyMoveState &moveState = this->moveState;
-	// std::cout << moveState.east << "\n";
 	sf::Vector2f movement(0, 0);
 	movement.x += moveState.east;
 	movement.x -= moveState.west;
 	movement.y -= moveState.north;
 	movement.y += moveState.south;
-	// std::cout << "x = " << movement.x << "\n";
-	// std::cout << "y = " << movement.y << "\n";
 	
 	this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
 	sf::Vector2i enemyCell(this->_position);
@@ -157,7 +151,7 @@ void Enemy::move(float deltaTime, const Map &map)
 	{
 		sf::Vector2i cell = enemyCell + direction;
 		Tile tile = map.tileAt(cell);
-		if (!(tile == Tile::Clear /*|| tile == Tile::Bomb*/))
+		if (!(tile == Tile::Clear || tile == Tile::Bomb))
 		{
 			if (correctEnemyCellCollision(cell)){
 				break;
