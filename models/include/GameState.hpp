@@ -3,12 +3,10 @@
 
 #include "./EngineEvent.hpp"
 #include "Player.hpp"
-#include "Enemy.hpp"
-#include "EnemiesList.hpp"
+#include "Enemies.hpp"
 #include "Ballom.hpp"
 #include "Map.hpp"
 #include "Bombs.hpp"
-// #include "Ballom.hpp"
 
 #include <SFML/System.hpp>
 #include <iostream>
@@ -18,7 +16,7 @@ class GameState
 {
 public:
 	Player player;
-	EnemiesList enemies;
+	Enemies enemies;
 	Map map;
 	Bombs bombs;
 };

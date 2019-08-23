@@ -1,17 +1,17 @@
-#ifndef _ENEMIESLIST_HPP_
-# define _ENEMIESLIST_HPP_
-# include "Enemy.hpp"
+#ifndef _ENEMIES_HPP_
+# define _ENEMIES_HPP_
+# include "IEnemy.hpp"
 # include "Map.hpp"
 # include "Ballom.hpp"
 # include <list>
-class EnemiesList{
+class Enemies{
 	public:
-		std::list<Enemy*> list;
+		std::list<IEnemy*> list;
 		void updateAll(float deltaTime, const Map &map);
 		void populate();
 		void populate(int numEnemies);
-		EnemiesList();
-		~EnemiesList();
-		
+		Enemies();
+		~Enemies();
+		void kill(sf::Vector2i killPosition); 
 };
 #endif

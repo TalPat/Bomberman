@@ -34,7 +34,7 @@ void Renderer::enemyList(sf::RenderWindow &window, const GameState &state)
 	}
 }
 
-void Renderer::enemy(sf::RenderWindow &window, const GameState &state,const Enemy &e)
+void Renderer::enemy(sf::RenderWindow &window, const GameState &state,const IEnemy &e)
 {
 	sf::CircleShape enemy(SCALE / 2);
 

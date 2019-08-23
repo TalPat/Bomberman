@@ -1,5 +1,5 @@
-#ifndef _Enemy_hpp_
-#define _Enemy_hpp_
+#ifndef _IEnemy_hpp_
+#define _IEnemy_hpp_
 
 #include "Map.hpp"
 #include "EnemyType.hpp"
@@ -10,8 +10,7 @@ enum EnemyMoveState
 	north,
 	east,
 	south,
-	west,
-	stand
+	west
 };
 const sf::Vector2i TEST_NEIGHBOURS[8] = {
 	sf::Vector2i(0, 1),   //NORTH
@@ -27,7 +26,7 @@ struct sRange{
 	int min;
 	int max;
 };
-class Enemy
+class IEnemy
 {
  
 protected:
@@ -40,16 +39,17 @@ protected:
 
 public:
 	EnemyType type;
-	Enemy();
-	Enemy(sf::Vector2f start);
-	~Enemy();
+	IEnemy();
+	IEnemy(sf::Vector2f start);
+	~IEnemy();
 	bool correctEnemyCellCollision(sf::Vector2i cell);
 	virtual void update(float deltaTime, const Map &map);
-	int moveState;
+	EnemyMoveState moveState;
 	virtual void changeMoveState();
 	virtual void changeAggression();
 	void move(float deltaTime, const Map &map);
 	const sf::Vector2f &position() const;
+	bool operator == (const IEnemy& e) const { return this->_position == e._position; }
 };
 
 #endif

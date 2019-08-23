@@ -1,6 +1,6 @@
 #ifndef _BALLOM_HPP_
 # define _BALLOM_HPP_
-class Ballom:public Enemy{
+class Ballom:public IEnemy{
 	public:
 		Ballom();
 		Ballom(sf::Vector2f start);
@@ -9,6 +9,5 @@ class Ballom:public Enemy{
 		void changeMoveState();
 		void update(float deltaTime, const Map &map);
 		void changeAggression();
-		// void move(float deltaTime, const Map &map);
 };
 #endif
