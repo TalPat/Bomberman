@@ -10,8 +10,6 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	map(window, state);
 	player(window, state);
 	enemyList(window, state);
-	// enemy(window, state);
-	// enemyBallom(window, state);
 	window.display();
 }
 
@@ -28,36 +26,20 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
 	player.setFillColor(sf::Color(250, 20, 50));
 	window.draw(player);
 }
+
 void Renderer::enemyList(sf::RenderWindow &window, const GameState &state)
 {
 	for(auto &e: state.eList.eList){
-		enemy(window, state,e);
+		enemy(window, state,*e);
 	}
 }
-// void Renderer::enemy(sf::RenderWindow &window, const GameState &state,const Ballom e)
-// {
-// 	sf::CircleShape enemy(SCALE / 2);
 
-// 	sf::Vector2f enemyPosition(e.position());
-// 	enemyPosition -= sf::Vector2f(0.5, 0.5);
-// 	// playerPosition.y *= -1;
-// 	enemyPosition *= SCALE;
-
-// 	enemy.setPosition(enemyPosition);
-// 	if(e._aggression)
-// 		enemy.setFillColor(sf::Color(100, 100, 100));
-// 	else
-// 		enemy.setFillColor(sf::Color(200, 200, 200));
-
-// 	window.draw(enemy);
-// }
-void Renderer::enemy(sf::RenderWindow &window, const GameState &state,Enemy e)
+void Renderer::enemy(sf::RenderWindow &window, const GameState &state,const Enemy &e)
 {
 	sf::CircleShape enemy(SCALE / 2);
 
 	sf::Vector2f enemyPosition(e.position());
 	enemyPosition -= sf::Vector2f(0.5, 0.5);
-	// playerPosition.y *= -1;
 	enemyPosition *= SCALE;
 
 	enemy.setPosition(enemyPosition);

@@ -18,9 +18,6 @@ class GameState
 {
 public:
 	Player player;
-
-	// Enemy enemy;
-	// Ballom ballom;
 	EnemiesList eList;
 	Map map;
 	Bombs bombs;

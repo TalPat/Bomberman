@@ -13,13 +13,22 @@ const float AGGROTIME = 8;
 // Testing order here is important
 // Test cardinals first
 
-
-Enemy::Enemy() : _position(DEFAULT_START),
-				   _enemySpeed(DEFAULT_SPEED),
-				   moveState(EnemyMoveState::north),
-				   _switchTime(AUTOSWITCH),
-				   appears({1,2}),
-				   type(EnemyType::EGeneric)
+Enemy::Enemy() :
+					_position(DEFAULT_START),
+					_enemySpeed(DEFAULT_SPEED),
+					moveState(EnemyMoveState::north),
+					_switchTime(AUTOSWITCH),
+					appears({1,2}),
+					type(EnemyType::EGeneric)
+{
+}
+Enemy::Enemy(sf::Vector2f start):
+					_position(start),
+					_enemySpeed(DEFAULT_SPEED),
+					moveState(EnemyMoveState::north),
+					_switchTime(AUTOSWITCH),
+					appears({1,2}),
+					type(EnemyType::EGeneric)
 {
 }
 
@@ -91,8 +100,6 @@ void Enemy::changeMoveState(){
 
 void Enemy::update(float deltaTime, const Map &map){
 	_switchTime -= deltaTime;
-	// _aggression -= deltaTime;
-	
 	if(_switchTime <= 0){
 		changeMoveState();
 		_switchTime = AUTOSWITCH;
@@ -103,33 +110,31 @@ void Enemy::changeAggression(){
 	return;
 };
 void Enemy::move(float deltaTime, const Map &map)
+{
+	int moveState = this->moveState;
+	sf::Vector2f movement(0, 0);
+	if(moveState == EnemyMoveState::east)
+		movement.x += 1;
+	if(moveState == EnemyMoveState::west)
+		movement.x -= 1;
+	if(moveState == EnemyMoveState::north)
+		movement.y -= 1;
+	if(moveState == EnemyMoveState::south)
+		movement.y += 1;
+	this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
+	sf::Vector2i enemyCell(this->_position);
+	for (sf::Vector2i direction : TEST_NEIGHBOURS)
+	{
+		sf::Vector2i cell = enemyCell + direction;
+		Tile tile = map.tileAt(cell);
+		if (!(tile == Tile::Clear || tile == Tile::Bomb))
 		{
-			int moveState = this->moveState;
-			sf::Vector2f movement(0, 0);
-			if(moveState == EnemyMoveState::east)
-				movement.x += 1;
-			if(moveState == EnemyMoveState::west)
-				movement.x -= 1;
-			if(moveState == EnemyMoveState::north)
-				movement.y -= 1;
-			if(moveState == EnemyMoveState::south)
-				movement.y += 1;
-
-			this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
-			sf::Vector2i enemyCell(this->_position);
-
-			for (sf::Vector2i direction : TEST_NEIGHBOURS)
-			{
-				sf::Vector2i cell = enemyCell + direction;
-				Tile tile = map.tileAt(cell);
-				if (!(tile == Tile::Clear || tile == Tile::Bomb))
-				{
-					if (correctEnemyCellCollision(cell)){
-						break;
-					}
-				}
+			if (correctEnemyCellCollision(cell)){
+				break;
 			}
 		}
+	}
+}
 
 const sf::Vector2f &Enemy::position() const
 {

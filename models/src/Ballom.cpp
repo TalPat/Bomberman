@@ -5,7 +5,7 @@
 const int NUM_STATES = 5;
 const float AGGROTIME = 4;
 const float DEFAULT_SPEED = 3.5;
-const float AUTOSWITCH = 6;
+const float AUTOSWITCH = 8;
 const sf::Vector2f DEFAULT_START(9.5, 9.5);
 		Ballom::Ballom()		
 		{
@@ -13,7 +13,15 @@ const sf::Vector2f DEFAULT_START(9.5, 9.5);
 			_enemySpeed = (DEFAULT_SPEED);
 			moveState = (EnemyMoveState::north);
 			_switchTime = (AUTOSWITCH);
-			// appears = ({1,2});
+			type = (EnemyType::EBallom);
+			changeMoveState();
+		}
+		Ballom::Ballom(sf::Vector2f start)		
+		{
+			_position = (start);
+			_enemySpeed = (DEFAULT_SPEED);
+			moveState = (EnemyMoveState::north);
+			_switchTime = (AUTOSWITCH);
 			type = (EnemyType::EBallom);
 			changeMoveState();
 		}
@@ -36,24 +44,27 @@ const sf::Vector2f DEFAULT_START(9.5, 9.5);
 			}
 			if(_switchTime <= 0){
 				this->changeMoveState();
-				_switchTime = AUTOSWITCH;
+				if(_aggression)
+					_switchTime = AUTOSWITCH/2;
+				else
+					_switchTime = AUTOSWITCH;
 			}
 			this->move(deltaTime, map);
 		}
 		
 		void Ballom::changeAggression(){
+			
 			_aggression = (rand() % 4);
-			if(_aggression == 3){
+			if(_aggression == 3 && type == EnemyType::EBallom){
 				_enemySpeed = DEFAULT_SPEED + 1.5;
-				_aggression = AGGROTIME;
 				type = EnemyType::EAggroBallom;
-				std::cout << "AGGRO TIME!\n";
 			}
 			else
 			{
 					_enemySpeed = DEFAULT_SPEED;
 					type = EnemyType::EBallom;
 			}
+			_aggression = AGGROTIME;
 			
 		}
 void Ballom::move(float deltaTime, const Map &map)

@@ -6,10 +6,10 @@
 # include <list>
 class EnemiesList{
 	public:
-		std::list<Enemy> eList;
+		std::list<Enemy*> eList;
 		void updateAll(float deltaTime, const Map &map);
 		void populate();
-		// void populate(const Map &map);
+		void populate(int numEnemies);
 		EnemiesList();
 		~EnemiesList();
 		

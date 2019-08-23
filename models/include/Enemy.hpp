@@ -37,11 +37,11 @@ protected:
 	float _enemySpeed;
 	float _switchTime;
 	bool _wallPass;
-
-
+	
 public:
 	EnemyType type;
 	Enemy();
+	Enemy(sf::Vector2f start);
 	~Enemy();
 	bool correctEnemyCellCollision(sf::Vector2i cell);
 	virtual void update(float deltaTime, const Map &map);
