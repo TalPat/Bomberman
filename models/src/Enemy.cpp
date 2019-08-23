@@ -19,7 +19,8 @@ Enemy::Enemy() :
 					moveState(EnemyMoveState::north),
 					_switchTime(AUTOSWITCH),
 					appears({1,2}),
-					type(EnemyType::EGeneric)
+					type(EnemyType::EGeneric),
+					_wallPass(false)
 {
 }
 Enemy::Enemy(sf::Vector2f start):
@@ -28,7 +29,8 @@ Enemy::Enemy(sf::Vector2f start):
 					moveState(EnemyMoveState::north),
 					_switchTime(AUTOSWITCH),
 					appears({1,2}),
-					type(EnemyType::EGeneric)
+					type(EnemyType::EGeneric),
+					_wallPass(false)
 {
 }
 
@@ -127,7 +129,7 @@ void Enemy::move(float deltaTime, const Map &map)
 	{
 		sf::Vector2i cell = enemyCell + direction;
 		Tile tile = map.tileAt(cell);
-		if (!(tile == Tile::Clear || tile == Tile::Bomb))
+		if (!(tile == Tile::Clear || tile == Tile::Bomb || (_wallPass && tile == Tile::Destructible)))
 		{
 			if (correctEnemyCellCollision(cell)){
 				break;

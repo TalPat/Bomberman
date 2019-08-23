@@ -9,6 +9,6 @@ class Ballom:public Enemy{
 		void changeMoveState();
 		void update(float deltaTime, const Map &map);
 		void changeAggression();
-		void move(float deltaTime, const Map &map);
+		// void move(float deltaTime, const Map &map);
 };
 #endif

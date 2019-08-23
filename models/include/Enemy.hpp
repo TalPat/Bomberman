@@ -37,7 +37,7 @@ protected:
 	float _enemySpeed;
 	float _switchTime;
 	bool _wallPass;
-	
+
 public:
 	EnemyType type;
 	Enemy();
@@ -48,7 +48,7 @@ public:
 	int moveState;
 	virtual void changeMoveState();
 	virtual void changeAggression();
-	virtual void move(float deltaTime, const Map &map);
+	void move(float deltaTime, const Map &map);
 	const sf::Vector2f &position() const;
 };
 

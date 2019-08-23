@@ -14,6 +14,7 @@ const sf::Vector2f DEFAULT_START(9.5, 9.5);
 			moveState = (EnemyMoveState::north);
 			_switchTime = (AUTOSWITCH);
 			type = (EnemyType::EBallom);
+			_wallPass = (true);
 			changeMoveState();
 		}
 		Ballom::Ballom(sf::Vector2f start)		
@@ -23,6 +24,7 @@ const sf::Vector2f DEFAULT_START(9.5, 9.5);
 			moveState = (EnemyMoveState::north);
 			_switchTime = (AUTOSWITCH);
 			type = (EnemyType::EBallom);
+			_wallPass = (true);
 			changeMoveState();
 		}
 		Ballom::~Ballom(){
@@ -67,33 +69,3 @@ const sf::Vector2f DEFAULT_START(9.5, 9.5);
 			_aggression = AGGROTIME;
 			
 		}
-void Ballom::move(float deltaTime, const Map &map)
-{
-	int moveState = this->moveState;
-	sf::Vector2f movement(0, 0);
-	if(moveState == EnemyMoveState::east)
-		movement.x += 1;
-	if(moveState == EnemyMoveState::west)
-		movement.x -= 1;
-	if(moveState == EnemyMoveState::north)
-		movement.y -= 1;
-	if(moveState == EnemyMoveState::south)
-		movement.y += 1;
-	if(moveState == EnemyMoveState::stand)
-		_switchTime = 1;
-	
-	this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
-	sf::Vector2i enemyCell(this->_position);
-
-	for (sf::Vector2i direction : TEST_NEIGHBOURS)
-	{
-		sf::Vector2i cell = enemyCell + direction;
-		Tile tile = map.tileAt(cell);
-		if (!(tile == Tile::Clear || tile == Tile::Bomb || tile == Tile::Destructible))
-		{
-			if (correctEnemyCellCollision(cell)){
-				break;
-			}
-		}
-	}
-}
