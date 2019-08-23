@@ -29,7 +29,7 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::enemyList(sf::RenderWindow &window, const GameState &state)
 {
-	for(auto &e: state.eList.eList){
+	for(auto &e: state.enemies.list){
 		enemy(window, state,*e);
 	}
 }
