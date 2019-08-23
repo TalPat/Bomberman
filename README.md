@@ -26,7 +26,8 @@ This will add the repo where sfml lives.
 
 ```mkdir build && cd build```
 
-```conan install ..```
+SFML will need to be build for the current system
+```conan install .. --build sfml```
 
 ```cmake ..```
 
@@ -35,4 +36,4 @@ This will add the repo where sfml lives.
 
 ### Running the Game
 
-```./{BOMBERMAN_ROOT}/build/app/bomberman```
+```./{BOMBERMAN_ROOT}/build/bin/bomberman```
