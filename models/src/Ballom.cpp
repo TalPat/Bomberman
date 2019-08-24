@@ -28,7 +28,6 @@ Ballom::Ballom(sf::Vector2f start)
 	changeMoveState();
 }
 Ballom::~Ballom(){
-	std::cout << "Ballom KIlled\n";
 	return;
 }
 void Ballom::changeMoveState(){

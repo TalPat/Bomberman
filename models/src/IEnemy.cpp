@@ -35,7 +35,7 @@ IEnemy::IEnemy(sf::Vector2f start):
 
 IEnemy::~IEnemy()
 {
-	std::cout << "Enemy KIlled\n";
+	return;
 }
 
 bool IEnemy::correctEnemyCellCollision(sf::Vector2i cell)
@@ -112,9 +112,8 @@ void IEnemy::changeAggression(){
 };
 void IEnemy::move(float deltaTime, const Map &map)
 {
-	EnemyMoveState moveState = this->moveState;
 	sf::Vector2i movement(0, 0);
-	switch (moveState)
+	switch (this->moveState)
 	{
 		case EnemyMoveState::east:
 			movement.x += 1;
