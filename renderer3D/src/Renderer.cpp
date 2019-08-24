@@ -59,7 +59,16 @@ void Renderer::player(sf::Window &window, const GameState &state)
   glm::mat4 model = glm::mat4(1.0f);
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
+
   model = glm::translate(model, _models[playerModel].initialPos + glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
+
+  /*test orientation*/model = _models[playerModel].model->getAnimation().orientation(model, glm::vec2(playerPosition.x, playerPosition.y));
+
+  /*test animation*/model = _models[playerModel].model->getAnimation().pulse(model, 10, 3);
+
+  /*test animation*/model = _models[playerModel].model->getAnimation().floating(model);
+  
+
   model = glm::scale(model, _models[playerModel].initialScale);
   model = glm::rotate(model, glm::radians(_models[playerModel].initialRot.w), glm::vec3(_models[playerModel].initialRot));
   _shader->setMat4("model", model);

@@ -149,3 +149,7 @@ unsigned int Model::textureFromfile(const char *path, const std::string &directo
   }
   return (textureID);
 }
+
+Animation& Model::getAnimation(void) {
+  return (_animation);
+}

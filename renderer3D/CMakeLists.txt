@@ -9,6 +9,7 @@ add_library(Renderer STATIC
     src/Model.cpp
     src/Shader.cpp
     src/Mesh.cpp
+    src/Animation.cpp
 )
 
 include_directories(${GLM_INCLUDE_DIRS})

@@ -32,6 +32,7 @@ private:
   Camera* _camera;
 	void player(sf::Window &window, const GameState &state);
 	void map(sf::Window &window, const GameState &state);
+  glm::vec2 lastPos;
 public:
   Renderer(/* args */);
   ~Renderer();

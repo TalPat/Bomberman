@@ -8,6 +8,7 @@
 #include <assimp/postprocess.h>
 #include "Shader.hpp"
 #include "Mesh.hpp"
+#include "Animation.hpp"
 
 class Model
 {
@@ -19,10 +20,12 @@ private:
   Mesh processMesh(aiMesh* mesh, const aiScene* scene);
   std::vector<Texture_st> loadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
   unsigned int textureFromfile(const char *path, const std::string &directory, bool gamma = false);
+  Animation _animation;
 public:
   Model(std::string path);
   ~Model();
   void draw(Shader shader);
+  Animation& getAnimation(void);
 };
 
 #endif
