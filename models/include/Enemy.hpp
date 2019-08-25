@@ -2,7 +2,6 @@
 #define _Enemy_hpp_
 
 #include "Map.hpp"
-
 #include <SFML/System.hpp>
 
 struct EnemyMoveState
