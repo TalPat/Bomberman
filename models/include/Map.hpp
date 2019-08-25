@@ -1,8 +1,9 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <SFML/System.hpp>
+#include "./ICollider.hpp"
 
+#include <SFML/System.hpp>
 #include <vector>
 
 enum Tile
@@ -14,7 +15,7 @@ enum Tile
 	Flame,
 };
 
-class Map
+class Map : public ICollider
 {
 private:
 	sf::Vector2i _size;
@@ -24,6 +25,7 @@ public:
 	Map();
 	~Map();
 
+    bool collide(const sf::Vector2f &pos, float radius) const;
 	Tile tileAt(sf::Vector2i pos) const;
 	void setTile(sf::Vector2i pos, Tile tile);
 	const sf::Vector2i &size() const;

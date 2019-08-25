@@ -29,60 +29,60 @@ void Bombs::update(float deltaTime, Map &map)
 	for (sBomb &bomb : this->_bombs)
 	{
 		bomb.timeLeft -= deltaTime;
-        // If current bomb is on a flame, detonate the bomb
-        if (map.tileAt(bomb.position) == Tile::Flame)
-        {
-            bomb.timeLeft = -1;
-        }
+		// If current bomb is on a flame, detonate the bomb
+		if (map.tileAt(bomb.position) == Tile::Flame)
+		{
+			bomb.timeLeft = -1;
+		}
 		if (bomb.timeLeft < 0)
 		{
-            this->placeFlame(bomb.position, map);
-            this->bombExplodeDirection(bomb, map, sf::Vector2i(+1, 0));
-            this->bombExplodeDirection(bomb, map, sf::Vector2i(-1, 0));
-            this->bombExplodeDirection(bomb, map, sf::Vector2i(0, -1));
-            this->bombExplodeDirection(bomb, map, sf::Vector2i(0, +1));
+			this->placeFlame(bomb.position, map);
+			this->bombExplodeDirection(bomb, map, sf::Vector2i(+1, 0));
+			this->bombExplodeDirection(bomb, map, sf::Vector2i(-1, 0));
+			this->bombExplodeDirection(bomb, map, sf::Vector2i(0, -1));
+			this->bombExplodeDirection(bomb, map, sf::Vector2i(0, +1));
 		}
 	}
 	this->_bombs.remove_if([](sBomb &bomb) { return bomb.timeLeft < 0; });
 
-    for (sFlame &flame : this->_flames)
-    {
-        flame.timeLeft -= deltaTime;
-        if (flame.timeLeft < 0)
-        {
-            map.setTile(flame.position, Tile::Clear);
-        }
-    }
-    this->_flames.remove_if([](sFlame &flame) { return flame.timeLeft < 0; });
+	for (sFlame &flame : this->_flames)
+	{
+		flame.timeLeft -= deltaTime;
+		if (flame.timeLeft < 0)
+		{
+			map.setTile(flame.position, Tile::Clear);
+		}
+	}
+	this->_flames.remove_if([](sFlame &flame) { return flame.timeLeft < 0; });
 }
 
 void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
 {
-    sf::Vector2i pos = bomb.position;
+	sf::Vector2i pos = bomb.position;
 
-    for (int i = 0; i < BOMB_RANGE + 1; ++i)
-    {
-        Tile tile = map.tileAt(pos + dir * i);
-        if (tile != Tile::Solid)
-        {
-            this->placeFlame(pos + dir * i, map);
-        }
-        if (tile == Tile::Destructible || tile == Tile::Solid)
-        {
-            break;
-        }
-    }
+	for (int i = 0; i < BOMB_RANGE + 1; ++i)
+	{
+		Tile tile = map.tileAt(pos + dir * i);
+		if (tile != Tile::Solid)
+		{
+			this->placeFlame(pos + dir * i, map);
+		}
+		if (tile == Tile::Bomb || tile == Tile::Destructible || tile == Tile::Solid)
+		{
+			return;
+		}
+	}
 }
 
 void Bombs::placeFlame(sf::Vector2i pos, Map &map)
 {
-    if (map.tileAt(pos) != Tile::Solid)
-    {
-        map.setTile(pos, Tile::Flame);
+	if (map.tileAt(pos) != Tile::Solid)
+	{
+		map.setTile(pos, Tile::Flame);
 
-        sFlame newFlame;
-        newFlame.position = pos;
-        newFlame.timeLeft = FLAME_TIME;
-        this->_flames.push_back(newFlame);
-    }
+		sFlame newFlame;
+		newFlame.position = pos;
+		newFlame.timeLeft = FLAME_TIME;
+		this->_flames.push_back(newFlame);
+	}
 }

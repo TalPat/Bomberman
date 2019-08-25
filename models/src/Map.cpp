@@ -2,9 +2,22 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 const sf::Vector2i DEFAULT_SIZE(21, 21);
 const float DESTRUCTABLE_CHANCE = 0.1;
+const float R2D2 = 0.70710678118; // starwars
+
+const sf::Vector2f TEST_NEIGHBOURS[8] = {
+	sf::Vector2f(0, 1),   //NORTH
+	sf::Vector2f(1, 0),   //EAST
+	sf::Vector2f(0, -1),  //SOUTH
+	sf::Vector2f(-1, 0),  //WEST
+	sf::Vector2f(R2D2, R2D2),   //NE
+	sf::Vector2f(-R2D2, R2D2),  //SE
+	sf::Vector2f(R2D2, -R2D2),  //SW
+	sf::Vector2f(-R2D2, -R2D2), //NW
+};
 
 Map::Map()
 	: _size(DEFAULT_SIZE),
@@ -34,6 +47,24 @@ Map::Map()
 
 Map::~Map()
 {
+}
+
+bool Map::collide(const sf::Vector2f &pos, float hw) const
+{
+	typedef sf::Vector2i v2i;
+	typedef sf::Vector2f v2f;
+
+	Tile t1 = this->tileAt(v2i(pos + v2f(-hw, -hw)));
+	Tile t2 = this->tileAt(v2i(pos + v2f(-hw, +hw)));
+	Tile t3 = this->tileAt(v2i(pos + v2f(+hw, -hw)));
+	Tile t4 = this->tileAt(v2i(pos + v2f(+hw, +hw)));
+
+	if ((t1 != Tile::Clear && t1 != Tile::Bomb) ||
+		(t2 != Tile::Clear && t2 != Tile::Bomb) ||
+		(t3 != Tile::Clear && t3 != Tile::Bomb) ||
+		(t4 != Tile::Clear && t4 != Tile::Bomb))
+		return true;
+	return false;
 }
 
 Tile Map::tileAt(sf::Vector2i pos) const

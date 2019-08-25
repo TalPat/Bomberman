@@ -15,10 +15,10 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
 {
-	sf::CircleShape player(SCALE / 2);
+	sf::RectangleShape player(sf::Vector2f(SCALE*0.9, SCALE*0.9));
 
 	sf::Vector2f playerPosition(state.player.position());
-	playerPosition -= sf::Vector2f(0.5, 0.5);
+	playerPosition -= sf::Vector2f(0.45, 0.45);
 	// playerPosition.y *= -1;
 	playerPosition *= SCALE;
 
@@ -46,7 +46,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 	const sf::Vector2i &mapSize = map.size();
 	Tile tile;
 	sf::RectangleShape cell(sf::Vector2f(SCALE, SCALE));
-	sf::CircleShape bomb(SCALE / 2);
+	sf::CircleShape bomb(SCALE * 0.5);
 	cell.setFillColor(sf::Color(250));
 
 	for (int y = 0; y < mapSize.y; y++)
