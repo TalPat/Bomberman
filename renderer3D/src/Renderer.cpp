@@ -71,7 +71,13 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
   glm::mat4 model = glm::mat4(1.0f);
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
+
   model = glm::translate(model, _models[playerModel].initialPos + glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
+ 
+  model = _models[playerModel].model->getAnimation().orientation(model, glm::vec2(playerPosition.x, playerPosition.y)); //simple animation. generate class to manage
+  model = _models[playerModel].model->getAnimation().pulse(model, 10, 3); //simple animation. generate class to manage
+  
+
   model = glm::scale(model, _models[playerModel].initialScale);
   model = glm::rotate(model, glm::radians(_models[playerModel].initialRot.w), glm::vec3(_models[playerModel].initialRot));
   _shader->setMat4("model", model);
@@ -98,20 +104,24 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 				{
 				case Tile::Solid:
           name = unbreakableModel;
+          model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					break;
 				case Tile::Destructible:
 					name = breakableModel;
+          model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					break;
 				case Tile::Bomb:
           name = bombModel;
+          model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+          model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 					break;
 				case Tile::Flame:
           name = flameModel;
+          model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					break;
 				default:
 					break;
 				}
-        model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
         model = glm::scale(model, _models[name].initialScale);
         model = glm::rotate(model, glm::radians(_models[name].initialRot.w), glm::vec3(_models[name].initialRot));
         _shader->setMat4("model", model);
@@ -128,6 +138,10 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	enemyPosition -= sf::Vector2f(0.5, 0.5);
 
   model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+
+  model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
+  model = _models[balloonModel].model->getAnimation().floating(model); //simple animation. generate class to manage
+
   model = glm::scale(model, _models[balloonModel].initialScale);
   model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
   _shader->setMat4("model", model);
