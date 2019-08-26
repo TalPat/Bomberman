@@ -21,9 +21,9 @@ const sf::Vector2i TEST_NEIGHBOURS[8] = {
 };
 
 Enemy::Enemy() : _position(DEFAULT_START),
-				   _enemySpeed(DEFAULT_SPEED),
-				   moveState({1, false, false, false}),
-				   _switchTime(AUTOSWITCH)
+				 _enemySpeed(DEFAULT_SPEED),
+				 _switchTime(AUTOSWITCH),
+				 moveState({1, false, false, false})
 {
 }
 
@@ -89,47 +89,51 @@ bool Enemy::correctEnemyCellCollision(sf::Vector2i cell)
 	return false;
 }
 
-void Enemy::changeMoveState(){
+void Enemy::changeMoveState()
+{
 	int max = 3;
 	int min = 0;
 	int num;
 	num = (rand() % (max + 1 - min)) + min;
-	switch(num){
-		case 0:
-			moveState.north = true;
-			moveState.south = false;
-			moveState.east = false;
-			moveState.west = false;
-			break;
-		case 1:
-			moveState.south = true;
-			moveState.north = false;
-			moveState.east = false;
-			moveState.west = false;
-			break;
-		case 2:
-			moveState.east = true;
-			moveState.west = false;
-			moveState.north = false;
-			moveState.south = false;
-			break;
-		case 3:
-			moveState.west = true;
-			moveState.east = false;
-			moveState.north = false;
-			moveState.south = false;
-			break;
-		default:
-			moveState.north = false;
-			moveState.south = false;
-			moveState.east = false;
-			moveState.west = false;
-			break;
+	switch (num)
+	{
+	case 0:
+		moveState.north = true;
+		moveState.south = false;
+		moveState.east = false;
+		moveState.west = false;
+		break;
+	case 1:
+		moveState.south = true;
+		moveState.north = false;
+		moveState.east = false;
+		moveState.west = false;
+		break;
+	case 2:
+		moveState.east = true;
+		moveState.west = false;
+		moveState.north = false;
+		moveState.south = false;
+		break;
+	case 3:
+		moveState.west = true;
+		moveState.east = false;
+		moveState.north = false;
+		moveState.south = false;
+		break;
+	default:
+		moveState.north = false;
+		moveState.south = false;
+		moveState.east = false;
+		moveState.west = false;
+		break;
 	}
 }
-void Enemy::update(float deltaTime, const Map &map){
+void Enemy::update(float deltaTime, const Map &map)
+{
 	_switchTime -= deltaTime;
-	if(_switchTime <= 0){
+	if (_switchTime <= 0)
+	{
 		changeMoveState();
 		_switchTime = AUTOSWITCH;
 	}
@@ -143,7 +147,7 @@ void Enemy::move(float deltaTime, const Map &map)
 	movement.x -= moveState.west;
 	movement.y -= moveState.north;
 	movement.y += moveState.south;
-	
+
 	this->_position = this->_position + (movement * this->_enemySpeed * deltaTime);
 	sf::Vector2i enemyCell(this->_position);
 
@@ -153,7 +157,8 @@ void Enemy::move(float deltaTime, const Map &map)
 		Tile tile = map.tileAt(cell);
 		if (!(tile == Tile::Clear || tile == Tile::Bomb))
 		{
-			if (correctEnemyCellCollision(cell)){
+			if (correctEnemyCellCollision(cell))
+			{
 				break;
 			}
 		}

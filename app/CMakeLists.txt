@@ -5,7 +5,6 @@ add_library(App STATIC
 )
 
 target_link_libraries(App
-    ${CONAN_LIBS}
     Engine
     Renderer
     Models

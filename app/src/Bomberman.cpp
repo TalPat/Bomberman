@@ -7,6 +7,10 @@
 const int MAP_WIDTH = 11;
 const int MAP_HEIGHT = 11;
 
+static const uint WINDOW_WIDTH = 800;
+static const uint WINDOW_HEIGHT = 800;
+const char *WINDOW_TITLE = "Bomberman";
+
 Bomberman::Bomberman()
 	: window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE),
 	  renderTime(0),
@@ -30,12 +34,11 @@ void Bomberman::updateFunc()
 	if (!this->window.isOpen())
 		this->stop();
 
-	sf::Event event;
 	std::vector<EngineEvent> actions;
 	InputResponse response = this->input.parseKeys(actions, this->window);
 	switch (response)
 	{
-	case InputResponse::quit:	
+	case InputResponse::quit:
 		this->stop();
 		break;
 	case InputResponse::pause:
