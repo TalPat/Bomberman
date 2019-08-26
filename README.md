@@ -5,7 +5,9 @@ https://www.retrogames.cz/play_085-NES.php?emulator=js
 This is currenly a POC branch for using conan.
 
 ### Pre-Install
-This requires the c++ package manager conan. These are the install instructions I found the most convient. If you you like please visit https://conan.io/ for more information.
+This requires the c++ package manager conan and cmake. These are the install instructions I found the most convient. If you you like please visit https://conan.io/ for more information.
+
+Please follow your platform specific instructions for installing cmake
 
 #### Linux
 
@@ -22,18 +24,9 @@ This will add the repo where sfml lives.
 
 ### Install
 
-```cd {BOMBERMAN_ROOT}```
-
-```mkdir build && cd build```
-
-SFML will need to be build for the current system
-```conan install .. --build sfml```
-
-```cmake ..```
-
 ```make```
-
 
 ### Running the Game
 
-```./{BOMBERMAN_ROOT}/build/bin/bomberman```
+In the root of the project
+```make run```
