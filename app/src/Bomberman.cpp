@@ -18,8 +18,7 @@ Bomberman::Bomberman()
   settings.antialiasingLevel = 4;
   settings.attributeFlags = sf::ContextSettings::Core;
 
-	window = new sf::Window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE, sf::Style::Default, settings);
-	//std::cout << window <<std::endl;
+	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE, sf::Style::Default, settings);
 	window->setActive();
 	renderer.init();
 	
@@ -59,7 +58,7 @@ void Bomberman::updateFunc()
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
 		//fps -troubleshooting
-		/**/std::cout << 1/this->frameClock.getElapsedTime().asSeconds() <<std::endl;
+		//**/std::cout << 1/this->frameClock.getElapsedTime().asSeconds() <<std::endl;
 		this->renderer.render(*(this->window), this->gameState);
 		this->frameClock.restart();
 	}

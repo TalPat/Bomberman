@@ -29,7 +29,7 @@ Input::~Input() {}
 // }
 
 // Need to be modified later
-void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Window &window)
+void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window)
 {
 	sf::Event event;
 	EngineEvent eEvent = unknown;
@@ -76,6 +76,8 @@ void Input::parseKeys(std::vector<EngineEvent> &engineEvents, sf::Window &window
 			case sf::Keyboard::Right:
 				eEvent = EngineEvent::stop_right;
 				break;
+			case sf::Keyboard::Space:
+				eEvent = EngineEvent::place_bomb;
 			default:
 				break;
 			}

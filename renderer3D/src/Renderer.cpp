@@ -23,28 +23,40 @@ void Renderer::init() {
   //Load objects into vram
   Model_st modelLoad;
 
-  modelLoad.model = new Model("../../renderer3D/res/models/box/wall.obj");
+  modelLoad.model = new Model("../../renderer3D/res/models/box/wall.obj"); //breakable
   modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
   modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f,0.0f);
   modelLoad.initialScale = glm::vec3(0.5f);
   _models.push_back(modelLoad);
 
-  modelLoad.model = new Model("../../renderer3D/res/models/wall/wall.obj");
+  modelLoad.model = new Model("../../renderer3D/res/models/wall/wall.obj"); //unbreakable
   modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
   modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f,0.0f);
   modelLoad.initialScale = glm::vec3(0.5f);
   _models.push_back(modelLoad);
 
-  // modelLoad.model = new Model("../../renderer3D/res/models/giraffe/10021_Giraffe_v04.obj");
-  // modelLoad.initialPos = glm::vec3(0.0f);
-  // modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-  // modelLoad.initialScale = glm::vec3(0.01f);
-  // _models.push_back(modelLoad);
-
-  modelLoad.model = new Model("../../renderer3D/res/models/cowboy/model.dae");
+  modelLoad.model = new Model("../../renderer3D/res/models/cowboy/model.dae"); //player
   modelLoad.initialPos = glm::vec3(0.0f);
   modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
   modelLoad.initialScale = glm::vec3(0.2f);
+  _models.push_back(modelLoad);
+
+  modelLoad.model = new Model("../../renderer3D/res/models/ubomb/untitled.obj"); //bomb
+  modelLoad.initialPos = glm::vec3(0.0f);
+  modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+  modelLoad.initialScale = glm::vec3(0.1f);
+  _models.push_back(modelLoad);
+
+  modelLoad.model = new Model("../../renderer3D/res/models/giraffe/10021_Giraffe_v04.obj"); //flame
+  modelLoad.initialPos = glm::vec3(0.0f);
+  modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+  modelLoad.initialScale = glm::vec3(0.01f);
+  _models.push_back(modelLoad);
+
+  modelLoad.model = new Model("../../renderer3D/res/models/giraffe/10021_Giraffe_v04.obj"); //balloon
+  modelLoad.initialPos = glm::vec3(0.0f);
+  modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+  modelLoad.initialScale = glm::vec3(0.01f);
   _models.push_back(modelLoad);
 
   //compile shader programs
@@ -54,7 +66,7 @@ void Renderer::init() {
   _camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
 }
 
-void Renderer::player(sf::Window &window, const GameState &state)
+void Renderer::player(sf::RenderWindow &window, const GameState &state)
 {
   glm::mat4 model = glm::mat4(1.0f);
 	sf::Vector2f playerPosition(state.player.position());
@@ -66,7 +78,7 @@ void Renderer::player(sf::Window &window, const GameState &state)
   _models[playerModel].model->draw(*_shader);
 }
 
-void Renderer::map(sf::Window &window, const GameState &state)
+void Renderer::map(sf::RenderWindow &window, const GameState &state)
 {
 	const Map &map = state.map;
 	const sf::Vector2i &mapSize = map.size();
@@ -90,6 +102,12 @@ void Renderer::map(sf::Window &window, const GameState &state)
 				case Tile::Destructible:
 					name = breakableModel;
 					break;
+				case Tile::Bomb:
+          name = bombModel;
+					break;
+				case Tile::Flame:
+          name = flameModel;
+					break;
 				default:
 					break;
 				}
@@ -103,7 +121,20 @@ void Renderer::map(sf::Window &window, const GameState &state)
 	}
 }
 
-void Renderer::render(sf::Window &window, const GameState &state)
+void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
+{
+  glm::mat4 model = glm::mat4(1.0f);
+	sf::Vector2f enemyPosition(state.enemy.position());
+	enemyPosition -= sf::Vector2f(0.5, 0.5);
+
+  model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+  model = glm::scale(model, _models[balloonModel].initialScale);
+  model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
+  _shader->setMat4("model", model);
+  _models[balloonModel].model->draw(*_shader);
+}
+
+void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	sf::Vector2u size = window.getSize();
   glViewport(0, 0, size.x, size.y);
@@ -117,6 +148,7 @@ void Renderer::render(sf::Window &window, const GameState &state)
 
 	map(window, state);
 	player(window, state);
+  enemy(window, state);
 	
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);

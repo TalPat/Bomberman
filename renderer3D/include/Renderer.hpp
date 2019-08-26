@@ -2,6 +2,7 @@
 #define RENDERER_HPP
 
 #include <GL/glew.h>
+#include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 #include <glm/glm.hpp>
@@ -14,7 +15,7 @@
 #include <Camera.hpp>
 
 enum modelNames {
-  breakableModel, unbreakableModel, playerModel, bombModel, balloonModel, robotModel
+  breakableModel, unbreakableModel, playerModel, bombModel, flameModel, balloonModel, robotModel
 };
 
 struct Model_st {
@@ -30,13 +31,14 @@ private:
   std::vector<Model_st> _models;
   Shader* _shader;
   Camera* _camera;
-	void player(sf::Window &window, const GameState &state);
-	void map(sf::Window &window, const GameState &state);
+	void player(sf::RenderWindow &window, const GameState &state);
+	void map(sf::RenderWindow &window, const GameState &state);
+  void enemy(sf::RenderWindow &window, const GameState &state);
 public:
   Renderer(/* args */);
   ~Renderer();
   void init();
-  void render(sf::Window &window, const GameState &state);
+  void render(sf::RenderWindow &window, const GameState &state);
 };
 
 

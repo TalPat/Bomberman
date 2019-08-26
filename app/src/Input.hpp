@@ -4,7 +4,7 @@
 #include <EngineEvent.hpp>
 
 #include <SFML/Window/Event.hpp>
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <vector>
 
@@ -25,7 +25,7 @@ public:
 	Input();
 	~Input();
 
-	void parseKeys(std::vector<EngineEvent> &engineEvents, sf::Window &window);
+	void parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
 	// EngineEvent getInput(Key key);
 
 	Key getUp() const;
