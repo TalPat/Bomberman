@@ -5,9 +5,7 @@ add_library(App STATIC
 )
 
 target_link_libraries(App
-    sfml-graphics
-    sfml-window
-    sfml-system
+    ${CONAN_LIBS}
     Engine
     Renderer
     Models
@@ -20,5 +18,3 @@ add_compile_definitions(SETTINGS_DIR=\"${SETTINGS_DIR}\")
 
 add_executable(bomberman src/main.cpp)
 target_link_libraries(bomberman App)
-
-target_include_directories(App PUBLIC ${cereal_SOURCE_DIR}/include)
