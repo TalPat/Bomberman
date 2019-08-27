@@ -50,15 +50,11 @@ glm::mat4 Animation::orientation(glm::mat4 model, glm::vec2 currentPos) {
     if (abs(deltay) < 0.001) {
       return (glm::rotate(model, _lastOrientation, glm::vec3(0.0f, 1.0f, 0.0f)));
     }
-    // _lastPos = glm::vec2(currentPos);
     if (deltay < 0){
-      // _lastOrientation = glm::radians(0.0f);
       orientation = glm::radians(0.0f);
     } else {
-      // _lastOrientation = glm::radians(180.0f);
       orientation = glm::radians(180.0f);
     }
-    // return (glm::rotate(model, _lastOrientation, glm::vec3(0.0f, 1.0f, 0.0f)));
   } else {
     float gradient = deltay / deltax;
     if (deltay >= 0 && deltax >= 0) {
