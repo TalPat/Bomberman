@@ -168,9 +168,9 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
-  _camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+  _camera->setPosition(glm::vec3(playerPosition.x, 10.0f, playerPosition.y + 5.0f));
   _camera->setYaw(270.0f);
-  _camera->setPitch(-45.0f);
+  _camera->setPitch(-60.0f);
 
   window.display();
 }
