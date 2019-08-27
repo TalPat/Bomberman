@@ -32,6 +32,16 @@ glm::mat4 Animation::disintergrate(glm::mat4 model){ //in progress
   return (model);
 }
 
+glm::mat4 Animation::spin(glm::mat4 model, float speed, glm::vec3 axis) {
+  model = glm::rotate(model, _clock.getElapsedTime().asSeconds() * speed, axis);
+  return (model);
+}
+
+glm::mat4 Animation::waddle(glm::mat4 model) {
+  model = glm::rotate(model, (float)(sin(20 * _clock.getElapsedTime().asSeconds()) * 0.1), glm::vec3(0.0f, 0.0f, 1.0f));
+  return (model);
+}
+
 glm::mat4 Animation::orientation(glm::mat4 model, glm::vec2 currentPos) {
   float deltax = _lastPos.x - currentPos.x;
   float deltay = _lastPos.y -  currentPos.y;

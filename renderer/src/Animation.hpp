@@ -27,8 +27,9 @@ public:
   void restartTimer(void);
   glm::mat4 pulse(glm::mat4 model, float range, float frequency);
   glm::mat4 disintergrate(glm::mat4 model);
-  glm::mat4 spin(glm::mat4 model);
+  glm::mat4 spin(glm::mat4 model, float speed, glm::vec3 axis);
   glm::mat4 floating(glm::mat4 model);
+  glm::mat4 waddle(glm::mat4 model);
 
   glm::mat4 orientation(glm::mat4 model, glm::vec2 currentPos);
 

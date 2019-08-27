@@ -114,6 +114,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
           name = bombModel;
           model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
           model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
+          // model = _models[bombModel].model->getAnimation().spin(model, 3, glm::vec3(0.0f, 1.0f, 0.0f)); //simple animation. generate class to manage
 					break;
 				case Tile::Flame:
           name = flameModel;
@@ -140,7 +141,8 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
   model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 
   model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
-  model = _models[balloonModel].model->getAnimation().floating(model); //simple animation. generate class to manage
+  //model = _models[balloonModel].model->getAnimation().floating(model); //simple animation. generate class to manage
+  model = _models[balloonModel].model->getAnimation().waddle(model);
 
   model = glm::scale(model, _models[balloonModel].initialScale);
   model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
