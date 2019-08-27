@@ -28,8 +28,8 @@ glm::mat4 Animation::pulse(glm::mat4 model, float range, float frequency){
   return (model);
 }
 
-glm::mat4 Animation::disintergrate(glm::mat4 model){
-
+glm::mat4 Animation::disintergrate(glm::mat4 model){ //in progress
+  return (model);
 }
 
 glm::mat4 Animation::orientation(glm::mat4 model, glm::vec2 currentPos) {

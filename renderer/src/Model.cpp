@@ -4,7 +4,6 @@
 
 Model::Model(std::string path) {
   Assimp::Importer import;
-  std::cout << path << std::endl;
   const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -13,9 +12,6 @@ Model::Model(std::string path) {
   }
   _directory = path.substr(0, path.find_last_of('/'));
   processNode(scene->mRootNode, scene);
-  //std::cout << scene->mNumMeshes << std::endl;
-
-  // std::cout << _directory << std::endl;
 }
 
 Model::~Model() {
@@ -26,11 +22,9 @@ void Model::draw(Shader shader) {
   for (unsigned int i = 0; i < _meshes.size(); i++) {
     _meshes[i].draw(shader);
   }
-  // std::cout << "drawing a model" << std::endl;
 }
 
 void Model::processNode(aiNode* node, const aiScene* scene) {
-  /**/std::cout << node->mName.C_Str() <<  "---------------------" << std::endl;
   for (unsigned int i = 0; i < node->mNumMeshes; i++) {
     aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
     _meshes.push_back(processMesh(mesh, scene));
@@ -106,17 +100,15 @@ std::vector<Texture_st> Model::loadMaterialTextures(aiMaterial* material, aiText
       texture.id = textureFromfile(str.C_Str(), _directory);
       texture.type = typeName;
       texture.path = str.C_Str();
-      //std::cout << "path: " << texture.path <<std::endl;
       textures.push_back(texture);
       textures_loaded.push_back(texture);
-    }//else std::cout << "skipped" << std::endl;
+    }
   }
   return (textures);
 }
 
 unsigned int Model::textureFromfile(const char *path, const std::string &directory, bool gamma) {
   std::string fileName = path;
-  //std::cout << "filename: " << fileName <<std::endl;
   fileName = directory + "/" + fileName;
   
   unsigned int textureID;

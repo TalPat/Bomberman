@@ -5,15 +5,12 @@ Mesh::Mesh(std::vector<Vertex_st> vertices, std::vector<unsigned int> indices, s
   _indices(indices),
   _textures(textures)
 {
-  /**/for(int i = 0; i < _textures.size();i++) std::cout << _textures[i].id << "  " <<  _textures[i].path << "  "  <<  _textures[i].type << std::endl;
   glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &VBO);
   glGenBuffers(1, &EBO);
 
   glBindVertexArray(VAO);
   glBindBuffer(GL_ARRAY_BUFFER ,VBO);
-
-  //for (int i =0; i < vertices.size();i++) std::cout << vertices[i].position.x << "  " << vertices[i].position.y << "  "  << vertices[i].position.z << std::endl;
 
   glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex_st), &vertices[0], GL_STATIC_DRAW);
 

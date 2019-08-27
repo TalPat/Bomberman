@@ -13,9 +13,7 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
   try
   {
     //open files:
-    std::cout << vertexPath << std::endl;
     vShaderFile.open(vertexPath);
-    std::cout << fragmentPath << std::endl;
     fShaderFile.open(fragmentPath);
     std::stringstream vShaderStream, fShaderStream;
     //read buffer content into streams
