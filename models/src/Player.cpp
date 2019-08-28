@@ -4,7 +4,7 @@
 #include <cmath>
 
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
-const float DEFAULT_SPEED = 3;
+const float DEFAULT_SPEED = 5;
 
 Player::Player() : _position(DEFAULT_START),
 				   _playerSpeed(DEFAULT_SPEED),
@@ -18,49 +18,24 @@ Player::~Player()
 
 void Player::move(float deltaTime, const Map &map)
 {
-	MoveState &moveState = this->moveState;
+	MoveState &move = this->moveState;
 
-	sf::Vector2f movement(0, 0);
-	movement.x += moveState.east;
-	movement.x -= moveState.west;
-	movement.y -= moveState.north;
-	movement.y += moveState.south;
+	// Determine movement vectors
+	sf::Vector2f dx(0 + move.east - move.west, 0);
+	sf::Vector2f dy(0, 0 + move.south - move.north);
 
-	movement *= this->_playerSpeed * deltaTime;
+	// Scale movement vectors
+	dx *= this->_playerSpeed * deltaTime;
+	dy *= this->_playerSpeed * deltaTime;
 
-	if (movement.x != 0 && movement.y != 0)
-	{
-		for (float i = 1.0; i > 0.04; i *= 0.5)
-		{
-			sf::Vector2f newPos = this->_position + (i * movement);
-			if (!map.collide(newPos, 0.45)) {
-				this->_position = newPos;
-				return;
-			}
-		}
-	}
-	if (movement.x != 0)
-	{
-		for (float i = 1.0; i > 0.04; i *= 0.5)
-		{
-			sf::Vector2f newPosX = this->_position + (i * sf::Vector2f(movement.x, 0));
-			if (!map.collide(newPosX, 0.45)) {
-				this->_position = newPosX;
-				return;
-			}
-		}
-	}
-	if (movement.y != 0)
-	{
-		for (float i = 1.0; i > 0.04; i *= 0.5)
-		{
-			sf::Vector2f newPosY = this->_position + (i * sf::Vector2f(0, movement.y));
-			if (!map.collide(newPosY, 0.45)) {
-				this->_position = newPosY;
-				return;
-			}
-		}
-	}
+	// Move player as far as possible without colliding
+	sf::Vector2f &pos = this->_position;
+	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, 0.40))
+		return;
+	if (dx.x != 0 && map.lerpCollide(pos, dx, 0.40))
+		return;
+	if (dy.y != 0 && map.lerpCollide(pos, dy, 0.40))
+		return;
 }
 
 const sf::Vector2f &Player::position() const

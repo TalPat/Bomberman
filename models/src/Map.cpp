@@ -67,6 +67,19 @@ bool Map::collide(const sf::Vector2f &pos, float hw) const
 	return false;
 }
 
+bool Map::lerpCollide(sf::Vector2f &pos, sf::Vector2f mv, float hw) const
+{
+	for (float i = 1.0; i > 0.1; i *= 0.75)
+	{
+		sf::Vector2f newPos = pos + (i * mv);
+		if (!this->collide(newPos, hw)) {
+			pos = newPos;
+			return true;
+		}
+	}
+	return false;
+}
+
 Tile Map::tileAt(sf::Vector2i pos) const
 {
 	return this->_tiles[pos.y * this->_size.x + pos.x];
