@@ -10,30 +10,30 @@
 
 struct Vertex_st
 {
-  glm::vec3 position;
-  glm::vec3 normal;
-  glm::vec2 texcoords;
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texcoords;
 };
 
 struct Texture_st
 {
-  unsigned int id;
-  std::string type;
-  std::string path;
+	unsigned int id;
+	std::string type;
+	std::string path;
 };
 
 class Mesh
 {
 private:
-  std::vector<Vertex_st> _vertices;
-  std::vector<unsigned int> _indices;
-  std::vector<Texture_st> _textures;
-  unsigned int VAO, VBO, EBO;
+	std::vector<Vertex_st> _vertices;
+	std::vector<unsigned int> _indices;
+	std::vector<Texture_st> _textures;
+	unsigned int VAO, VBO, EBO;
 
 public:
-  Mesh(std::vector<Vertex_st> vertices, std::vector<unsigned int> indices, std::vector<Texture_st> textures);
-  ~Mesh();
-  void draw(Shader shader);
+	Mesh(std::vector<Vertex_st> vertices, std::vector<unsigned int> indices, std::vector<Texture_st> textures);
+	~Mesh();
+	void draw(Shader shader);
 };
 
 #endif
