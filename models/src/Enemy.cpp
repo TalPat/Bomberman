@@ -45,11 +45,26 @@ void Enemy::move(float deltaTime, const Map &map)
 	// if collided, turn around
 	if (!map.lerpCollide(pos, movement, 0.49))
 	{
-		//std::cout << "collided!\n";
-		if (moveState.north) {this->moveState.north = false; this->moveState.south = true;}
-		else if (moveState.south) {this->moveState.south = false; this->moveState.north = true;}
-		else if (moveState.east) {this->moveState.east = false; this->moveState.west = true;}
-		else if (moveState.west) {this->moveState.west = false; this->moveState.east = true;}
+		if (moveState.north)
+		{
+			this->moveState.north = false;
+			this->moveState.south = true;
+		}
+		else if (moveState.south)
+		{
+			this->moveState.south = false;
+			this->moveState.north = true;
+		}
+		else if (moveState.east)
+		{
+			this->moveState.east = false;
+			this->moveState.west = true;
+		}
+		else if (moveState.west)
+		{
+			this->moveState.west = false;
+			this->moveState.east = true;
+		}
 	}
 
 	// TODO: will merge later with gabie
