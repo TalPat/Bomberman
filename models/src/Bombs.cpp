@@ -19,7 +19,6 @@ void Bombs::placeBomb(const Player &player, Map &map)
 		sBomb newBomb;
 		newBomb.position = playerCell;
 		newBomb.timeLeft = FUSE_TIME;
-
 		this->_bombs.push_back(newBomb);
 	}
 }
@@ -44,7 +43,6 @@ void Bombs::update(float deltaTime, Map &map)
 		}
 	}
 	this->_bombs.remove_if([](sBomb &bomb) { return bomb.timeLeft < 0; });
-
     for (sFlame &flame : this->_flames)
     {
         flame.timeLeft -= deltaTime;
@@ -59,7 +57,6 @@ void Bombs::update(float deltaTime, Map &map)
 void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
 {
     sf::Vector2i pos = bomb.position;
-
     for (int i = 0; i < BOMB_RANGE + 1; ++i)
     {
         Tile tile = map.tileAt(pos + dir * i);

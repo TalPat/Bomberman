@@ -1,9 +1,5 @@
 
 #include "../include/Engine.hpp"
-#include "../include/Enemies.hpp"
-#include <iostream>
-#include <vector>
-#include <list>
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
 {
@@ -48,4 +44,6 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 	gameState.player.move(deltaTime, gameState.map);
 	gameState.enemies.updateAll(deltaTime, gameState.map);
 	gameState.bombs.update(deltaTime, gameState.map);
+	// kills enemies on same cell as player
+	// gameState.enemies.kill(sf::Vector2i(gameState.player.position()));
 }

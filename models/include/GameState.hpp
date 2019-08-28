@@ -1,7 +1,7 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
-#include "./EngineEvent.hpp"
+#include "EngineEvent.hpp"
 #include "Player.hpp"
 #include "Enemies.hpp"
 #include "Ballom.hpp"

@@ -3,7 +3,9 @@
 
 #include "Map.hpp"
 #include "EnemyType.hpp"
+
 #include <SFML/System.hpp>
+#include <cmath>
 
 enum EnemyMoveState
 {
@@ -22,10 +24,13 @@ const sf::Vector2i TEST_NEIGHBOURS[8] = {
 	sf::Vector2i(1, -1),  //SW
 	sf::Vector2i(-1, -1), //NW
 };
-struct sRange{
+
+struct sRange
+{
 	int min;
 	int max;
 };
+
 class IEnemy
 {
  

@@ -1,7 +1,5 @@
 #include "../include/IEnemy.hpp"
 
-#include <iostream>
-#include <cmath>
 
 const float AUTOSWITCH = 8;
 const sf::Vector2f DEFAULT_START(11.5, 11.5);
@@ -22,6 +20,7 @@ IEnemy::IEnemy() :
 					_wallPass(false)
 {
 }
+
 IEnemy::IEnemy(sf::Vector2f start):
 					_position(start),
 					_enemySpeed(DEFAULT_SPEED),
@@ -95,19 +94,23 @@ bool IEnemy::correctEnemyCellCollision(sf::Vector2i cell)
 	return false;
 }
 
-void IEnemy::changeMoveState(){
+void IEnemy::changeMoveState()
+{
 	this->moveState = (EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
 }
 
-void IEnemy::update(float deltaTime, const Map &map){
+void IEnemy::update(float deltaTime, const Map &map)
+{
 	_switchTime -= deltaTime;
-	if(_switchTime <= 0){
+	if(_switchTime <= 0)
+	{
 		changeMoveState();
 		_switchTime = (rand() % (int)AUTOSWITCH)+1;
 	}
 	move(deltaTime, map);
 }
-void IEnemy::changeAggression(){
+void IEnemy::changeAggression()
+{
 	return;
 };
 void IEnemy::move(float deltaTime, const Map &map)
