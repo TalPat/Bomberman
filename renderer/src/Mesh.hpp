@@ -8,13 +8,15 @@
 
 #include "Shader.hpp"
 
-struct Vertex_st {
+struct Vertex_st
+{
   glm::vec3 position;
   glm::vec3 normal;
   glm::vec2 texcoords;
 };
 
-struct Texture_st {
+struct Texture_st
+{
   unsigned int id;
   std::string type;
   std::string path;
@@ -27,6 +29,7 @@ private:
   std::vector<unsigned int> _indices;
   std::vector<Texture_st> _textures;
   unsigned int VAO, VBO, EBO;
+
 public:
   Mesh(std::vector<Vertex_st> vertices, std::vector<unsigned int> indices, std::vector<Texture_st> textures);
   ~Mesh();

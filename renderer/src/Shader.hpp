@@ -18,12 +18,11 @@ public:
   //Program ID
   unsigned int ID;
 
-  Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+  Shader(const GLchar *vertexPath, const GLchar *fragmentPath);
   ~Shader();
 
   //use or activate shader
   void use();
-
 
   //utility uniform functions
   void setBool(const std::string &name, bool value) const;

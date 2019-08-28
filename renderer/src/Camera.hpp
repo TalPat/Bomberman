@@ -10,6 +10,7 @@ private:
   glm::vec3 _position, _up, _right, _front, _worldUp;
   float _yaw, _pitch, _zoom;
   void updateCameraVectors(void);
+
 public:
   Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch);
   ~Camera();
