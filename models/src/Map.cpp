@@ -6,18 +6,6 @@
 
 const sf::Vector2i DEFAULT_SIZE(21, 21);
 const float DESTRUCTABLE_CHANCE = 0.1;
-const float R2D2 = 0.70710678118; // starwars
-
-const sf::Vector2f TEST_NEIGHBOURS[8] = {
-	sf::Vector2f(0, 1),   //NORTH
-	sf::Vector2f(1, 0),   //EAST
-	sf::Vector2f(0, -1),  //SOUTH
-	sf::Vector2f(-1, 0),  //WEST
-	sf::Vector2f(R2D2, R2D2),   //NE
-	sf::Vector2f(-R2D2, R2D2),  //SE
-	sf::Vector2f(R2D2, -R2D2),  //SW
-	sf::Vector2f(-R2D2, -R2D2), //NW
-};
 
 Map::Map()
 	: _size(DEFAULT_SIZE),
