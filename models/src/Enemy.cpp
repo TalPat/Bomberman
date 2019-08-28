@@ -40,21 +40,10 @@ void Enemy::move(float deltaTime, const Map &map)
 	
 	movement *= this->_enemySpeed * deltaTime;
 
-	auto lerpMovement = [&](sf::Vector2f mv)
-	{
-		for (float i = 1.0; i > 0.1; i *= 0.75)
-		{
-			sf::Vector2f newPos = this->_position + (i * mv);
-			if (!map.collide(newPos, 0.49)) {
-				this->_position = newPos;
-				return true;
-			}
-		}
-		return false;
-	};
+	sf::Vector2f &pos = this->_position;
 
 	// if collided, turn around
-	if (!lerpMovement(movement))
+	if (!map.lerpCollide(pos, movement, 0.49))
 	{
 		//std::cout << "collided!\n";
 		if (moveState.north) {this->moveState.north = false; this->moveState.south = true;}
@@ -63,41 +52,41 @@ void Enemy::move(float deltaTime, const Map &map)
 		else if (moveState.west) {this->moveState.west = false; this->moveState.east = true;}
 	}
 
+	// TODO: will merge later with gabie
 	if(_switchTime < 0){
-	sf::Vector2i cell(this->_position.x, this->_position.y);
-	float xp = this->_position.x;
-	float yp = this->_position.y;
-	if (xp >= cell.x+0.49 && xp <= cell.x+0.51 &&
-		yp >= cell.y+0.49 && yp <= cell.y+0.51)
-	{
-		if (moveState.north || moveState.south)
+		sf::Vector2i cell(this->_position.x, this->_position.y);
+		float xp = this->_position.x;
+		float yp = this->_position.y;
+		if (xp >= cell.x+0.49 && xp <= cell.x+0.51 &&
+			yp >= cell.y+0.49 && yp <= cell.y+0.51)
 		{
-			if (rand() % 2 && map.tileAt(sf::Vector2i(cell.x + 1, cell.y)) == Tile::Clear)
+			if (moveState.north || moveState.south)
 			{
-				this->moveState = {false, true, false, false};
-				_switchTime = AUTOSWITCH;
+				if (rand() % 2 && map.tileAt(sf::Vector2i(cell.x + 1, cell.y)) == Tile::Clear)
+				{
+					this->moveState = {false, true, false, false};
+					_switchTime = AUTOSWITCH;
+				}
+				else if (map.tileAt(sf::Vector2i(cell.x - 1, cell.y)) == Tile::Clear)
+				{
+					this->moveState = {false, false, false, true};
+					_switchTime = AUTOSWITCH;
+				} 
 			}
-			else if (map.tileAt(sf::Vector2i(cell.x - 1, cell.y)) == Tile::Clear)
+			if (moveState.east || moveState.west)
 			{
-				this->moveState = {false, false, false, true};
-				_switchTime = AUTOSWITCH;
-			} 
-		}
-		if (moveState.east || moveState.west)
-		{
-			if (rand() % 2 && map.tileAt(sf::Vector2i(cell.x, cell.y + 1)) == Tile::Clear)
-			{
-				this->moveState = {false, false, true, false};
-				_switchTime = AUTOSWITCH;
+				if (rand() % 2 && map.tileAt(sf::Vector2i(cell.x, cell.y + 1)) == Tile::Clear)
+				{
+					this->moveState = {false, false, true, false};
+					_switchTime = AUTOSWITCH;
+				}
+				else if (map.tileAt(sf::Vector2i(cell.x, cell.y - 1)) == Tile::Clear)
+				{
+					this->moveState = {true, false, false, false};
+					_switchTime = AUTOSWITCH;
+				} 
 			}
-			else if (map.tileAt(sf::Vector2i(cell.x, cell.y - 1)) == Tile::Clear)
-			{
-				this->moveState = {true, false, false, false};
-				_switchTime = AUTOSWITCH;
-			} 
 		}
-		std::cout << "test\n";
-	}
 	}
 }
 
