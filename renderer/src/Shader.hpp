@@ -13,22 +13,22 @@
 class Shader
 {
 private:
-  /* data */
+	/* data */
 public:
-  //Program ID
-  unsigned int ID;
+	//Program ID
+	unsigned int ID;
 
-  Shader(const GLchar *vertexPath, const GLchar *fragmentPath);
-  ~Shader();
+	Shader(const GLchar *vertexPath, const GLchar *fragmentPath);
+	~Shader();
 
-  //use or activate shader
-  void use();
+	//use or activate shader
+	void use();
 
-  //utility uniform functions
-  void setBool(const std::string &name, bool value) const;
-  void setInt(const std::string &name, int value) const;
-  void setFloat(const std::string &name, float value) const;
-  void setMat4(const std::string &name, glm::mat4 value) const;
+	//utility uniform functions
+	void setBool(const std::string &name, bool value) const;
+	void setInt(const std::string &name, int value) const;
+	void setFloat(const std::string &name, float value) const;
+	void setMat4(const std::string &name, glm::mat4 value) const;
 };
 
 #endif

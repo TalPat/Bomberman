@@ -16,38 +16,38 @@
 
 enum modelNames
 {
-  breakableModel,
-  unbreakableModel,
-  playerModel,
-  bombModel,
-  flameModel,
-  balloonModel,
-  robotModel
+	breakableModel,
+	unbreakableModel,
+	playerModel,
+	bombModel,
+	flameModel,
+	balloonModel,
+	robotModel
 };
 
 struct Model_st
 {
-  Model *model;
-  glm::vec3 initialPos;
-  glm::vec4 initialRot;
-  glm::vec3 initialScale;
+	Model *model;
+	glm::vec3 initialPos;
+	glm::vec4 initialRot;
+	glm::vec3 initialScale;
 };
 
 class Renderer
 {
 private:
-  std::vector<Model_st> _models;
-  Shader *_shader;
-  Camera *_camera;
-  void player(sf::RenderWindow &window, const GameState &state);
-  void map(sf::RenderWindow &window, const GameState &state);
-  void enemy(sf::RenderWindow &window, const GameState &state);
+	std::vector<Model_st> _models;
+	Shader *_shader;
+	Camera *_camera;
+	void player(sf::RenderWindow &window, const GameState &state);
+	void map(sf::RenderWindow &window, const GameState &state);
+	void enemy(sf::RenderWindow &window, const GameState &state);
 
 public:
-  Renderer(/* args */);
-  ~Renderer();
-  void init();
-  void render(sf::RenderWindow &window, const GameState &state);
+	Renderer(/* args */);
+	~Renderer();
+	void init();
+	void render(sf::RenderWindow &window, const GameState &state);
 };
 
 #endif
