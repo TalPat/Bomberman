@@ -8,20 +8,20 @@ const int MAP_WIDTH = 11;
 const int MAP_HEIGHT = 11;
 
 Bomberman::Bomberman()
-	: renderTime(0),
-	  engineTime(0)
+		: renderTime(0),
+			engineTime(0)
 {
 	sf::ContextSettings settings;
-  settings.depthBits = 32;
-  settings.majorVersion = 3;
-  settings.minorVersion = 3;
-  settings.antialiasingLevel = 4;
-  settings.attributeFlags = sf::ContextSettings::Core;
+	settings.depthBits = 32;
+	settings.majorVersion = 3;
+	settings.minorVersion = 3;
+	settings.antialiasingLevel = 4;
+	settings.attributeFlags = sf::ContextSettings::Core;
 
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE, sf::Style::Default, settings);
 	window->setActive();
 	renderer.init();
-	
+
 	this->deltaClock.restart();
 	this->frameClock.restart();
 }

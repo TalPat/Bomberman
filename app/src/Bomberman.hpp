@@ -20,7 +20,7 @@ static const char *WINDOW_TITLE = "Bomberman";
 class Bomberman : private AMainLoop
 {
 private:
-	sf::RenderWindow* window;
+	sf::RenderWindow *window;
 	Engine engine;
 	Renderer renderer;
 	Input input;

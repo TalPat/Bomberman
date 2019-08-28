@@ -14,13 +14,14 @@ private:
   glm::vec2 _lastPos;
   float _lastOrientation;
 
-  float x,y;
+  float x, y;
+
 public:
   Animation(/* args */);
   ~Animation();
 
   Animation(const Animation &obj);
-  void operator = (const Animation &obj);
+  void operator=(const Animation &obj);
 
   glm::vec2 getLastPos(void);
 
@@ -32,7 +33,6 @@ public:
   glm::mat4 waddle(glm::mat4 model);
 
   glm::mat4 orientation(glm::mat4 model, glm::vec2 currentPos);
-
 };
 
 #endif
