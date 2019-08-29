@@ -2,6 +2,7 @@
 
 const float FUSE_TIME = 2;
 const float FLAME_TIME = 0.3;
+const float BOMB_RANGE = 3; // TODO: change based on player powerups
 
 Bombs::Bombs()
 	: _bombs()
@@ -23,7 +24,6 @@ void Bombs::placeBomb(const Player &player, Map &map)
 	}
 }
 
-const float BOMB_RANGE = 3; // TODO: change based on player powerups
 void Bombs::update(float deltaTime, Map &map)
 {
 	for (sBomb &bomb : this->_bombs)

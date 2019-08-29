@@ -3,6 +3,7 @@
 
 #include "./EngineEvent.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include "Map.hpp"
 #include "Bombs.hpp"
 
@@ -14,6 +15,8 @@ class GameState
 {
 public:
 	Player player;
+
+	Enemy enemy;
 	Map map;
 	Bombs bombs;
 };
