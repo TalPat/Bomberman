@@ -13,6 +13,7 @@
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
 #include "../src/Camera.hpp"
+#include "../src/Particle.hpp"
 
 enum modelNames
 {
@@ -48,6 +49,7 @@ public:
 	~Renderer();
 	void init();
 	void render(sf::RenderWindow &window, const GameState &state);
+	void render2();
 };
 
 #endif

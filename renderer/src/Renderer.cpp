@@ -68,6 +68,9 @@ void Renderer::init()
 
 	//build camera
 	_camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
+	
+	//particles
+	Particle();
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
@@ -151,6 +154,18 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	_models[balloonModel].model->draw(*_shader);
 }
 
+void Renderer::render2()
+{
+    // glClearColor(0.2f, 0.25f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // if you had to unbind vao for whatever reason, bind it again now
+    // glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, 100 * 6);
+
+    // glfwSwapBuffers(window);
+}
+
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	sf::Vector2u size = window.getSize();
@@ -166,6 +181,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
+	render2();
 
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
