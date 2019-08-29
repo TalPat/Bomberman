@@ -12,6 +12,7 @@
 #include <GameState.hpp>
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
+#include "../src/Square.hpp"
 #include "../src/Camera.hpp"
 
 enum modelNames
@@ -37,6 +38,9 @@ class Renderer
 {
 private:
 	std::vector<Model_st> _models;
+
+	/*square test*/Square *square;
+
 	Shader *_shader;
 	Camera *_camera;
 	void player(sf::RenderWindow &window, const GameState &state);

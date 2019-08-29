@@ -63,6 +63,8 @@ void Renderer::init()
 	modelLoad.initialScale = glm::vec3(0.01f);
 	_models.push_back(modelLoad);
 
+	square = new Square("../../renderer/res/sprites/tile1.png");
+
 	//compile shader programs
 	_shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
 
@@ -164,6 +166,20 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	glm::mat4 view = _camera->getViewMatrix();
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
+
+	/*drawing tiles with square object test only*/
+	for (size_t i = 0; i < 20; i++)
+	{
+		for (size_t j = 0; j < 20; j++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(i, 0.0f, j));
+			_shader->setMat4("model", model);
+			square->draw(*_shader);
+		}
+		
+	}
+	/*endoftest*/
 
 	map(window, state);
 	player(window, state);
