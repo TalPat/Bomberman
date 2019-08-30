@@ -6,6 +6,10 @@
 const float FUSE_TIME = 2;
 const float FLAME_TIME = 0.3;
 const float BOMB_RANGE = 3; // TODO: change based on player powerups
+const sf::Vector2i EAST(+1, 0);
+const sf::Vector2i WEST(-1, 0);
+const sf::Vector2i NORTH(0, -1);
+const sf::Vector2i SOUTH(0, +1);
 
 Bombs::Bombs()
 	: _bombs()
@@ -55,17 +59,17 @@ void Bombs::update(float deltaTime, Map &map)
 	{
 		bomb.timeLeft -= deltaTime;
 		// If current bomb is on a flame, detonate the bomb
-		if (map.tileAt(bomb.position) == Tile::Flame)
-		{
-			bomb.timeLeft = -1;
-		}
 		if (bomb.timeLeft < 0)
 		{
 			this->placeFlame(bomb.position, map);
-			this->bombExplodeDirection(bomb, map, sf::Vector2i(+1, 0));
-			this->bombExplodeDirection(bomb, map, sf::Vector2i(-1, 0));
-			this->bombExplodeDirection(bomb, map, sf::Vector2i(0, -1));
-			this->bombExplodeDirection(bomb, map, sf::Vector2i(0, +1));
+			this->bombExplodeDirection(map, bomb.position, EAST);
+			this->bombExplodeDirection(map, bomb.position, WEST);
+			this->bombExplodeDirection(map, bomb.position, NORTH);
+			this->bombExplodeDirection(map, bomb.position, SOUTH);
+		}
+		if (map.tileAt(bomb.position) == Tile::Flame)
+		{
+			bomb.timeLeft = -1;
 		}
 	}
 	this->_bombs.remove_if([](sBomb &bomb) { return bomb.timeLeft < 0; });
@@ -81,10 +85,8 @@ void Bombs::update(float deltaTime, Map &map)
 	this->_flames.remove_if([](sFlame &flame) { return flame.timeLeft < 0; });
 }
 
-void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
+void Bombs::bombExplodeDirection(Map &map, sf::Vector2i pos, sf::Vector2i dir)
 {
-	sf::Vector2i pos = bomb.position;
-
 	for (int i = 0; i < BOMB_RANGE + 1; ++i)
 	{
 		Tile tile = map.tileAt(pos + dir * i);
@@ -92,7 +94,18 @@ void Bombs::bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir)
 		{
 			this->placeFlame(pos + dir * i, map);
 		}
-		if (tile == Tile::Bomb || tile == Tile::Destructible || tile == Tile::Solid)
+		if (tile == Tile::Bomb)
+		{
+			auto vecEqual = [](sf::Vector2i a, sf::Vector2i b) {
+            	return ((a.x == b.x) && (a.y == b.y));
+        	};
+			if (!vecEqual(-dir, EAST)) this->bombExplodeDirection(map, pos + dir * i, EAST);
+			if (!vecEqual(-dir, WEST)) this->bombExplodeDirection(map, pos + dir * i, WEST);
+			if (!vecEqual(-dir, NORTH)) this->bombExplodeDirection(map, pos + dir * i, NORTH);
+			if (!vecEqual(-dir, SOUTH)) this->bombExplodeDirection(map, pos + dir * i, SOUTH);
+			return;
+		}
+		if (tile == Tile::Destructible || tile == Tile::Solid)
 		{
 			return;
 		}
