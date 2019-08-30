@@ -159,7 +159,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
-	glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
+	glClearColor(0.3f, 0.3f, 5.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	_shader->use();
 	glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
