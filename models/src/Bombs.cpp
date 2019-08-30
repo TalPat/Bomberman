@@ -1,5 +1,8 @@
 #include "../include/Bombs.hpp"
 
+#include <iostream>
+#include <cmath>
+
 const float FUSE_TIME = 2;
 const float FLAME_TIME = 0.3;
 const float BOMB_RANGE = 3; // TODO: change based on player powerups
@@ -15,13 +18,35 @@ void Bombs::placeBomb(const Player &player, Map &map)
 
 	if (map.tileAt(playerCell) == Tile::Clear)
 	{
-		map.setTile(playerCell, Tile::Bomb);
+		map.setTile(playerCell, Tile::BombClear);
 		sBomb newBomb;
 		newBomb.position = playerCell;
 		newBomb.timeLeft = FUSE_TIME;
 
 		this->_bombs.push_back(newBomb);
 	}
+}
+
+void Bombs::updateMap(Player &player, Map &map)
+{
+	typedef sf::Vector2i v2i;
+	typedef sf::Vector2f v2f;
+
+	v2f pos(player.position());
+
+	for (sBomb &bomb : this->_bombs)
+	{
+		if (map.tileAt(bomb.position) == Tile::BombClear)
+		{
+			float dx = bomb.position.x + 0.5 - player.position().x;
+			float dy = bomb.position.y + 0.5 - player.position().y;
+			float dist = sqrt((dx*dx) + (dy*dy));
+			if (dist > 1.0)
+			{
+				map.setTile(bomb.position, Tile::Bomb);
+			}
+		}
+	}	
 }
 
 void Bombs::update(float deltaTime, Map &map)

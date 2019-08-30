@@ -42,8 +42,11 @@ void Enemy::move(float deltaTime, const Map &map)
 
 	sf::Vector2f &pos = this->_position;
 
+	auto comp = [](Tile tile) {
+		return tile != Tile::Clear;
+	};
 	// if collided, turn around
-	if (!map.lerpCollide(pos, movement, 0.49))
+	if (!map.lerpCollide(pos, movement, 0.49, comp))
 	{
 		if (moveState.north)
 		{

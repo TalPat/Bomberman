@@ -44,6 +44,7 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		}
 	}
 
+	gameState.bombs.updateMap(gameState.player, gameState.map);
 	gameState.player.move(deltaTime, gameState.map);
 	gameState.enemy.update(deltaTime, gameState.map);
 	gameState.bombs.update(deltaTime, gameState.map);

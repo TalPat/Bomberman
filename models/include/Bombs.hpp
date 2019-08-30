@@ -30,6 +30,7 @@ public:
     void placeFlame(sf::Vector2i pos, Map &map);
     void bombExplodeDirection(sBomb &bomb, Map &map, sf::Vector2i dir);
 	void update(float deltaTime, Map &map);
+    void updateMap(Player &player, Map &map);
 };
 
 #endif

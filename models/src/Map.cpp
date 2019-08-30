@@ -37,7 +37,7 @@ Map::~Map()
 {
 }
 
-bool Map::collide(const sf::Vector2f &pos, float hw) const
+bool Map::collide(const sf::Vector2f &pos, float hw, bool (*comp)(Tile)) const
 {
 	typedef sf::Vector2i v2i;
 	typedef sf::Vector2f v2f;
@@ -47,20 +47,17 @@ bool Map::collide(const sf::Vector2f &pos, float hw) const
 	Tile t3 = this->tileAt(v2i(pos + v2f(+hw, -hw)));
 	Tile t4 = this->tileAt(v2i(pos + v2f(+hw, +hw)));
 
-	if ((t1 != Tile::Clear && t1 != Tile::Bomb) ||
-		(t2 != Tile::Clear && t2 != Tile::Bomb) ||
-		(t3 != Tile::Clear && t3 != Tile::Bomb) ||
-		(t4 != Tile::Clear && t4 != Tile::Bomb))
+	if (comp(t1) || comp(t2) || comp(t3) || comp(t4))
 		return true;
 	return false;
 }
 
-bool Map::lerpCollide(sf::Vector2f &pos, sf::Vector2f mv, float hw) const
+bool Map::lerpCollide(sf::Vector2f &pos, sf::Vector2f mv, float hw, bool (*comp)(Tile)) const
 {
 	for (float i = 1.0; i > 0.1; i *= 0.75)
 	{
 		sf::Vector2f newPos = pos + (i * mv);
-		if (!this->collide(newPos, hw)) {
+		if (!this->collide(newPos, hw, comp)) {
 			pos = newPos;
 			return true;
 		}

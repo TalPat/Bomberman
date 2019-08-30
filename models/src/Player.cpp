@@ -28,13 +28,17 @@ void Player::move(float deltaTime, const Map &map)
 	dx *= this->_playerSpeed * deltaTime;
 	dy *= this->_playerSpeed * deltaTime;
 
+
+	auto comp = [](Tile tile) {
+		return tile != Tile::Clear && tile != Tile::BombClear;
+	};
 	// Move player as far as possible without colliding
 	sf::Vector2f &pos = this->_position;
-	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, 0.40))
+	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, 0.40, comp))
 		return;
-	if (dx.x != 0 && map.lerpCollide(pos, dx, 0.40))
+	if (dx.x != 0 && map.lerpCollide(pos, dx, 0.40, comp))
 		return;
-	if (dy.y != 0 && map.lerpCollide(pos, dy, 0.40))
+	if (dy.y != 0 && map.lerpCollide(pos, dy, 0.40, comp))
 		return;
 }
 
