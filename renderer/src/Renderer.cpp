@@ -179,6 +179,11 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 		}
 		
 	}
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(10, -1.0f, 10));
+	model = glm::scale(model, glm::vec3(20.f));
+	_shader->setMat4("model", model);
+	square->draw(*_shader);
 	/*endoftest*/
 
 	map(window, state);
