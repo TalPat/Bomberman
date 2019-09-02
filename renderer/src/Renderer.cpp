@@ -1,75 +1,90 @@
-#include "../include/Renderer.hpp"
-
+#include "Renderer.hpp"
 #include <iostream>
 
-const float SCALE = 30;
-
-void Renderer::render(sf::RenderWindow &window, const GameState &state)
+Renderer::Renderer(/* args */)
 {
-	window.clear(sf::Color::Black);
-	for(auto &pickup: state.pickups._pickups)
-	{
-		sf::CircleShape pick(SCALE / 2);
+}
 
-		sf::Vector2f pickPosition(pickup.position);
-		pickPosition *= SCALE;
-		pick.setPosition(pickPosition);
-		if (pickup.type == PickupType::LevelUp)
-			pick.setFillColor(sf::Color(102, 255, 178));
-		else if (pickup.type == PickupType::BombTotal)
-			pick.setFillColor(sf::Color(102, 102, 178));
-		else if (pickup.type == PickupType::BombRange)
-			pick.setFillColor(sf::Color(255, 178, 102));
-		window.draw(pick);
+Renderer::~Renderer()
+{
+}
+
+void Renderer::init()
+{
+	// Enable glew
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		std::cout << "failed to init GLEW: " << glewGetErrorString(err) << std::endl;
+		throw("GLEW failed");
 	}
-	map(window, state);
-	player(window, state);
-	enemyList(window, state);
-	window.display();
+	std::cout << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+	glEnable(GL_DEPTH_TEST);
+
+	//Wireframing
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	//Load objects into vram
+	Model_st modelLoad;
+
+	modelLoad.model = new Model("../../renderer/res/models/box/wall.obj"); //breakable
+	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
+	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.5f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj"); //unbreakable
+	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
+	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.5f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model("../../renderer/res/models/cowboy/model.dae"); //player
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.2f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model("../../renderer/res/models/ubomb/untitled.obj"); //bomb
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.1f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //flame
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.01f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //balloon
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.01f);
+	_models.push_back(modelLoad);
+
+	//compile shader programs
+	_shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
+
+	//build camera
+	_camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
 {
-	sf::RectangleShape player(sf::Vector2f(SCALE*0.8, SCALE*0.8));
-
+	glm::mat4 model = glm::mat4(1.0f);
 	sf::Vector2f playerPosition(state.player.position());
-	playerPosition -= sf::Vector2f(0.4, 0.4);
-	// playerPosition.y *= -1;
-	playerPosition *= SCALE;
+	playerPosition -= sf::Vector2f(0.5, 0.5);
 
-	player.setPosition(playerPosition);
-	player.setFillColor(sf::Color(250, 20, 50));
-	window.draw(player);
-}
+	model = glm::translate(model, _models[playerModel].initialPos + glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
 
-void Renderer::enemyList(sf::RenderWindow &window, const GameState &state)
-{
-	for(auto &e: state.enemies.list){
-		enemy(window, state,*e);
-	}
-}
+	model = _models[playerModel].model->getAnimation().orientation(model, glm::vec2(playerPosition.x, playerPosition.y)); //simple animation. generate class to manage
+	model = _models[playerModel].model->getAnimation().pulse(model, 10, 3);																								//simple animation. generate class to manage
 
-void Renderer::enemy(sf::RenderWindow &window, const GameState &state,const IEnemy &e)
-{
-	sf::CircleShape enemy(SCALE / 2);
-
-	sf::Vector2f enemyPosition(e.position());
-	enemyPosition -= sf::Vector2f(0.5, 0.5);
-	enemyPosition *= SCALE;
-
-	enemy.setPosition(enemyPosition);
-	switch(e.type){
-		case EnemyType::EBallom:
-			enemy.setFillColor(sf::Color(0, 255, 255));
-			break;
-		case EnemyType::EAggroBallom:
-			enemy.setFillColor(sf::Color(255, 102, 178));
-			break;
-		default:
-			enemy.setFillColor(sf::Color(255, 255, 0));
-			break;
-	}
-	window.draw(enemy);
+	model = glm::scale(model, _models[playerModel].initialScale);
+	model = glm::rotate(model, glm::radians(_models[playerModel].initialRot.w), glm::vec3(_models[playerModel].initialRot));
+	_shader->setMat4("model", model);
+	_models[playerModel].model->draw(*_shader);
 }
 
 void Renderer::map(sf::RenderWindow &window, const GameState &state)
@@ -77,10 +92,6 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 	const Map &map = state.map;
 	const sf::Vector2i &mapSize = map.size();
 	Tile tile;
-	sf::RectangleShape cell(sf::Vector2f(SCALE, SCALE));
-	sf::CircleShape bomb(SCALE * 0.5);
-	cell.setFillColor(sf::Color(250));
-
 	for (int y = 0; y < mapSize.y; y++)
 	{
 		for (int x = 0; x < mapSize.x; x++)
@@ -89,34 +100,102 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 			tile = map.tileAt(cellPosition);
 			if (tile != Tile::Clear)
 			{
-				cellPosition *= static_cast<int>(SCALE);
-				cell.setPosition(cellPosition.x, cellPosition.y);
+				glm::mat4 model = glm::mat4(1.0f);
+				modelNames name;
+
 				switch (tile)
 				{
 				case Tile::Solid:
-					cell.setFillColor(sf::Color(50, 150, 20));
-					window.draw(cell);
+					name = unbreakableModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					break;
 				case Tile::Destructible:
-					cell.setFillColor(sf::Color(50, 50, 150));
-					window.draw(cell);
+					name = breakableModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					break;
 				case Tile::Bomb:
-					bomb.setPosition(cellPosition.x, cellPosition.y);
-					window.draw(bomb);
-					break;
-				case Tile::BombClear:
-					bomb.setPosition(cellPosition.x, cellPosition.y);
-					window.draw(bomb);
+					name = bombModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 					break;
 				case Tile::Flame:
-					cell.setFillColor(sf::Color(255, 0, 0));
-					window.draw(cell);
+					name = flameModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					break;
 				default:
 					break;
 				}
+				model = glm::scale(model, _models[name].initialScale);
+				model = glm::rotate(model, glm::radians(_models[name].initialRot.w), glm::vec3(_models[name].initialRot));
+				_shader->setMat4("model", model);
+				_models[name].model->draw(*_shader);
 			}
 		}
 	}
+}
+
+void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
+{
+	for(auto &e: state.enemies.list)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		sf::Vector2f enemyPosition(e->position());
+		enemyPosition -= sf::Vector2f(0.5, 0.5);
+
+		model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+
+		model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
+		model = _models[balloonModel].model->getAnimation().floating(model);																								 //simple animation. generate class to manage
+
+		model = glm::scale(model, _models[balloonModel].initialScale);
+		model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
+		_shader->setMat4("model", model);
+		_models[balloonModel].model->draw(*_shader);
+	}
+}
+
+void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
+{
+	for(auto &pickup: state.pickups._pickups)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		sf::Vector2f enemyPosition(pickup.position);
+		//enemyPosition += sf::Vector2f(0.5, 0.5);
+
+		model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+
+		model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
+		model = _models[balloonModel].model->getAnimation().floating(model);																								 //simple animation. generate class to manage
+
+		model = glm::scale(model, _models[balloonModel].initialScale);
+		model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
+		_shader->setMat4("model", model);
+		_models[balloonModel].model->draw(*_shader);
+	}
+}
+
+void Renderer::render(sf::RenderWindow &window, const GameState &state)
+{
+	sf::Vector2u size = window.getSize();
+	glViewport(0, 0, size.x, size.y);
+	glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	_shader->use();
+	glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
+	glm::mat4 view = _camera->getViewMatrix();
+	_shader->setMat4("projection", projection);
+	_shader->setMat4("view", view);
+
+	pickups(window, state);
+	map(window, state);
+	player(window, state);
+	enemy(window, state);
+
+	sf::Vector2f playerPosition(state.player.position());
+	playerPosition -= sf::Vector2f(0.5, 0.5);
+	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	_camera->setYaw(270.0f);
+	_camera->setPitch(-45.0f);
+
+	window.display();
 }
