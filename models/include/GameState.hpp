@@ -20,7 +20,7 @@ public:
 	Enemies enemies;
 	Map map;
 	Bombs bombs;
-    Pickups pickups;
+	Pickups pickups;
 };
 
 #endif

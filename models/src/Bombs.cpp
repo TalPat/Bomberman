@@ -98,8 +98,8 @@ void Bombs::bombExplodeDirection(Map &map, sf::Vector2i pos, sf::Vector2i dir)
 		if (tile == Tile::Bomb)
 		{
 			auto vecEqual = [](sf::Vector2i a, sf::Vector2i b) {
-            	return ((a.x == b.x) && (a.y == b.y));
-        	};
+				return ((a.x == b.x) && (a.y == b.y));
+			};
 			if (!vecEqual(-dir, EAST)) this->bombExplodeDirection(map, pos + dir * i, EAST);
 			if (!vecEqual(-dir, WEST)) this->bombExplodeDirection(map, pos + dir * i, WEST);
 			if (!vecEqual(-dir, NORTH)) this->bombExplodeDirection(map, pos + dir * i, NORTH);
