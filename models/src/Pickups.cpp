@@ -1,5 +1,7 @@
 #include "../include/Pickups.hpp"
 
+#include <iostream>
+
 Pickups::Pickups() {}
 
 void Pickups::initPickups(Map &map)
@@ -37,19 +39,40 @@ void Pickups::addPickup(sf::Vector2i pos, PickupType type)
 	this->_pickups.push_back(newPickup);
 }
 
-void Pickups::update(Player &player, Map &map)
+void Pickups::update(Player &player, Map &map, Enemies &enemies, Bombs &bombs)
 {
-	std::list<sPickup>::iterator i = this->_pickups.begin();
-	while (i != this->_pickups.end())
+	std::list<sPickup>::iterator pickup = this->_pickups.begin();
+	while (pickup != this->_pickups.end())
 	{
 		sf::Vector2i ppos(player.position());
-		if (ppos.x == i->position.x && ppos.y == i->position.y)
-	    {
-	        this->_pickups.erase(i++);
-	    }
-	    else
-	    {
-	    	++i;
-	    }
+		if (ppos.x == pickup->position.x && ppos.y == pickup->position.y)
+		{
+			if (pickup->type == PickupType::LevelUp && enemies.list.size() == 0)
+			{
+				this->_pickups.erase(pickup++);
+			}
+			else if (pickup->type == PickupType::LevelUp && enemies.list.size() != 0)
+			{
+				pickup++;
+			}
+			else if (pickup->type == PickupType::BombTotal)
+			{
+				Bombs::max_bombs++;
+				this->_pickups.erase(pickup++);
+			}
+			else if (pickup->type == PickupType::BombRange)
+			{
+				Bombs::bomb_range++;
+				this->_pickups.erase(pickup++);
+			}
+			else
+			{
+				++pickup;
+			}
+		}
+		else
+		{
+			++pickup;
+		}
 	}
 }

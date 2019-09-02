@@ -46,11 +46,10 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		}
 	}
 
-	gameState.bombs.updateMap(gameState.player, gameState.map);
-	gameState.pickups.update(gameState.player, gameState.map);
-	gameState.player.move(deltaTime, gameState.map);
-	gameState.enemies.updateAll(deltaTime, gameState.map);
 	gameState.bombs.update(deltaTime, gameState.map);
-	// kills enemies on same cell as player
-	// gameState.enemies.kill(sf::Vector2i(gameState.player.position()));
+	gameState.bombs.updateMap(gameState.player, gameState.map);
+	gameState.player.move(deltaTime, gameState.map);
+	gameState.pickups.update(gameState.player, gameState.map, gameState.enemies, gameState.bombs);
+	gameState.enemies.updateAll(deltaTime, gameState.map);
+	gameState.enemies.kill(gameState.map);
 }

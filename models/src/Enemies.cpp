@@ -48,12 +48,15 @@ void Enemies::populate(int numEnemies)
 	}
 }
 
-void Enemies::kill(sf::Vector2i killPosition)
+void Enemies::kill(const Map &map)
 {
+	auto comp = [](Tile tile) {
+		return tile == Tile::Flame;
+	};
 	std::list<IEnemy*> enemiesToKill;
 	for(auto &e:this->list)
 	{
-		if(sf::Vector2i(e->position()) == killPosition)
+		if (map.collide(e->position(), 0.49, comp))
 			enemiesToKill.push_back(e);
 	}
 	for(auto &e:enemiesToKill)

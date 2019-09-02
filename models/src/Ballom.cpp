@@ -2,7 +2,7 @@
 
 const int NUM_MOVEMENT_STATES = 4;
 const float AGGROTIME = 4;
-const float DEFAULT_SPEED = 3.5;
+const float DEFAULT_SPEED = 2.5;
 const float AUTOSWITCH = 8;
 const sf::Vector2f DEFAULT_START(9.5, 9.5);
 

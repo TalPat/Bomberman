@@ -25,6 +25,9 @@ private:
     std::list<sFlame> _flames;
 
 public:
+	static int bomb_range;
+	static int max_bombs;
+	
 	Bombs();
 	void placeBomb(const Player &player, Map &map);
     void placeFlame(sf::Vector2i pos, Map &map);

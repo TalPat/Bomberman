@@ -3,6 +3,8 @@
 
 #include "Map.hpp"
 #include "Player.hpp"
+#include "Bombs.hpp"
+#include "Enemies.hpp"
 
 #include <algorithm>
 #include <random>
@@ -33,7 +35,7 @@ public:
 	Pickups();
 	void initPickups(Map &map);
 	void addPickup(sf::Vector2i pos, PickupType type);
-	void update(Player &player, Map &map);
+	void update(Player &player, Map &map, Enemies &enemies, Bombs &bombs);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "../include/Player.hpp"
 
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
-const float DEFAULT_SPEED = 5;
+const float DEFAULT_SPEED = 4;
 
 Player::Player() : _position(DEFAULT_START),
 				   _playerSpeed(DEFAULT_SPEED),

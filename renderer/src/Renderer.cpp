@@ -118,6 +118,11 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 					break;
+				case Tile::BombClear:
+					name = bombModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
+					break;
 				case Tile::Flame:
 					name = flameModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));

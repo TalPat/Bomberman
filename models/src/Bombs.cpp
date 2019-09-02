@@ -3,9 +3,11 @@
 #include <iostream>
 #include <cmath>
 
-const float FUSE_TIME = 2;
+int Bombs::bomb_range = 2;
+int Bombs::max_bombs = 2;
+
+const float FUSE_TIME = 2.3;
 const float FLAME_TIME = 0.3;
-const float BOMB_RANGE = 3; // TODO: change based on player powerups
 const sf::Vector2i EAST(+1, 0);
 const sf::Vector2i WEST(-1, 0);
 const sf::Vector2i NORTH(0, -1);
@@ -20,7 +22,7 @@ void Bombs::placeBomb(const Player &player, Map &map)
 {
 	sf::Vector2i playerCell(player.position());
 
-	if (map.tileAt(playerCell) == Tile::Clear)
+	if ( this->_bombs.size() < Bombs::max_bombs && map.tileAt(playerCell) == Tile::Clear)
 	{
 		map.setTile(playerCell, Tile::BombClear);
 		sBomb newBomb;
@@ -86,7 +88,7 @@ void Bombs::update(float deltaTime, Map &map)
 
 void Bombs::bombExplodeDirection(Map &map, sf::Vector2i pos, sf::Vector2i dir)
 {
-	for (int i = 0; i < BOMB_RANGE + 1; ++i)
+	for (int i = 0; i < Bombs::bomb_range + 1; ++i)
 	{
 		Tile tile = map.tileAt(pos + dir * i);
 		if (tile != Tile::Solid)

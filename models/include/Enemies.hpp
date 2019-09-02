@@ -16,6 +16,6 @@ public:
 	void populate(int numEnemies);
 	Enemies();
 	~Enemies();
-	void kill(sf::Vector2i killPosition); 
+	void kill(const Map &map); 
 };
 #endif
