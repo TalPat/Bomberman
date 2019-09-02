@@ -26,7 +26,6 @@ void Bombs::placeBomb(const Player &player, Map &map)
 		sBomb newBomb;
 		newBomb.position = playerCell;
 		newBomb.timeLeft = FUSE_TIME;
-
 		this->_bombs.push_back(newBomb);
 	}
 }

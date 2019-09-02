@@ -3,6 +3,9 @@
 
 #include <SFML/System.hpp>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
 enum Tile
 {

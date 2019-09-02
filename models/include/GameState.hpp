@@ -1,11 +1,13 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
-#include "./EngineEvent.hpp"
+#include "EngineEvent.hpp"
 #include "Player.hpp"
-#include "Enemy.hpp"
+#include "Enemies.hpp"
+#include "Ballom.hpp"
 #include "Map.hpp"
 #include "Bombs.hpp"
+#include "Pickups.hpp"
 
 #include <SFML/System.hpp>
 #include <iostream>
@@ -15,10 +17,10 @@ class GameState
 {
 public:
 	Player player;
-
-	Enemy enemy;
+	Enemies enemies;
 	Map map;
 	Bombs bombs;
+    Pickups pickups;
 };
 
 #endif

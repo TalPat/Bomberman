@@ -14,6 +14,7 @@ Bomberman::Bomberman()
 {
 	this->deltaClock.restart();
 	this->frameClock.restart();
+	this->engine.init(this->gameState);
 }
 
 Bomberman::~Bomberman()

@@ -7,9 +7,24 @@ const float SCALE = 30;
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	window.clear(sf::Color::Black);
+	for(auto &pickup: state.pickups._pickups)
+	{
+		sf::CircleShape pick(SCALE / 2);
+
+		sf::Vector2f pickPosition(pickup.position);
+		pickPosition *= SCALE;
+		pick.setPosition(pickPosition);
+		if (pickup.type == PickupType::LevelUp)
+			pick.setFillColor(sf::Color(102, 255, 178));
+		else if (pickup.type == PickupType::BombTotal)
+			pick.setFillColor(sf::Color(102, 102, 178));
+		else if (pickup.type == PickupType::BombRange)
+			pick.setFillColor(sf::Color(255, 178, 102));
+		window.draw(pick);
+	}
 	map(window, state);
 	player(window, state);
-	enemy(window, state);
+	enemyList(window, state);
 	window.display();
 }
 
@@ -26,17 +41,34 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
 	player.setFillColor(sf::Color(250, 20, 50));
 	window.draw(player);
 }
-void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
+
+void Renderer::enemyList(sf::RenderWindow &window, const GameState &state)
+{
+	for(auto &e: state.enemies.list){
+		enemy(window, state,*e);
+	}
+}
+
+void Renderer::enemy(sf::RenderWindow &window, const GameState &state,const IEnemy &e)
 {
 	sf::CircleShape enemy(SCALE / 2);
 
-	sf::Vector2f enemyPosition(state.enemy.position());
+	sf::Vector2f enemyPosition(e.position());
 	enemyPosition -= sf::Vector2f(0.5, 0.5);
-	// playerPosition.y *= -1;
 	enemyPosition *= SCALE;
 
 	enemy.setPosition(enemyPosition);
-	enemy.setFillColor(sf::Color(150, 120, 150));
+	switch(e.type){
+		case EnemyType::EBallom:
+			enemy.setFillColor(sf::Color(0, 255, 255));
+			break;
+		case EnemyType::EAggroBallom:
+			enemy.setFillColor(sf::Color(255, 102, 178));
+			break;
+		default:
+			enemy.setFillColor(sf::Color(255, 255, 0));
+			break;
+	}
 	window.draw(enemy);
 }
 

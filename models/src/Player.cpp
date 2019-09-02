@@ -1,8 +1,5 @@
 #include "../include/Player.hpp"
 
-#include <iostream>
-#include <cmath>
-
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
 const float DEFAULT_SPEED = 5;
 

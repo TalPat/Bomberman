@@ -1,9 +1,5 @@
 #include "../include/Map.hpp"
 
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-
 const sf::Vector2i DEFAULT_SIZE(21, 21);
 const float DESTRUCTABLE_CHANCE = 0.1;
 

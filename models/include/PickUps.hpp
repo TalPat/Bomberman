@@ -5,22 +5,33 @@
 #include "Player.hpp"
 
 #include <list>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
-struct sPickUp
+enum PickupType
 {
-    sf::Vector2i position;
-    enum PickUpType;
+	LevelUp,
+	BombTotal,
+	BombRange,
 };
 
-class PickUps
+struct sPickup
+{
+	sf::Vector2i position;
+	PickupType type;
+};
+
+class Pickups
 {
 private:
-    std::list<sPickUp> _pickups;
-
 public:
-    PickUps();
-    void placePickUp(const Player &player, Map &map);
-    void update(float deltaTime, Map &map);
+	std::list<sPickup> _pickups;
+	Pickups();
+	void initPickups(Map &map);
+	void addPickup(sf::Vector2i pos, PickupType type);
+	void update(Player &player, Map &map);
 };
 
 #endif

@@ -10,7 +10,8 @@
 class Engine
 {
 public:
-	void update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState);
+    void init(GameState &gameState);
+    void update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState);
 };
 
 #endif
