@@ -4,6 +4,8 @@
 #include "Map.hpp"
 #include "Player.hpp"
 
+#include <algorithm>
+#include <random>
 #include <list>
 #include <vector>
 #include <cstdlib>

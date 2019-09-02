@@ -19,7 +19,8 @@ void Pickups::initPickups(Map &map)
 			}
 		}
 	}
-	std::random_shuffle ( availableCells.begin(), availableCells.end() );
+	auto rng = std::default_random_engine {};
+	std::shuffle ( availableCells.begin(), availableCells.end(), rng );
 	this->addPickup(availableCells.back(), PickupType::LevelUp);
 	availableCells.pop_back();
 	this->addPickup(availableCells.back(), PickupType::BombTotal);
