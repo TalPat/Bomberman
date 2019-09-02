@@ -27,46 +27,46 @@ void Renderer::init()
 	//Load objects into vram
 	Model_st modelLoad;
 
-	modelLoad.model = new Model("../../renderer/res/models/box/wall.obj"); //breakable
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/box/wall.obj"); //breakable
 	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_models.push_back(modelLoad);
 
-	modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj"); //unbreakable
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/wall/wall.obj"); //unbreakable
 	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_models.push_back(modelLoad);
 
-	modelLoad.model = new Model("../../renderer/res/models/cowboy/model.dae"); //player
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/cowboy/model.dae"); //player
 	modelLoad.initialPos = glm::vec3(0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
 	modelLoad.initialScale = glm::vec3(0.2f);
 	_models.push_back(modelLoad);
 
-	modelLoad.model = new Model("../../renderer/res/models/ubomb/untitled.obj"); //bomb
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/ubomb/untitled.obj"); //bomb
 	modelLoad.initialPos = glm::vec3(0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.1f);
 	_models.push_back(modelLoad);
 
-	modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //flame
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/giraffe/10021_Giraffe_v04.obj"); //flame
 	modelLoad.initialPos = glm::vec3(0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
 	modelLoad.initialScale = glm::vec3(0.01f);
 	_models.push_back(modelLoad);
 
-	modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //balloon
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/giraffe/10021_Giraffe_v04.obj"); //balloon
 	modelLoad.initialPos = glm::vec3(0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
 	modelLoad.initialScale = glm::vec3(0.01f);
 	_models.push_back(modelLoad);
 
-	square = new Square("../../renderer/res/sprites/tile1.png");
+	square = new Square(std::string(SPRITE_DIR) + "/tile1.png");
 
 	//compile shader programs
-	_shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
+	_shader = new Shader((std::string(SHADER_DIR) + "/vertexShader.glsl").c_str(), (std::string(SHADER_DIR) + "/fragmentShader.glsl").c_str());
 
 	//build camera
 	_camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
