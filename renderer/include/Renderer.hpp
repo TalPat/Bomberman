@@ -14,6 +14,8 @@
 #include "../src/Model.hpp"
 #include "../src/Camera.hpp"
 #include "../src/Particle.hpp"
+#include "../src/Square.hpp"
+#include "../src/Swarm.hpp"
 
 enum modelNames
 {
@@ -37,9 +39,11 @@ struct Model_st
 class Renderer
 {
 private:
+	Square *square;
 	std::vector<Model_st> _models;
 	Shader *_shader;
 	Camera *_camera;
+	Swarm swarm;
 	void player(sf::RenderWindow &window, const GameState &state);
 	void map(sf::RenderWindow &window, const GameState &state);
 	void enemy(sf::RenderWindow &window, const GameState &state);
