@@ -5,12 +5,11 @@ layout (location = 1) in vec2 aTexture;
 
 out vec2 textureCoord;
 
-// uniform vec3 textScale;
-// uniform vec3 textTranslate;
+uniform mat4 scaleMat;
+uniform mat4 posMat;
 
 void main()
 {
-	//gl_Position = vec4(textTranslate, 1.0) * vec4(textScale, 1.0) * vec4(aPos, 1.0);
-	gl_Position = vec4(aPos, 1.0);
+	gl_Position = posMat * scaleMat * vec4(aPos, 1.0);
 	textureCoord = aTexture;
 }

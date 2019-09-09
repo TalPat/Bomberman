@@ -4,8 +4,7 @@
 Renderer::Renderer(/* args */)
 {
 	fontMap = {
-		{'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {' ', 10}, {'a', 11}, {'b', 12}, {'c', 13}, {'d', 14}, {'e', 15}, {'f', 16}, {'g', 17}, {'h', 18}, {'i', 19}, {'j', 20}, {'k', 21}, {'l', 22}, {'m', 23}, {'n', 24}, {'o', 25}, {'p', 26}, {'q', 27}, {'r', 28}, {'s', 29}, {'t', 30}, {'u', 31}, {'v', 32}, {'w', 33}, {'x', 34}, {'y', 35}, {'z', 36}
-	};
+			{'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {' ', 10}, {'a', 11}, {'b', 12}, {'c', 13}, {'d', 14}, {'e', 15}, {'f', 16}, {'g', 17}, {'h', 18}, {'i', 19}, {'j', 20}, {'k', 21}, {'l', 22}, {'m', 23}, {'n', 24}, {'o', 25}, {'p', 26}, {'q', 27}, {'r', 28}, {'s', 29}, {'t', 30}, {'u', 31}, {'v', 32}, {'w', 33}, {'x', 34}, {'y', 35}, {'z', 36}};
 }
 
 Renderer::~Renderer()
@@ -16,12 +15,12 @@ void Renderer::loadFont()
 {
 	for (size_t i = 0; i < 10; i++)
 	{
-		_characters.push_back(new GuiChar("../../renderer/res/characters/"+std::string(1,'0' + i)+".png"));
+		_characters.push_back(new GuiChar("../../renderer/res/characters/" + std::string(1, '0' + i) + ".png"));
 	}
 	_characters.push_back(new GuiChar("../../renderer/res/characters/white.png"));
 	for (size_t i = 0; i < 26; i++)
 	{
-		_characters.push_back(new GuiChar("../../renderer/res/characters/"+std::string(1,'A' + i)+".png"));
+		_characters.push_back(new GuiChar("../../renderer/res/characters/" + std::string(1, 'A' + i) + ".png"));
 	}
 }
 
@@ -35,7 +34,7 @@ void Renderer::init()
 		throw("GLEW failed");
 	}
 	std::cout << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
-	// glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 
 	//Wireframing
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -43,51 +42,51 @@ void Renderer::init()
 	//load fonts
 	loadFont();
 
-	// //Load objects into vram
-	// Model_st modelLoad;
+	//Load objects into vram
+	Model_st modelLoad;
 
-	// modelLoad.model = new Model("../../renderer/res/models/box/wall.obj"); //breakable
-	// modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
-	// modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-	// modelLoad.initialScale = glm::vec3(0.5f);
-	// _models.push_back(modelLoad);
+	modelLoad.model = new Model("../../renderer/res/models/box/wall.obj"); //breakable
+	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
+	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.5f);
+	_models.push_back(modelLoad);
 
-	// modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj"); //unbreakable
-	// modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
-	// modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-	// modelLoad.initialScale = glm::vec3(0.5f);
-	// _models.push_back(modelLoad);
+	modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj"); //unbreakable
+	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
+	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.5f);
+	_models.push_back(modelLoad);
 
-	// modelLoad.model = new Model("../../renderer/res/models/cowboy/model.dae"); //player
-	// modelLoad.initialPos = glm::vec3(0.0f);
-	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-	// modelLoad.initialScale = glm::vec3(0.2f);
-	// _models.push_back(modelLoad);
+	modelLoad.model = new Model("../../renderer/res/models/cowboy/model.dae"); //player
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.2f);
+	_models.push_back(modelLoad);
 
-	// modelLoad.model = new Model("../../renderer/res/models/ubomb/untitled.obj"); //bomb
-	// modelLoad.initialPos = glm::vec3(0.0f);
-	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	// modelLoad.initialScale = glm::vec3(0.1f);
-	// _models.push_back(modelLoad);
+	modelLoad.model = new Model("../../renderer/res/models/ubomb/untitled.obj"); //bomb
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.1f);
+	_models.push_back(modelLoad);
 
-	// modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //flame
-	// modelLoad.initialPos = glm::vec3(0.0f);
-	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-	// modelLoad.initialScale = glm::vec3(0.01f);
-	// _models.push_back(modelLoad);
+	modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //flame
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.01f);
+	_models.push_back(modelLoad);
 
-	// modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //balloon
-	// modelLoad.initialPos = glm::vec3(0.0f);
-	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-	// modelLoad.initialScale = glm::vec3(0.01f);
-	// _models.push_back(modelLoad);
+	modelLoad.model = new Model("../../renderer/res/models/giraffe/10021_Giraffe_v04.obj"); //balloon
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.01f);
+	_models.push_back(modelLoad);
 
-	//compile shader programs
-	// _shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
+	// compile shader programs
+	_shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
 	_textShader = new Shader("../../renderer/res/shaders/textv.glsl", "../../renderer/res/shaders/textf.glsl");
 
 	//build camera
-	// _camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
+	_camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
@@ -177,24 +176,49 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	glViewport(0, 0, size.x, size.y);
 	glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// _shader->use();
-	// glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
-	// glm::mat4 view = _camera->getViewMatrix();
-	// _shader->setMat4("projection", projection);
-	// _shader->setMat4("view", view);
+	_shader->use();
+	glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
+	glm::mat4 view = _camera->getViewMatrix();
+	_shader->setMat4("projection", projection);
+	_shader->setMat4("view", view);
 
-	// map(window, state);
-	// player(window, state);
-	// enemy(window, state);
+	sf::Vector2f playerPosition(state.player.position());
+	playerPosition -= sf::Vector2f(0.5, 0.5);
+	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	_camera->setYaw(270.0f);
+	_camera->setPitch(-45.0f);
 
-	// sf::Vector2f playerPosition(state.player.position());
-	// playerPosition -= sf::Vector2f(0.5, 0.5);
-	// _camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
-	// _camera->setYaw(270.0f);
-	// _camera->setPitch(-45.0f);
-
-	_textShader->use();
-	_characters[0]->draw(*_textShader);
+	map(window, state);
+	player(window, state);
+	enemy(window, state);
 
 	window.display();
+}
+
+void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vector3i color, sf::Vector2f pos, float scale)
+{
+	_textShader->use();
+
+	float offset = 0.0f;
+	sf::Vector2u size = window.getSize();
+	float ratio = (float)(size.y)/size.x;
+	float stride = 0.35 * scale * ratio / 1.4;
+	glm::mat4 posMat = glm::mat4(1.0f);
+	glm::mat4 scaleMat = glm::mat4(1.0f);
+
+	posMat = glm::translate(posMat, glm::vec3(pos.x, pos.y, 0.0f));
+	scaleMat = glm::scale(scaleMat, glm::vec3(scale * ratio / 1.4, scale, scale));
+
+	_textShader->setVec3("textColor", glm::vec3((float)(color.x)/255, (float)(color.y)/255, (float)(color.z)/255));
+
+	for (char &c : string)
+	{
+		c = std::tolower(c);
+		_textShader->setMat4("posMat", posMat);
+		_textShader->setMat4("scaleMat", scaleMat);
+		_characters[fontMap[c]]->draw(*_textShader);
+		posMat = glm::translate(posMat, glm::vec3(stride, 0.0f, 0.0f));
+	}
+
+	window.display(); //remove if function no longer called outside of renderer class
 }

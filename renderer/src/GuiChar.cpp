@@ -4,15 +4,14 @@
 GuiChar::GuiChar(std::string path)
 {
 	std::vector<float> vertices = {
-		0.5f, 0.0f, 0.5f,			1.0f, 0.0f,
-		0.5f, 0.0f, -0.5f,		1.0f, 1.0f,
-		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,
-		-0.5f, 0.0f, 0.5f,		0.0f, 0.0f
+			0.5f, 0.5f, 0.0f, 1.0f, 0.0f, //tr
+			0.5f, 0.0f, 0.0f, 1.0f, 1.0f, //br
+			0.0f, 0.0f, 0.0f, 0.0f, 1.0f, //bl
+			0.0f, 0.5f, 0.0f, 0.0f, 0.0f	//tl
 	};
 	std::vector<unsigned int> indices = {
-		0, 1, 3,
-		1, 2, 3
-	};
+			0, 1, 3,
+			1, 2, 3};
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -29,7 +28,7 @@ GuiChar::GuiChar(std::string path)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)(sizeof(float)*3));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)(sizeof(float) * 3));
 
 	glBindVertexArray(0);
 
@@ -42,6 +41,7 @@ GuiChar::~GuiChar()
 
 void GuiChar::draw(Shader shader)
 {
+
 	glActiveTexture(GL_TEXTURE0);
 	shader.setInt("texture_diffuse1", 0);
 	glBindTexture(GL_TEXTURE_2D, textureId);

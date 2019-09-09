@@ -53,6 +53,7 @@ public:
 	~Renderer();
 	void init();
 	void render(sf::RenderWindow &window, const GameState &state);
+	void writeLine(sf::RenderWindow &window, std::string string, sf::Vector3i color, sf::Vector2f pos, float scale); //only render alpha numeric characters, is displayed as uppercase only
 };
 
 #endif
