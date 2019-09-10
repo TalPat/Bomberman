@@ -72,6 +72,8 @@ void Renderer::init()
 	//particles
 	Swarm swarm;
 	square = new Square("../../renderer/src/Flame_Particle.png");
+	skybox_model = new Square("../../renderer/src/skybox.png");
+	dirt_model = new Square("../../renderer/src/dirt.png");
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
@@ -131,7 +133,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 						glm::mat4 model = glm::mat4(1.0f);
 						model = glm::translate(model, glm::vec3(x + points.m_x, points.m_y, y + points.m_z));
 						model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-						model = glm::rotate(model ,1.5708f, glm::vec3(0.0f, 1.0f, 0.0f));
+						model = glm::rotate(model, 1.5708f, glm::vec3(0.0f, 1.0f, 0.0f));
 						_shader->setMat4("model", model);
 						square->draw(*_shader);
 					}
@@ -165,6 +167,15 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	_models[balloonModel].model->draw(*_shader);
 }
 
+void Renderer::skybox()
+{
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, -10.0f, -50.0f));
+	model = glm::scale(model, glm::vec3(200.0f, 1.0f, 200.0f));
+	_shader->setMat4("model", model);
+	skybox_model->draw(*_shader);
+}
+
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	sf::Vector2u size = window.getSize();
@@ -177,9 +188,21 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
 
+	for (size_t i = 0; i < 20; i++)
+	{
+		for (size_t j = 0; j < 20; j++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(i, 0.0f, j));
+			_shader->setMat4("model", model);
+			dirt_model->draw(*_shader);
+		}
+	}
+
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
+	skybox();
 
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
