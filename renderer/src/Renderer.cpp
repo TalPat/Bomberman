@@ -56,12 +56,6 @@ void Renderer::init()
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_models.push_back(modelLoad);
 
-	// modelLoad.model = new Model(std::string(MODEL_DIR) + "/cowboy/model.dae"); //player
-	// modelLoad.initialPos = glm::vec3(0.0f);
-	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-	// modelLoad.initialScale = glm::vec3(0.2f);
-	// _models.push_back(modelLoad);
-
 	modelLoad.model = new Model(std::string(MODEL_DIR) + "/playerHead/untitled.obj"); //bomb
 	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
@@ -79,12 +73,6 @@ void Renderer::init()
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
 	modelLoad.initialScale = glm::vec3(0.01f);
 	_models.push_back(modelLoad);
-
-	// modelLoad.model = new Model(std::string(MODEL_DIR) + "/giraffe/10021_Giraffe_v04.obj"); //balloon
-	// modelLoad.initialPos = glm::vec3(0.0f);
-	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-	// modelLoad.initialScale = glm::vec3(0.01f);
-	// _models.push_back(modelLoad);
 
 	modelLoad.model = new Model(std::string(MODEL_DIR) + "/pig/pignew.dae"); //pig
 	modelLoad.initialPos = glm::vec3(0.0f);
