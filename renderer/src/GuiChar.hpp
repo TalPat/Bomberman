@@ -6,13 +6,12 @@
 #include <vector>
 #include <map>
 
-
 class GuiChar
 {
 private:
 	unsigned int VAO, VBO, EBO, textureId;
-public:
 
+public:
 	GuiChar(std::string path);
 	~GuiChar();
 

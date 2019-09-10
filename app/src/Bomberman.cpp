@@ -58,7 +58,12 @@ void Bomberman::updateFunc()
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
 		this->renderer.render(*(this->window), this->gameState);
-		renderer.writeLine(*window, "FPS "+std::to_string((int)(1/this->frameClock.getElapsedTime().asSeconds())), sf::Vector3i(10,20,50), sf::Vector2f(-1.0f,-1.0f), 0.2f); // example of implementation, rather use in renderer to avoid syncopated draw calls
+		std::string textString = "FPS " + std::to_string((int)(1 / this->frameClock.getElapsedTime().asSeconds()));
+		sf::Vector3i color = sf::Vector3i(10, 20, 50);
+		sf::Vector2f startLocation = sf::Vector2f(-1.0f, -1.0f);
+		float scale = 0.2f;
+		// example of "writeline implementation, rather use in renderer to avoid syncopated draw calls
+		renderer.writeLine(*window, textString, color, startLocation, scale);
 		this->frameClock.restart();
 	}
 }
