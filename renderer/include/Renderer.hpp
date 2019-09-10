@@ -23,8 +23,11 @@ enum modelNames
 	playerModel,
 	bombModel,
 	flameModel,
-	balloonModel,
-	robotModel
+	pigModel,
+	robotModel,
+	ghostModel,
+	shoel,
+	shoer
 };
 
 struct Model_st

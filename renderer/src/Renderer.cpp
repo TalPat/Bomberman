@@ -63,9 +63,9 @@ void Renderer::init()
 	// _models.push_back(modelLoad);
 
 	modelLoad.model = new Model(std::string(MODEL_DIR) + "/playerHead/untitled.obj"); //bomb
-	modelLoad.initialPos = glm::vec3(0.0f, 0.3f, 0.0f);
+	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	modelLoad.initialScale = glm::vec3(0.1f);
+	modelLoad.initialScale = glm::vec3(0.08f);
 	_models.push_back(modelLoad);
 
 	modelLoad.model = new Model(std::string(MODEL_DIR) + "/ubomb/untitled.obj"); //bomb
@@ -80,10 +80,40 @@ void Renderer::init()
 	modelLoad.initialScale = glm::vec3(0.01f);
 	_models.push_back(modelLoad);
 
-	modelLoad.model = new Model(std::string(MODEL_DIR) + "/giraffe/10021_Giraffe_v04.obj"); //balloon
+	// modelLoad.model = new Model(std::string(MODEL_DIR) + "/giraffe/10021_Giraffe_v04.obj"); //balloon
+	// modelLoad.initialPos = glm::vec3(0.0f);
+	// modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	// modelLoad.initialScale = glm::vec3(0.01f);
+	// _models.push_back(modelLoad);
+
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/pig/pignew.dae"); //pig
 	modelLoad.initialPos = glm::vec3(0.0f);
-	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
-	modelLoad.initialScale = glm::vec3(0.01f);
+	modelLoad.initialRot = glm::vec4(1.0f, 1.0f, 1.0f, 240.0f);
+	modelLoad.initialScale = glm::vec3(0.06f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/robot/tankbot.dae"); //robot
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.04f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/ghost/Ghost.obj"); //ghost
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.2f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/shoe/shoel.obj"); //shoel
+	modelLoad.initialPos = glm::vec3(-0.2f, 0.0f, 0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.06f);
+	_models.push_back(modelLoad);
+
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/shoe/shoer.obj"); //shoer
+	modelLoad.initialPos = glm::vec3(0.2f, 0.0f, 0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
+	modelLoad.initialScale = glm::vec3(0.06f);
 	_models.push_back(modelLoad);
 
 	square = new Square(std::string(SPRITE_DIR) + "/tile1.png");
@@ -99,18 +129,44 @@ void Renderer::init()
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
 {
 	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 shoelModel = glm::mat4(1.0f);
+	glm::mat4 shoerModel = glm::mat4(1.0f);
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
 
+	_models[shoel].model->getAnimation().setDeltas(glm::vec2(playerPosition.x, playerPosition.y));
+	_models[shoer].model->getAnimation().setDeltas(glm::vec2(playerPosition.x, playerPosition.y));
+	_models[playerModel].model->getAnimation().setDeltas(glm::vec2(playerPosition.x, playerPosition.y));
+
 	model = glm::translate(model, _models[playerModel].initialPos + glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
+	shoelModel = glm::translate(shoelModel, glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
+	shoerModel = glm::translate(shoerModel, glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
 
 	model = _models[playerModel].model->getAnimation().orientation(model, glm::vec2(playerPosition.x, playerPosition.y)); //simple animation. generate class to manage
+	model = _models[playerModel].model->getAnimation().waddle(model);
+	shoelModel = _models[shoel].model->getAnimation().orientation(shoelModel, glm::vec2(playerPosition.x, playerPosition.y));
+	shoelModel = _models[shoel].model->getAnimation().leftFoot(shoelModel);
+	shoerModel = _models[shoer].model->getAnimation().orientation(shoerModel, glm::vec2(playerPosition.x, playerPosition.y));
+	shoerModel = _models[shoer].model->getAnimation().rightFoot(shoerModel);
+
 	model = _models[playerModel].model->getAnimation().pulse(model, 10, 3);																								//simple animation. generate class to manage
 
 	model = glm::scale(model, _models[playerModel].initialScale);
 	model = glm::rotate(model, glm::radians(_models[playerModel].initialRot.w), glm::vec3(_models[playerModel].initialRot));
 	_shader->setMat4("model", model);
 	_models[playerModel].model->draw(*_shader);
+
+	shoelModel = glm::translate(shoelModel, _models[shoel].initialPos);
+	shoelModel = glm::scale(shoelModel, _models[shoel].initialScale);
+	shoelModel = glm::rotate(shoelModel, glm::radians(_models[shoel].initialRot.w), glm::vec3(_models[shoel].initialRot));
+	_shader->setMat4("model", shoelModel);
+	_models[shoel].model->draw(*_shader);
+
+	shoerModel = glm::translate(shoerModel, _models[shoer].initialPos);
+	shoerModel = glm::scale(shoerModel, _models[shoer].initialScale);
+	shoerModel = glm::rotate(shoerModel, glm::radians(_models[shoer].initialRot.w), glm::vec3(_models[shoer].initialRot));
+	_shader->setMat4("model", shoerModel);
+	_models[shoer].model->draw(*_shader);
 }
 
 void Renderer::map(sf::RenderWindow &window, const GameState &state)
@@ -166,17 +222,18 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	glm::mat4 model = glm::mat4(1.0f);
 	sf::Vector2f enemyPosition(state.enemy.position());
 	enemyPosition -= sf::Vector2f(0.5, 0.5);
+	_models[pigModel].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
 
-	model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+	model = glm::translate(model, _models[pigModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 
-	model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
+	model = _models[pigModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
 	//model = _models[balloonModel].model->getAnimation().floating(model); //simple animation. generate class to manage
-	model = _models[balloonModel].model->getAnimation().waddle(model);
+	model = _models[pigModel].model->getAnimation().waddle(model);
 
-	model = glm::scale(model, _models[balloonModel].initialScale);
-	model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
+	model = glm::scale(model, _models[pigModel].initialScale);
+	model = glm::rotate(model, glm::radians(_models[pigModel].initialRot.w), glm::vec3(_models[pigModel].initialRot));
 	_shader->setMat4("model", model);
-	_models[balloonModel].model->draw(*_shader);
+	_models[pigModel].model->draw(*_shader);
 }
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
