@@ -7,6 +7,9 @@ if(APPLE)
     include_directories(
         ~/.brew/include
         /usr/local/Cellar/sfml/2.5.1/include
+		/usr/local/Cellar/assimp/4.1.0/include
+		/usr/local/Cellar/glew/2.1.0/include
+		/usr/local/Cellar/glm/0.9.9.5/include
         )
     link_directories(
         ~/.brew/lib
