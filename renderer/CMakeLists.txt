@@ -11,6 +11,7 @@ add_library(Renderer STATIC
     src/Mesh.cpp
 		src/Animation.cpp
 		src/Square.cpp
+		src/GuiChar.cpp
 )
 
 include_directories(${GLM_INCLUDE_DIRS})
@@ -29,3 +30,5 @@ set(MODEL_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/models\")
 target_compile_definitions(Renderer PUBLIC MODEL_DIR=${MODEL_DIR})
 set(SPRITE_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/sprites\")
 target_compile_definitions(Renderer PUBLIC SPRITE_DIR=${SPRITE_DIR})
+set(CHARACTER_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/characters\")
+target_compile_definitions(Renderer PUBLIC CHARACTER_DIR=${CHARACTER_DIR})

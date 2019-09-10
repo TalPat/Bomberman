@@ -11,12 +11,13 @@ void Camera::updateCameraVectors(void)
 	_up = glm::normalize(glm::cross(_right, front));
 }
 
-Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : _position(position),
-																																					 _up(up),
-																																					 _worldUp(up),
-																																					 _yaw(yaw),
-																																					 _pitch(pitch),
-																																					 _zoom(60)
+Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
+		: _position(position),
+			_up(up),
+			_worldUp(up),
+			_yaw(yaw),
+			_pitch(pitch),
+			_zoom(75)
 {
 	updateCameraVectors();
 }
