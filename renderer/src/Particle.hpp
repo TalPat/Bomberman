@@ -1,14 +1,14 @@
 #ifndef PARTICLE_HPP_
 #define PARTICLE_HPP_
 
-struct Particle {
+struct Particle
+{
 
 	double m_x;
 	double m_y;
-    double m_z;
-
+	double m_z;
 	double speed;
-    double direction;
+	double direction;
 
 public:
 	Particle();

@@ -1,18 +1,8 @@
 #include "Square.hpp"
 #include "stb_image.h"
 
-GLuint instanceVBO;
-
 Square::Square(std::string path)
 {
-
-	GLfloat translations[10];
-	GLint index = 0;
-	for (GLint x = 0; x < 10; x++)
-	{
-		translations[index++] = (GLfloat)x / 10.0f;
-	}
-
 	std::vector<float> vertices = {
 		0.5f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
 		0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
@@ -26,18 +16,13 @@ Square::Square(std::string path)
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
 
-	glGenBuffers(1, &instanceVBO);
-
 	glBindVertexArray(VAO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-
-	// glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(translations), translations, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_st), (void *)0);
@@ -45,9 +30,6 @@ Square::Square(std::string path)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_st), (void *)offsetof(Vertex_st, normal));
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_st), (void *)offsetof(Vertex_st, texcoords));
-	glEnableVertexAttribArray(3);
-	// glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,sizeof(GLfloat), (GLvoid*)0);
-	// glVertexAttribDivisor(2, 3);
 
 	glBindVertexArray(0);
 
@@ -65,8 +47,6 @@ void Square::draw(Shader shader)
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
 	glBindVertexArray(VAO);
-	// glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, 10);
-	// glDrawArraysInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 10);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 

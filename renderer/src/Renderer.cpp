@@ -165,18 +165,6 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	_models[balloonModel].model->draw(*_shader);
 }
 
-void Renderer::render2()
-{
-	// glClearColor(0.2f, 0.25f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	// if you had to unbind vao for whatever reason, bind it again now
-	// glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 100 * 6);
-
-	// glfwSwapBuffers(window);
-}
-
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	sf::Vector2u size = window.getSize();
@@ -188,30 +176,6 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	glm::mat4 view = _camera->getViewMatrix();
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
-
-	Particle *pParticles = swarm.getParticles();
-
-	for (size_t i = 0; i < 20; i++)
-	{
-		for (size_t j = 0; j < 20; j++)
-		{
-			if ((i == 3 && j == 3))
-			{
-
-				for (int a = 0; a < swarm.NPARTICLES; a++)
-					{
-						// Particle points = pParticles[a];
-						// glm::mat4 model = glm::mat4(1.0f);
-						// std::cout << "x: "<< points.m_x << " y: " << points.m_y << " z: " << points.m_z << std::endl;
-						// model = glm::translate(model, glm::vec3(i + points.m_x, points.m_y, j + points.m_z));
-						// model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
-						// model = glm::rotate(model ,90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-						// _shader->setMat4("model", model);
-						// square->draw(*_shader);
-					}
-			}
-		}
-	}
 
 	map(window, state);
 	player(window, state);
