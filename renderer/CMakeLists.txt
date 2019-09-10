@@ -10,6 +10,9 @@ add_library(Renderer STATIC
     src/Shader.cpp
     src/Mesh.cpp
     src/Animation.cpp
+    src/Square.cpp
+    src/Particle.cpp
+    src/Swarm.cpp
 )
 
 include_directories(${GLM_INCLUDE_DIRS})
