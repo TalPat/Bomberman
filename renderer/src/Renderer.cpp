@@ -3,16 +3,31 @@
 
 Renderer::Renderer(/* args */)
 {
+	fontMap = {
+			{'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {' ', 10}, {'a', 11}, {'b', 12}, {'c', 13}, {'d', 14}, {'e', 15}, {'f', 16}, {'g', 17}, {'h', 18}, {'i', 19}, {'j', 20}, {'k', 21}, {'l', 22}, {'m', 23}, {'n', 24}, {'o', 25}, {'p', 26}, {'q', 27}, {'r', 28}, {'s', 29}, {'t', 30}, {'u', 31}, {'v', 32}, {'w', 33}, {'x', 34}, {'y', 35}, {'z', 36}};
 }
 
 Renderer::~Renderer()
 {
 }
 
+void Renderer::loadFont()
+{
+	for (size_t i = 0; i < 10; i++)
+	{
+		_characters.push_back(new GuiChar("../../renderer/res/characters/" + std::string(1, '0' + i) + ".png"));
+	}
+	_characters.push_back(new GuiChar("../../renderer/res/characters/white.png"));
+	for (size_t i = 0; i < 26; i++)
+	{
+		_characters.push_back(new GuiChar("../../renderer/res/characters/" + std::string(1, 'A' + i) + ".png"));
+	}
+}
+
 void Renderer::init()
 {
 	// Enable glew
-	glewExperimental = GL_TRUE; 
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
@@ -24,6 +39,9 @@ void Renderer::init()
 
 	//Wireframing
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	//load fonts
+	loadFont();
 
 	//Load objects into vram
 	Model_st modelLoad;
@@ -64,8 +82,9 @@ void Renderer::init()
 	modelLoad.initialScale = glm::vec3(0.01f);
 	_models.push_back(modelLoad);
 
-	//compile shader programs
+	// compile shader programs
 	_shader = new Shader("../../renderer/res/shaders/vertexShader.glsl", "../../renderer/res/shaders/fragmentShader.glsl");
+	_textShader = new Shader("../../renderer/res/shaders/textv.glsl", "../../renderer/res/shaders/textf.glsl");
 
 	//build camera
 	_camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
@@ -192,16 +211,44 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
 
-	pickups(window, state);
-	map(window, state);
-	player(window, state);
-	enemy(window, state);
-
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
 	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
 	_camera->setYaw(270.0f);
 	_camera->setPitch(-45.0f);
 
+	pickups(window, state);
+	map(window, state);
+	player(window, state);
+	enemy(window, state);
+
 	window.display();
+}
+
+void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vector3i color, sf::Vector2f pos, float scale)
+{
+	_textShader->use();
+
+	float offset = 0.0f;
+	sf::Vector2u size = window.getSize();
+	float ratio = (float)(size.y)/size.x;
+	float stride = 0.35 * scale * ratio / 1.4;
+	glm::mat4 posMat = glm::mat4(1.0f);
+	glm::mat4 scaleMat = glm::mat4(1.0f);
+
+	posMat = glm::translate(posMat, glm::vec3(pos.x, pos.y, 0.0f));
+	scaleMat = glm::scale(scaleMat, glm::vec3(scale * ratio / 1.4, scale, scale));
+
+	_textShader->setVec3("textColor", glm::vec3((float)(color.x)/255, (float)(color.y)/255, (float)(color.z)/255));
+
+	for (char &c : string)
+	{
+		c = std::tolower(c);
+		_textShader->setMat4("posMat", posMat);
+		_textShader->setMat4("scaleMat", scaleMat);
+		_characters[fontMap[c]]->draw(*_textShader);
+		posMat = glm::translate(posMat, glm::vec3(stride, 0.0f, 0.0f));
+	}
+
+	window.display(); //remove if function no longer called outside of renderer class
 }
