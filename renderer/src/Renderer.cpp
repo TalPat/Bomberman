@@ -27,6 +27,7 @@ void Renderer::loadFont()
 void Renderer::init()
 {
 	// Enable glew
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
@@ -137,6 +138,11 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 					break;
+				case Tile::BombClear:
+					name = bombModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
+					break;
 				case Tile::Flame:
 					name = flameModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
@@ -155,19 +161,42 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 {
-	glm::mat4 model = glm::mat4(1.0f);
-	sf::Vector2f enemyPosition(state.enemy.position());
-	enemyPosition -= sf::Vector2f(0.5, 0.5);
+	for(auto &e: state.enemies.list)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		sf::Vector2f enemyPosition(e->position());
+		enemyPosition -= sf::Vector2f(0.5, 0.5);
 
-	model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+		model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 
-	model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
-	model = _models[balloonModel].model->getAnimation().floating(model);																								 //simple animation. generate class to manage
+		model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
+		model = _models[balloonModel].model->getAnimation().floating(model);																								 //simple animation. generate class to manage
 
-	model = glm::scale(model, _models[balloonModel].initialScale);
-	model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
-	_shader->setMat4("model", model);
-	_models[balloonModel].model->draw(*_shader);
+		model = glm::scale(model, _models[balloonModel].initialScale);
+		model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
+		_shader->setMat4("model", model);
+		_models[balloonModel].model->draw(*_shader);
+	}
+}
+
+void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
+{
+	for(auto &pickup: state.pickups._pickups)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		sf::Vector2f enemyPosition(pickup.position);
+		//enemyPosition += sf::Vector2f(0.5, 0.5);
+
+		model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+
+		model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
+		model = _models[balloonModel].model->getAnimation().floating(model);																								 //simple animation. generate class to manage
+
+		model = glm::scale(model, _models[balloonModel].initialScale);
+		model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
+		_shader->setMat4("model", model);
+		_models[balloonModel].model->draw(*_shader);
+	}
 }
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
@@ -188,6 +217,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_camera->setYaw(270.0f);
 	_camera->setPitch(-45.0f);
 
+	pickups(window, state);
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
