@@ -236,6 +236,12 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	writeLine(window, "FPS "+std::to_string((int)(1/_clock.getElapsedTime().asSeconds())), sf::Vector3i(10,20,50), sf::Vector2f(-1.0f,-1.0f), 0.2f);
 	_clock.restart();
 
+	sf::Vector2f playerPosition(state.player.position());
+	playerPosition -= sf::Vector2f(0.5, 0.5);
+	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	_camera->setYaw(270.0f);
+	_camera->setPitch(-45.0f);
+
 	_shader->use();
 	glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
 	glm::mat4 view = _camera->getViewMatrix();
@@ -264,12 +270,6 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
-
-	sf::Vector2f playerPosition(state.player.position());
-	playerPosition -= sf::Vector2f(0.5, 0.5);
-	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
-	_camera->setYaw(270.0f);
-	_camera->setPitch(-45.0f);
 
 	window.display();
 }
