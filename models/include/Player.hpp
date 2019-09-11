@@ -17,10 +17,10 @@ struct MoveState
 class Player
 {
 	float _playerSpeed;
+	sf::Vector2f _position;
 	bool correctPlayerCellCollision(sf::Vector2i cell);
 
 public:
-	sf::Vector2f _position;
 	Player();
 	~Player();
 

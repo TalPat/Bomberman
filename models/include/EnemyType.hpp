@@ -1,7 +1,8 @@
 #ifndef _ENEMYTYPE_HPP_
 #define _ENEMYTYPE_HPP_
 
-enum EnemyType{
+enum EnemyType
+{
 	EGeneric,
 	EBallom,
 	EAggroBallom
