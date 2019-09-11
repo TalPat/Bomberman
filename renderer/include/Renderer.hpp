@@ -54,6 +54,9 @@ private:
 	void enemy(sf::RenderWindow &window, const GameState &state);
 	void loadFont();
 
+	//troubleshooting frame counter
+	sf::Clock _clock;
+
 public:
 	Renderer(/* args */);
 	~Renderer();

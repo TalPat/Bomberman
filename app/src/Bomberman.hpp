@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <ctime>
+#include <X11/Xlib.h>
 
 static const uint WINDOW_WIDTH = 800;
 static const uint WINDOW_HEIGHT = 800;
@@ -33,9 +34,15 @@ private:
 
 	virtual void updateFunc();
 
+	static void *threadFunction(void *arg); //thread stuff
+	pthread_t myThread;
+	pthread_mutex_t *lock;
+	bool threadActive;
+
 public:
 	Bomberman();
 	~Bomberman();
+	void setMutex(pthread_mutex_t *mutex);
 
 	void startGame();
 };

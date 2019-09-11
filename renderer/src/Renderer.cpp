@@ -226,34 +226,40 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
+	window.setActive(true);
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
 	glClearColor(0.3f, 0.3f, 5.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//frame counter
+	writeLine(window, "FPS "+std::to_string((int)(1/_clock.getElapsedTime().asSeconds())), sf::Vector3i(10,20,50), sf::Vector2f(-1.0f,-1.0f), 0.2f);
+	_clock.restart();
+
 	_shader->use();
 	glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
 	glm::mat4 view = _camera->getViewMatrix();
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
 
-	// /*drawing tiles with square object test only*/
-	// for (size_t i = 0; i < 20; i++)
-	// {
-	// 	for (size_t j = 0; j < 20; j++)
-	// 	{
-	// 		glm::mat4 model = glm::mat4(1.0f);
-	// 		model = glm::translate(model, glm::vec3(i, 0.0f, j));
-	// 		_shader->setMat4("model", model);
-	// 		square->draw(*_shader);
-	// 	}
+	/*drawing tiles with square object test only*/
+	for (size_t i = 0; i < 20; i++)
+	{
+		for (size_t j = 0; j < 20; j++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(i, 0.0f, j));
+			_shader->setMat4("model", model);
+			square->draw(*_shader);
+		}
 		
-	// }
-	// glm::mat4 model = glm::mat4(1.0f);
-	// model = glm::translate(model, glm::vec3(10, -1.0f, 10));
-	// model = glm::scale(model, glm::vec3(20.f));
-	// _shader->setMat4("model", model);
-	// square->draw(*_shader);
-	// /*endoftest*/
+	}
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(10, -1.0f, 10));
+	model = glm::scale(model, glm::vec3(20.f));
+	_shader->setMat4("model", model);
+	square->draw(*_shader);
+	/*endoftest*/
 
 	map(window, state);
 	player(window, state);
@@ -293,5 +299,5 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 		posMat = glm::translate(posMat, glm::vec3(stride, 0.0f, 0.0f));
 	}
 
-	window.display(); //remove if function no longer called outside of renderer class
+	//window.display(); //remove if function no longer called outside of renderer class
 }
