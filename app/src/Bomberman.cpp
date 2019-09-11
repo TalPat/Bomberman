@@ -57,8 +57,9 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
+		std::cout << "FPS "+std::to_string((int)(1/this->frameClock.getElapsedTime().asSeconds())) << std::endl;
+		this->frameClock.restart();
 		this->renderer.render(*(this->window), this->gameState);
 		renderer.writeLine(*window, "FPS "+std::to_string((int)(1/this->frameClock.getElapsedTime().asSeconds())), sf::Vector3i(10,20,50), sf::Vector2f(-1.0f,-1.0f), 0.2f); // example of implementation, rather use in renderer to avoid syncopated draw calls
-		this->frameClock.restart();
 	}
 }
