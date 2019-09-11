@@ -1,7 +1,7 @@
 #include "../include/Player.hpp"
 
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
-const float DEFAULT_SPEED = 4;
+const float DEFAULT_SPEED = 3;
 
 Player::Player() : _position(DEFAULT_START),
 				   _playerSpeed(DEFAULT_SPEED),
@@ -16,10 +16,24 @@ Player::~Player()
 void Player::move(float deltaTime, const Map &map)
 {
 	MoveState &move = this->moveState;
+	sf::Vector2f &pos = this->_position;
 
 	// Determine movement vectors
 	sf::Vector2f dx(0 + move.east - move.west, 0);
 	sf::Vector2f dy(0, 0 + move.south - move.north);
+
+	sf::Vector2i north = sf::Vector2i( pos + sf::Vector2f(0.0, -0.6) );
+	sf::Vector2i south = sf::Vector2i( pos + sf::Vector2f(0.0, 0.6) );
+	sf::Vector2i west = sf::Vector2i( pos + sf::Vector2f(-0.6, 0.0) );
+	sf::Vector2i east = sf::Vector2i( pos + sf::Vector2f(0.6, 0.0) );
+	if (move.south && map.tileAt( south ) == Tile::Clear )
+		dx.x += 0.5 * ((south.x + 0.5) - pos.x);
+	if (move.north && map.tileAt( north ) == Tile::Clear )
+		dx.x += 0.5 * ((north.x + 0.5) - pos.x);
+	if (move.east && map.tileAt( east ) == Tile::Clear )
+		dy.y += 0.5 * ((east.y + 0.5) - pos.y);
+	if (move.west && map.tileAt( west ) == Tile::Clear )
+		dy.y += 0.5 * ((west.y + 0.5) - pos.y);
 
 	// Scale movement vectors
 	dx *= this->_playerSpeed * deltaTime;
@@ -30,12 +44,11 @@ void Player::move(float deltaTime, const Map &map)
 		return tile != Tile::Clear && tile != Tile::BombClear;
 	};
 	// Move player as far as possible without colliding
-	sf::Vector2f &pos = this->_position;
-	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, 0.40, comp))
+	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, 0.35, comp))
 		return;
-	if (dx.x != 0 && map.lerpCollide(pos, dx, 0.40, comp))
+	if (dx.x != 0 && map.lerpCollide(pos, dx, 0.35, comp))
 		return;
-	if (dy.y != 0 && map.lerpCollide(pos, dy, 0.40, comp))
+	if (dy.y != 0 && map.lerpCollide(pos, dy, 0.35, comp))
 		return;
 }
 
