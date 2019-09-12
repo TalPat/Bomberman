@@ -27,6 +27,7 @@ void Renderer::loadFont()
 void Renderer::init()
 {
 	// Enable glew
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
@@ -104,7 +105,10 @@ void Renderer::init()
 	modelLoad.initialScale = glm::vec3(0.06f);
 	_models.push_back(modelLoad);
 
-	square = new Square(std::string(SPRITE_DIR) + "/tile1.png");
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/tile1.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/trapdoor.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/bomb.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/flame.png"));
 
 	//compile shader programs
 	_shader = new Shader((std::string(SHADER_DIR) + "/vertexShader.glsl").c_str(), (std::string(SHADER_DIR) + "/fragmentShader.glsl").c_str());
@@ -189,6 +193,11 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 																																									// model = _models[bombModel].model->getAnimation().spin(model, 3, glm::vec3(0.0f, 1.0f, 0.0f)); //simple animation. generate class to manage
 					break;
+				case Tile::BombClear:
+					name = bombModel;
+					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
+					break;
 				case Tile::Flame:
 					name = flameModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
@@ -207,21 +216,78 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 {
-	glm::mat4 model = glm::mat4(1.0f);
-	sf::Vector2f enemyPosition(state.enemy.position());
-	enemyPosition -= sf::Vector2f(0.5, 0.5);
-	_models[pigModel].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
+	for(auto &e: state.enemies.list)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		sf::Vector2f enemyPosition(e->position());
+		enemyPosition -= sf::Vector2f(0.5, 0.5);
+		modelNames name;
 
-	model = glm::translate(model, _models[pigModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+		switch (e->type)
+		{
+		case EAggroBallom:
+			name = ghostModel;
+			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = _models[name].model->getAnimation().floating(model);
+			break;
+		case EBallom:
+			name = ghostModel;
+			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = _models[name].model->getAnimation().floating(model);
+			break;
+		case EGeneric:
+			name = pigModel;
+			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = _models[name].model->getAnimation().waddle(model);
+			break;
+		
+		default:
+			break;
+		}
 
-	model = _models[pigModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
-	//model = _models[balloonModel].model->getAnimation().floating(model); //simple animation. generate class to manage
-	model = _models[pigModel].model->getAnimation().waddle(model);
+		model = glm::scale(model, _models[name].initialScale);
+		model = glm::rotate(model, glm::radians(_models[name].initialRot.w), glm::vec3(_models[name].initialRot));
+		_shader->setMat4("model", model);
+		_models[name].model->draw(*_shader);
+	}
+}
 
-	model = glm::scale(model, _models[pigModel].initialScale);
-	model = glm::rotate(model, glm::radians(_models[pigModel].initialRot.w), glm::vec3(_models[pigModel].initialRot));
-	_shader->setMat4("model", model);
-	_models[pigModel].model->draw(*_shader);
+void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
+{
+	for(auto &pickup: state.pickups._pickups)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		sf::Vector2f pickupPosition(pickup.position);
+		tileNames name;
+
+		switch (pickup.type)
+		{
+		case LevelUp:
+			name = doorTile;
+			break;
+		case BombTotal:
+			name = bombTile;
+			break;
+		case BombRange:
+			name = flameTile;
+			break;
+		
+		default:
+			break;
+		}
+
+		model = glm::translate(model, glm::vec3(pickupPosition.x, 0.1f, pickupPosition.y));
+		model = glm::rotate(model, glm::radians(180.0f),glm::vec3(0.0f, 1.0f, 0.0f));
+
+		_shader->setMat4("model", model);
+		_squares[name]->draw(*_shader);
+	}
 }
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
@@ -238,9 +304,9 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
-	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	_camera->setPosition(glm::vec3(playerPosition.x, 15.0f, playerPosition.y + 7.5f));
 	_camera->setYaw(270.0f);
-	_camera->setPitch(-45.0f);
+	_camera->setPitch(-60.0f);
 
 	_shader->use();
 	glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
@@ -256,17 +322,13 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, glm::vec3(i, 0.0f, j));
 			_shader->setMat4("model", model);
-			square->draw(*_shader);
+			_squares[floorTile]->draw(*_shader);
 		}
 		
 	}
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(10, -1.0f, 10));
-	model = glm::scale(model, glm::vec3(20.f));
-	_shader->setMat4("model", model);
-	square->draw(*_shader);
 	/*endoftest*/
 
+	pickups(window, state);
 	map(window, state);
 	player(window, state);
 	enemy(window, state);

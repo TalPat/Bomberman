@@ -30,6 +30,14 @@ enum modelNames
 	shoer
 };
 
+enum tileNames
+{
+	floorTile,
+	doorTile,
+	bombTile,
+	flameTile
+};
+
 struct Model_st
 {
 	Model *model;
@@ -43,12 +51,13 @@ class Renderer
 private:
 	std::vector<Model_st> _models;
 
-	/*square test*/Square *square;
 	std::map<char, int> fontMap;
 	std::vector<GuiChar *> _characters;
+	std::vector<Square *> _squares;
 	Shader *_shader;
 	Shader *_textShader;
 	Camera *_camera;
+	void pickups(sf::RenderWindow &window, const GameState &state);
 	void player(sf::RenderWindow &window, const GameState &state);
 	void map(sf::RenderWindow &window, const GameState &state);
 	void enemy(sf::RenderWindow &window, const GameState &state);

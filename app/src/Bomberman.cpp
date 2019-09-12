@@ -28,6 +28,7 @@ Bomberman::Bomberman()
 
 	//thread stuff
 	threadActive = false;
+	this->engine.init(this->gameState);
 }
 
 Bomberman::~Bomberman()
