@@ -12,7 +12,7 @@ void Menu::init(Renderer &renderer)
 	Model_st modelLoad;
 
 	modelLoad.model = new Model((std::string(MODELS_DIR) + "/wall/wall.obj"));
-	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
+	modelLoad.initialPos = glm::vec3(0.0f, 0.0f, 0.0f);
 	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_wallModel = modelLoad;
@@ -46,9 +46,9 @@ void Menu::render(sf::RenderWindow &window, const GameState &state)
 
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
-	this->_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	this->_camera->setPosition(glm::vec3(playerPosition.x, 0.0f, playerPosition.y + 4.0f));
 	this->_camera->setYaw(270.0f);
-	this->_camera->setPitch(-45.0f);
+	this->_camera->setPitch(0.0f);
 
 
 
