@@ -157,10 +157,8 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	enemyPosition -= sf::Vector2f(0.5, 0.5);
 
 	model = glm::translate(model, _models[balloonModel].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
-
 	model = _models[balloonModel].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y)); //simple animation. generate class to manage
 	model = _models[balloonModel].model->getAnimation().floating(model);												 //simple animation. generate class to manage
-
 	model = glm::scale(model, _models[balloonModel].initialScale);
 	model = glm::rotate(model, glm::radians(_models[balloonModel].initialRot.w), glm::vec3(_models[balloonModel].initialRot));
 	_shader->setMat4("model", model);
@@ -188,6 +186,12 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
 
+	sf::Vector2f playerPosition(state.player.position());
+	playerPosition -= sf::Vector2f(0.5, 0.5);
+	_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	_camera->setYaw(270.0f);
+	_camera->setPitch(-45.0f);
+
 	for (size_t i = 0; i < 20; i++)
 	{
 		for (size_t j = 0; j < 20; j++)
@@ -199,6 +203,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 		}
 	}
 
+	pickups(window, state);
 	map(window, state);
 	player(window, state);
 	enemy(window, state);

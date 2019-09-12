@@ -13,6 +13,7 @@
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
 #include "../src/Camera.hpp"
+#include "../src/GuiChar.hpp"
 #include "../src/Particle.hpp"
 #include "../src/Square.hpp"
 #include "../src/Swarm.hpp"
@@ -39,16 +40,19 @@ struct Model_st
 class Renderer
 {
 private:
+	std::map<char, int> fontMap;
 	Square *square;
 	Square *skybox_model;
 	Square *dirt_model;
 	std::vector<Model_st> _models;
 	Shader *_shader;
 	Camera *_camera;
-	Swarm swarm;
+	void pickups(sf::RenderWindow &window, const GameState &state);
 	void player(sf::RenderWindow &window, const GameState &state);
 	void map(sf::RenderWindow &window, const GameState &state);
 	void enemy(sf::RenderWindow &window, const GameState &state);
+	void loadFont();
+	Swarm swarm;
 	void skybox();
 
 public:
