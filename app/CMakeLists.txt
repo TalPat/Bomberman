@@ -16,3 +16,6 @@ target_link_libraries(App
 
 add_executable(bomberman src/main.cpp)
 target_link_libraries(bomberman App)
+
+set(MODELS_DIR ${PROJECT_SOURCE_DIR}/renderer/res/models)
+target_compile_definitions(App PRIVATE MODELS_DIR=\"${MODELS_DIR}\")

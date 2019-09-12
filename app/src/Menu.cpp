@@ -10,7 +10,7 @@ void Menu::init(Renderer &renderer)
 
 	Model_st modelLoad;
 
-	modelLoad.model = new Model("../../renderer/res/models/wall/wall.obj"); //unbreakable
+	modelLoad.model = new Model((std::string(MODELS_DIR) + "/wall/wall.obj")); //unbreakable
 	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.5f);
