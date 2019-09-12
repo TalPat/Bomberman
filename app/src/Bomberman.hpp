@@ -3,6 +3,7 @@
 
 #include "./AMainLoop.hpp"
 #include "./Input.hpp"
+#include "./Menu.hpp"
 
 #include <Engine.hpp>
 #include <EngineEvent.hpp>
@@ -23,6 +24,7 @@ private:
 	Engine engine;
 	Renderer renderer;
 	Input input;
+	Menu menu;
 
 	GameState gameState;
 

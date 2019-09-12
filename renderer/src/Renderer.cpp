@@ -222,3 +222,13 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 
 	window.display(); //remove if function no longer called outside of renderer class
 }
+
+Shader *Renderer::shader()
+{
+	return this->_shader;
+}
+
+Camera *Renderer::camera()
+{
+	return this->_camera;
+}

@@ -21,6 +21,7 @@ Bomberman::Bomberman()
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE, sf::Style::Default, settings);
 	window->setActive();
 	renderer.init();
+	menu.init(renderer);
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
@@ -57,7 +58,8 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		this->renderer.render(*(this->window), this->gameState);
+		// this->renderer.render(*(this->window), this->gameState);
+		this->menu.render(*(this->window), this->gameState);
 		std::string textString = "FPS " + std::to_string((int)(1 / this->frameClock.getElapsedTime().asSeconds()));
 		sf::Vector3i color = sf::Vector3i(10, 20, 50);
 		sf::Vector2f startLocation = sf::Vector2f(-1.0f, -1.0f);
