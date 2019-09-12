@@ -6,7 +6,8 @@ Menu::~Menu() {}
 
 void Menu::init(Renderer &renderer)
 {
-	this->_renderer = &renderer;
+	this->_shader = renderer.shader();
+	this->_camera = renderer.camera();
 
 	Model_st modelLoad;
 
@@ -27,35 +28,33 @@ void Menu::drawMenuItem(std::string text, int offset)
 
 	model = glm::scale(model, this->_wallModel.initialScale);
 	model = glm::rotate(model, glm::radians(this->_wallModel.initialRot.w), glm::vec3(this->_wallModel.initialRot));
-	this->_renderer->shader()->setMat4("model", model);
-	this->_wallModel.model->draw(*this->_renderer->shader());
+	this->_shader->setMat4("model", model);
+	this->_wallModel.model->draw(*this->_shader);
 }
 
 void Menu::render(sf::RenderWindow &window, const GameState &state)
 {
-
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
 	glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->_renderer->shader()->use();
-	glm::mat4 projection = glm::perspective(glm::radians(this->_renderer->camera()->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
-	glm::mat4 view = this->_renderer->camera()->getViewMatrix();
-	this->_renderer->shader()->setMat4("projection", projection);
-	this->_renderer->shader()->setMat4("view", view);
+	this->_shader->use();
+	glm::mat4 projection = glm::perspective(glm::radians(this->_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
+	glm::mat4 view = this->_camera->getViewMatrix();
+	this->_shader->setMat4("projection", projection);
+	this->_shader->setMat4("view", view);
 
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
-	this->_renderer->camera()->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
-	this->_renderer->camera()->setYaw(270.0f);
-	this->_renderer->camera()->setPitch(-45.0f);
+	this->_camera->setPosition(glm::vec3(playerPosition.x, 5.0f, playerPosition.y + 5.0f));
+	this->_camera->setYaw(270.0f);
+	this->_camera->setPitch(-45.0f);
 
 
 
 	this->drawMenuItem("Hello", -2);
 	this->drawMenuItem("Hello", 0);
 	this->drawMenuItem("Hello", 2);
-
 
 	window.display();
 }

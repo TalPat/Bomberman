@@ -6,7 +6,8 @@
 class Menu
 {
 private:
-	Renderer *_renderer;
+	Shader *_shader;
+	Camera *_camera;
 	Model_st _wallModel;
 
 	void drawMenuItem(std::string text, int offset);
