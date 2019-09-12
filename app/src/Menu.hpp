@@ -6,9 +6,10 @@
 class Menu
 {
 private:
-
 	Renderer *_renderer;
 	Model_st _wallModel;
+
+	void drawMenuItem(std::string text, int offset);
 
 public:
 	Menu();

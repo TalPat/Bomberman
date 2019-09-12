@@ -10,11 +10,25 @@ void Menu::init(Renderer &renderer)
 
 	Model_st modelLoad;
 
-	modelLoad.model = new Model((std::string(MODELS_DIR) + "/wall/wall.obj")); //unbreakable
+	modelLoad.model = new Model((std::string(MODELS_DIR) + "/wall/wall.obj"));
 	modelLoad.initialPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_wallModel = modelLoad;
+}
+
+void Menu::drawMenuItem(std::string text, int offset)
+{
+	sf::Vector2i cellPosition(1, 1);
+	glm::mat4 model = glm::mat4(1.0f);
+	modelNames name;
+	name = unbreakableModel;
+	model = glm::translate(model, this->_wallModel.initialPos + glm::vec3(cellPosition.x + offset, 0.0f, cellPosition.y));
+
+	model = glm::scale(model, this->_wallModel.initialScale);
+	model = glm::rotate(model, glm::radians(this->_wallModel.initialRot.w), glm::vec3(this->_wallModel.initialRot));
+	this->_renderer->shader()->setMat4("model", model);
+	this->_wallModel.model->draw(*this->_renderer->shader());
 }
 
 void Menu::render(sf::RenderWindow &window, const GameState &state)
@@ -38,18 +52,10 @@ void Menu::render(sf::RenderWindow &window, const GameState &state)
 
 
 
+	this->drawMenuItem("Hello", -2);
+	this->drawMenuItem("Hello", 0);
+	this->drawMenuItem("Hello", 2);
 
-
-	sf::Vector2i cellPosition(1, 1);
-	glm::mat4 model = glm::mat4(1.0f);
-	modelNames name;
-	name = unbreakableModel;
-	model = glm::translate(model, this->_wallModel.initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
-
-	model = glm::scale(model, this->_wallModel.initialScale);
-	model = glm::rotate(model, glm::radians(this->_wallModel.initialRot.w), glm::vec3(this->_wallModel.initialRot));
-	this->_renderer->shader()->setMat4("model", model);
-	this->_wallModel.model->draw(*this->_renderer->shader());
 
 	window.display();
 }
