@@ -45,13 +45,14 @@ void *Bomberman::threadFunction(void *arg)
 {
 	Bomberman *bman = (Bomberman *)arg;
 
+	// uncomment if object must be mutated by renderer
 	// pthread_mutex_lock(bman->lock);
 
 	bman->renderer.render(*(bman->window), bman->gameState);
 	bman->threadActive = false;
 	
+	// uncomment if object must be mutated by renderer
 	// pthread_mutex_unlock(bman->lock);
-
 }
 
 void Bomberman::updateFunc()
@@ -76,7 +77,6 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		std::cout << "FPS "+std::to_string((int)(1/frameClock.getElapsedTime().asSeconds())) << std::endl;
 		if (!threadActive)
 		{
 			this->frameClock.restart();

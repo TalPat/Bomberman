@@ -3,10 +3,13 @@
 
 int main()
 {
-	XInitThreads();
-	pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+	#if !__APPLE__
+		XInitThreads();
+	#endif
+	// pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 	Bomberman bomberman;
-	bomberman.setMutex(&mutex);
+	// uncomment if object mutated by renderer
+	// bomberman.setMutex(&mutex);
 
 	bomberman.startGame();
 }

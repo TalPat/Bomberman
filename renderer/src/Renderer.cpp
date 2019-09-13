@@ -172,6 +172,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 		{
 			sf::Vector2i cellPosition(x, y);
 			tile = map.tileAt(cellPosition);
+			glm::mat4 tileModel = glm::mat4(1.0f);
 			if (tile != Tile::Clear)
 			{
 				glm::mat4 model = glm::mat4(1.0f);
@@ -192,15 +193,24 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 																																									// model = _models[bombModel].model->getAnimation().spin(model, 3, glm::vec3(0.0f, 1.0f, 0.0f)); //simple animation. generate class to manage
+					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					_shader->setMat4("model", tileModel);
+					_squares[floorTile]->draw(*_shader);
 					break;
 				case Tile::BombClear:
 					name = bombModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
+					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					_shader->setMat4("model", tileModel);
+					_squares[floorTile]->draw(*_shader);
 					break;
 				case Tile::Flame:
 					name = flameModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					_shader->setMat4("model", tileModel);
+					_squares[floorTile]->draw(*_shader);
 					break;
 				default:
 					break;
@@ -209,6 +219,10 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 				model = glm::rotate(model, glm::radians(_models[name].initialRot.w), glm::vec3(_models[name].initialRot));
 				_shader->setMat4("model", model);
 				_models[name].model->draw(*_shader);
+			} else {
+				tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+				_shader->setMat4("model", tileModel);
+				_squares[floorTile]->draw(*_shader);
 			}
 		}
 	}
@@ -314,20 +328,6 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
 
-	/*drawing tiles with square object test only*/
-	for (size_t i = 0; i < 20; i++)
-	{
-		for (size_t j = 0; j < 20; j++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(i, 0.0f, j));
-			_shader->setMat4("model", model);
-			_squares[floorTile]->draw(*_shader);
-		}
-		
-	}
-	/*endoftest*/
-
 	pickups(window, state);
 	map(window, state);
 	player(window, state);
@@ -360,6 +360,4 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 		_characters[fontMap[c]]->draw(*_textShader);
 		posMat = glm::translate(posMat, glm::vec3(stride, 0.0f, 0.0f));
 	}
-
-	//window.display(); //remove if function no longer called outside of renderer class
 }

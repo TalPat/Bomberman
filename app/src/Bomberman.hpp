@@ -11,7 +11,9 @@
 
 #include <vector>
 #include <ctime>
-#include <X11/Xlib.h>
+#if !__APPLE__
+	#include <X11/Xlib.h>
+#endif
 
 static const uint WINDOW_WIDTH = 800;
 static const uint WINDOW_HEIGHT = 800;
