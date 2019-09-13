@@ -4,14 +4,14 @@
 #include "IEnemy.hpp"
 #include "Map.hpp"
 #include "Ballom.hpp"
-
+#include "Finder.hpp"
 #include <list>
 
 class Enemies
 {
 public:
 	std::list<IEnemy*> list;
-	void updateAll(float deltaTime, const Map &map);
+	void updateAll(float deltaTime, const Map &map, const Player &player);
 	void populate();
 	void populate(int numEnemies);
 	Enemies();

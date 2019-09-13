@@ -2,8 +2,10 @@
 #define _IEnemy_hpp_
 
 #include "Map.hpp"
-#include "EnemyType.hpp"
+#include "Player.hpp"
 
+#include "EnemyType.hpp"
+// #include <GameState.hpp>
 #include <SFML/System.hpp>
 #include <cmath>
 
@@ -48,7 +50,7 @@ public:
 	IEnemy(sf::Vector2f start);
 	~IEnemy();
 	bool correctEnemyCellCollision(sf::Vector2i cell);
-	virtual void update(float deltaTime, const Map &map);
+	virtual void update(float deltaTime, const Map &map,const Player &player);
 	EnemyMoveState moveState;
 	virtual void changeMoveState();
 	virtual void changeAggression();

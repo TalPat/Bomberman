@@ -37,7 +37,7 @@ void Ballom::changeMoveState()
 	this->moveState =(EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
 }
 
-void Ballom::update(float deltaTime, const Map &map)
+void Ballom::update(float deltaTime, const Map &map, const Player &player)
 {
 	_switchTime -= deltaTime;
 	_aggression -= deltaTime;

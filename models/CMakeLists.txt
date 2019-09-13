@@ -5,6 +5,7 @@ add_library(Models STATIC
     src/Bombs.cpp
     src/IEnemy.cpp
     src/Ballom.cpp
+    src/Finder.cpp
     src/Enemies.cpp
     src/Pickups.cpp
 )

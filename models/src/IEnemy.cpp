@@ -100,7 +100,7 @@ void IEnemy::changeMoveState()
 	this->moveState = (EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
 }
 
-void IEnemy::update(float deltaTime, const Map &map)
+void IEnemy::update(float deltaTime, const Map &map,const Player &player)
 {
 	_switchTime -= deltaTime;
 	if(_switchTime <= 0)

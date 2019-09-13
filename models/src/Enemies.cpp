@@ -2,19 +2,19 @@
 
 Enemies::Enemies()
 {
-	populate(5);
+	populate(50);
 }
 
 Enemies::~Enemies()
 {
-	for(auto &e:this->list)
-		delete e;
+	// for(auto &e:this->list)
+	// 	delete e;
 }
-void Enemies::updateAll(float deltaTime, const Map &map)
+void Enemies::updateAll(float deltaTime, const Map &map, const Player &player)
 {
 	for(auto &e:this->list)
 	{
-		e->update(deltaTime, map);
+		e->update(deltaTime, map, player);
 	}
 }
 
@@ -33,15 +33,17 @@ void Enemies::populate(int numEnemies)
 	IEnemy *e;
 	for(int i = 0; i < numEnemies;i++)
 	{
-		enemyType = (rand() % 2);
+		enemyType = (rand() % 3);
 		switch (enemyType)
 		{
-			case 0:
-				e = new Ballom();
-				break;
-		
+			// case 0:
+			// 	e = new Ballom();
+			// 	break;
+			// case 1:
+			// 	e = new Finder();
+			// 	break;
 			default:
-				e = new IEnemy();
+				e = new Finder();
 				break;
 		}
 		list.push_back(e);
