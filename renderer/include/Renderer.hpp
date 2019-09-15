@@ -26,6 +26,7 @@ enum modelNames
 	pigModel,
 	robotModel,
 	ghostModel,
+	giraffeModel,
 	shoel,
 	shoer
 };

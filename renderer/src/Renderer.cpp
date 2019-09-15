@@ -93,6 +93,12 @@ void Renderer::init()
 	modelLoad.initialScale = glm::vec3(0.2f);
 	_models.push_back(modelLoad);
 
+	modelLoad.model = new Model(std::string(MODEL_DIR) + "/giraffe/10021_Giraffe_v04.obj"); //flame
+	modelLoad.initialPos = glm::vec3(0.0f);
+	modelLoad.initialRot = glm::vec4(1.0f, 0.0f, 0.0f, 270.0f);
+	modelLoad.initialScale = glm::vec3(0.01f);
+	_models.push_back(modelLoad);
+
 	modelLoad.model = new Model(std::string(MODEL_DIR) + "/shoe/shoel.obj"); //shoel
 	modelLoad.initialPos = glm::vec3(-0.2f, 0.0f, 0.0f);
 	modelLoad.initialRot = glm::vec4(1.0f, 1.0f, 1.0f, 0.0f);
@@ -262,6 +268,11 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 			break;
 		
 		default:
+			name = giraffeModel;
+			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
+			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
+			model = _models[name].model->getAnimation().waddle(model);
 			break;
 		}
 
