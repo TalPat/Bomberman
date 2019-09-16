@@ -220,7 +220,7 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 		posMat = glm::translate(posMat, glm::vec3(stride, 0.0f, 0.0f));
 	}
 
-	window.display(); //remove if function no longer called outside of renderer class
+	// window.display(); //remove if function no longer called outside of renderer class
 }
 
 Shader *Renderer::shader()
