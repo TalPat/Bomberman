@@ -19,8 +19,9 @@ static const char *WINDOW_TITLE = "Bomberman";
 
 enum MenuState
 {
-	InMenu,
-	Paused,
+	MainMenu,
+	PauseMenu,
+	ControlsMenu,
 	Playing
 };
 
@@ -31,7 +32,9 @@ private:
 	Engine engine;
 	Renderer renderer;
 	Input input;
-	Menu menu;
+	
+	Menu mainMenu;
+	Menu pauseMenu;
 	MenuState menuState;
 
 	GameState gameState;
@@ -42,6 +45,8 @@ private:
 	float engineTime;
 
 	virtual void updateFunc();
+
+	void handleMenuOption(MenuOption option);
 
 public:
 	Bomberman();

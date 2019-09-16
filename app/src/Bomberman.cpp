@@ -21,8 +21,15 @@ Bomberman::Bomberman()
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE, sf::Style::Default, settings);
 	window->setActive();
 	renderer.init();
-	menu.init(renderer);
-	menuState = InMenu;
+
+	std::vector<MenuItem> mainMenuItems;
+	mainMenuItems.push_back(MenuItem(-2, "Start", MenuOption::Start));
+	mainMenuItems.push_back(MenuItem(0, "Controls", MenuOption::Controls));
+	mainMenuItems.push_back(MenuItem(2, "Exit", MenuOption::Exit));
+	mainMenu.init(renderer, mainMenuItems);
+	pauseMenu.init(renderer, mainMenuItems);
+
+	menuState = MenuState::MainMenu;
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
@@ -35,7 +42,22 @@ Bomberman::~Bomberman()
 void Bomberman::startGame()
 {
 	this->start();
-};
+}
+
+void Bomberman::handleMenuOption(MenuOption option)
+{
+	switch (option)
+	{
+	case MenuOption::Start:
+		this->menuState = MenuState::Playing;
+		break;
+	case MenuOption::Exit:
+		this->stop();
+		break;
+	default:
+		break;
+	}
+}
 
 void Bomberman::updateFunc()
 {
@@ -52,7 +74,7 @@ void Bomberman::updateFunc()
 		break;
 	case InputResponse::pause:
 		// Can be used to pause game with 'Esc' key
-		this->menuState = MenuState::InMenu;
+		this->menuState = MenuState::PauseMenu;
 		// this->stop();
 		break;
 	default:
@@ -71,32 +93,31 @@ void Bomberman::updateFunc()
 	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
 	this->deltaClock.restart();
 
-	if (this->menuState == MenuState::InMenu)
+	MenuOption option = MenuOption::None;
+
+	if (this->menuState == MenuState::Playing)
 	{
-		MenuOption action = this->menu.render(*(this->window), actions);
-		switch (action)
+		// Only render if required to enforce frameRate
+		if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 		{
-		case MenuOption::Start:
-			this->menuState = MenuState::Playing;
-			break;
-		case MenuOption::Exit:
-			this->stop();
-			break;
-		default:
-			break;
+			this->renderer.render(*(this->window), this->gameState);
+			std::string textString = "FPS " + std::to_string((int)(1 / this->frameClock.getElapsedTime().asSeconds()));
+			sf::Vector3i color = sf::Vector3i(10, 20, 50);
+			sf::Vector2f startLocation = sf::Vector2f(-1.0f, -1.0f);
+			float scale = 0.2f;
+			// example of "writeline implementation, rather use in renderer to avoid syncopated draw calls
+			renderer.writeLine(*window, textString, color, startLocation, scale);
+			this->frameClock.restart();
 		}
 	}
-
-	// Only render if required to enforce frameRate
-	else if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
+	else if (this->menuState == MenuState::MainMenu)
 	{
-		this->renderer.render(*(this->window), this->gameState);
-		std::string textString = "FPS " + std::to_string((int)(1 / this->frameClock.getElapsedTime().asSeconds()));
-		sf::Vector3i color = sf::Vector3i(10, 20, 50);
-		sf::Vector2f startLocation = sf::Vector2f(-1.0f, -1.0f);
-		float scale = 0.2f;
-		// example of "writeline implementation, rather use in renderer to avoid syncopated draw calls
-		renderer.writeLine(*window, textString, color, startLocation, scale);
-		this->frameClock.restart();
+		option = this->mainMenu.render(*(this->window), actions);
+		this->handleMenuOption(option);
+	}
+	else if (this->menuState == MenuState::PauseMenu)
+	{
+		option = this->pauseMenu.render(*(this->window), actions);
+		this->handleMenuOption(option);
 	}
 }

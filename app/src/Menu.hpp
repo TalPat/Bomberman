@@ -46,7 +46,7 @@ public:
 	Menu();
 	~Menu();
 
-	void init(Renderer &renderer);
+	void init(Renderer &renderer, std::vector<MenuItem> &items);
 	MenuOption render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
 };
 

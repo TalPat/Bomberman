@@ -4,7 +4,7 @@ Menu::Menu() {}
 
 Menu::~Menu() {}
 
-void Menu::init(Renderer &renderer)
+void Menu::init(Renderer &renderer, std::vector<MenuItem> &items)
 {
 	this->_renderer = &renderer;
 	this->_shader = renderer.shader();
@@ -19,9 +19,7 @@ void Menu::init(Renderer &renderer)
 	_wallModel = modelLoad;
 
 	this->selected = MenuOption::Start;
-	this->menuItems.push_back(MenuItem(-2, "Start", MenuOption::Start));
-	this->menuItems.push_back(MenuItem(0, "Controls", MenuOption::Controls));
-	this->menuItems.push_back(MenuItem(2, "Exit", MenuOption::Exit));
+	this->menuItems = items;
 }
 
 void Menu::drawMenuBlock(MenuItem &item)
