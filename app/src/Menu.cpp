@@ -17,6 +17,10 @@ void Menu::init(Renderer &renderer)
 	modelLoad.initialRot = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_wallModel = modelLoad;
+
+	this->menuItems.push_back(MenuItem(-2, "Start", true));
+	this->menuItems.push_back(MenuItem(0, "Controls", false));
+	this->menuItems.push_back(MenuItem(2, "Exit", false));
 }
 
 void Menu::drawMenuBlock(MenuItem &item)
@@ -42,6 +46,13 @@ void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
 	this->_renderer->writeLine(window, item.text, color, startLocation, scale);
 }
 
+void Menu::handleInput(std::vector<EngineEvent> &actions)
+{
+	std::for_each(actions.begin(), actions.end(), [this](EngineEvent &action){
+		// Handle each action here
+	});
+}
+
 void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 {
 	sf::Vector2u size = window.getSize();
@@ -60,18 +71,15 @@ void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 	this->_camera->setYaw(270.0f);
 	this->_camera->setPitch(0.0f);
 
-	MenuItem start(-2, "Start", true);
-	MenuItem controls(0, "Controls", false);
-	MenuItem exit(2, "Exit", false);
+	this->handleInput(actions);
+	
+	std::for_each(this->menuItems.begin(), this->menuItems.end(), [this](MenuItem &item){
+		this->drawMenuBlock(item);
+	});
 
-
-	this->drawMenuBlock(start);
-	this->drawMenuBlock(controls);
-	this->drawMenuBlock(exit);
-
-	this->drawMenuText(window, start);
-	this->drawMenuText(window, controls);
-	this->drawMenuText(window, exit);
+	std::for_each(this->menuItems.begin(), this->menuItems.end(), [this, &window](MenuItem &item){
+		this->drawMenuText(window, item);
+	});
 
 	window.display();
 }

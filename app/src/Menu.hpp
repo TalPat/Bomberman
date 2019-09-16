@@ -5,6 +5,7 @@
 #include <EngineEvent.hpp>
 
 #include <vector>
+#include <algorithm>
 
 struct MenuItem
 {
@@ -24,8 +25,11 @@ private:
 	Camera *_camera;
 	Model_st _wallModel;
 
+	std::vector<MenuItem> menuItems;
+
 	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
+	void handleInput(std::vector<EngineEvent> &actions);
 
 public:
 	Menu();
