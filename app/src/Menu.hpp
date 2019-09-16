@@ -10,8 +10,10 @@ struct MenuItem
 {
 	int offset;
 	std::string text;
+	bool selected;
 
-	MenuItem(int offset, std::string text) : offset(offset), text(text) {}
+	MenuItem(int offset, std::string text, bool selected)
+		: offset(offset), text(text), selected(selected) {}
 };
 
 class Menu

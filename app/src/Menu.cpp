@@ -27,7 +27,8 @@ void Menu::drawMenuBlock(MenuItem &item)
 	name = unbreakableModel;
 	model = glm::translate(model, this->_wallModel.initialPos + glm::vec3(cellPosition.x + item.offset, 0.0f, cellPosition.y));
 
-	model = glm::scale(model, this->_wallModel.initialScale);
+	glm::vec3 scale(0.5f + item.selected * 0.2f);
+	model = glm::scale(model, scale);
 	model = glm::rotate(model, glm::radians(this->_wallModel.initialRot.w), glm::vec3(this->_wallModel.initialRot));
 	this->_shader->setMat4("model", model);
 	this->_wallModel.model->draw(*this->_shader);
@@ -59,9 +60,9 @@ void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 	this->_camera->setYaw(270.0f);
 	this->_camera->setPitch(0.0f);
 
-	MenuItem start(-2, "Start");
-	MenuItem controls(0, "Controls");
-	MenuItem exit(2, "Exit");
+	MenuItem start(-2, "Start", true);
+	MenuItem controls(0, "Controls", false);
+	MenuItem exit(2, "Exit", false);
 
 
 	this->drawMenuBlock(start);
