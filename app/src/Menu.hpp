@@ -6,14 +6,21 @@
 
 #include <vector>
 
+enum MenuOption
+{
+	Start,
+	Controls,
+	Exit
+};
+
 struct MenuItem
 {
 	int offset;
 	std::string text;
-	bool selected;
+	MenuOption option;
 
-	MenuItem(int offset, std::string text, bool selected)
-		: offset(offset), text(text), selected(selected) {}
+	MenuItem(int offset, std::string text, MenuOption option)
+		: offset(offset), text(text), option(option) {}
 };
 
 class Menu
@@ -25,6 +32,7 @@ private:
 	Model_st _wallModel;
 
 	std::vector<MenuItem> menuItems;
+	MenuOption selected;
 
 	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
@@ -32,8 +40,6 @@ private:
 	void menuLeft();
 	void menuRight();
 	void select();
-	int getSelected();
-	void setSelected(int option);
 
 public:
 	Menu();

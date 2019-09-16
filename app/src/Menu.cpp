@@ -18,9 +18,10 @@ void Menu::init(Renderer &renderer)
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_wallModel = modelLoad;
 
-	this->menuItems.push_back(MenuItem(-2, "Start", true));
-	this->menuItems.push_back(MenuItem(0, "Controls", false));
-	this->menuItems.push_back(MenuItem(2, "Exit", false));
+	this->selected = MenuOption::Start;
+	this->menuItems.push_back(MenuItem(-2, "Start", MenuOption::Start));
+	this->menuItems.push_back(MenuItem(0, "Controls", MenuOption::Controls));
+	this->menuItems.push_back(MenuItem(2, "Exit", MenuOption::Exit));
 }
 
 void Menu::drawMenuBlock(MenuItem &item)
@@ -31,7 +32,8 @@ void Menu::drawMenuBlock(MenuItem &item)
 	name = unbreakableModel;
 	model = glm::translate(model, this->_wallModel.initialPos + glm::vec3(cellPosition.x + item.offset, 0.0f, cellPosition.y));
 
-	glm::vec3 scale(0.5f + item.selected * 0.2f);
+	bool selected = (this->selected == item.option);
+	glm::vec3 scale(0.5f + selected * 0.2f);
 	model = glm::scale(model, scale);
 	model = glm::rotate(model, glm::radians(this->_wallModel.initialRot.w), glm::vec3(this->_wallModel.initialRot));
 	this->_shader->setMat4("model", model);
@@ -68,50 +70,19 @@ void Menu::handleInput(std::vector<EngineEvent> &actions)
 
 void Menu::menuLeft()
 {
-	int selected = this->getSelected();
-
-	this->setSelected(selected - 1);
+	if (this->selected > 0)
+		this->selected = MenuOption(this->selected - 1);
 }
 
 void Menu::menuRight()
 {
-	int selected = this->getSelected();
-
-	this->setSelected(selected + 1);
+	if (this->selected < this->menuItems.size() - 1)
+		this->selected = MenuOption(this->selected + 1);
 }
 
 void Menu::select()
 {
 
-}
-
-int Menu::getSelected()
-{
-	std::vector<MenuItem>::iterator it = this->menuItems.begin();
-	int selected = 0;
-
-	while (it != this->menuItems.end())
-	{
-		if ((*it).selected)
-			return selected;
-		else
-			selected++;
-		
-		it++;
-	}
-
-	return 0;
-}
-
-void Menu::setSelected(int option)
-{
-	int current = this->getSelected();
-
-	if (option >= 0 && option < this->menuItems.size())
-	{
-		this->menuItems[current].selected = false;
-		this->menuItems[option].selected = true;
-	}
 }
 
 void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
