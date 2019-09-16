@@ -52,7 +52,8 @@ void Bomberman::updateFunc()
 		break;
 	case InputResponse::pause:
 		// Can be used to pause game with 'Esc' key
-		this->stop();
+		this->menuState = MenuState::InMenu;
+		// this->stop();
 		break;
 	default:
 		break;
@@ -71,7 +72,21 @@ void Bomberman::updateFunc()
 	this->deltaClock.restart();
 
 	if (this->menuState == MenuState::InMenu)
-		this->menu.render(*(this->window), actions);
+	{
+		MenuOption action = this->menu.render(*(this->window), actions);
+		switch (action)
+		{
+		case MenuOption::Start:
+			this->menuState = MenuState::Playing;
+			break;
+		case MenuOption::Exit:
+			this->stop();
+			break;
+		default:
+			break;
+		}
+	}
+
 	// Only render if required to enforce frameRate
 	else if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{

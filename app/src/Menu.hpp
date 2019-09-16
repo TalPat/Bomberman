@@ -10,7 +10,8 @@ enum MenuOption
 {
 	Start,
 	Controls,
-	Exit
+	Exit,
+	None
 };
 
 struct MenuItem
@@ -36,17 +37,17 @@ private:
 
 	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
-	void handleInput(std::vector<EngineEvent> &actions);
+	MenuOption handleInput(std::vector<EngineEvent> &actions);
 	void menuLeft();
 	void menuRight();
-	void select();
+	MenuOption select();
 
 public:
 	Menu();
 	~Menu();
 
 	void init(Renderer &renderer);
-	void render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
+	MenuOption render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
 };
 
 #endif

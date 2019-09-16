@@ -48,7 +48,7 @@ void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
 	this->_renderer->writeLine(window, item.text, color, startLocation, scale);
 }
 
-void Menu::handleInput(std::vector<EngineEvent> &actions)
+MenuOption Menu::handleInput(std::vector<EngineEvent> &actions)
 {
 	for (EngineEvent action : actions)
 	{
@@ -61,11 +61,14 @@ void Menu::handleInput(std::vector<EngineEvent> &actions)
 			this->menuRight();
 			break;
 		case EngineEvent::place_bomb:
-			this->select();
+			return this->select();
 		default:	
+			return MenuOption::None;
 			break;
 		}
 	}
+
+	return MenuOption::None;
 }
 
 void Menu::menuLeft()
@@ -80,12 +83,21 @@ void Menu::menuRight()
 		this->selected = MenuOption(this->selected + 1);
 }
 
-void Menu::select()
+MenuOption Menu::select()
 {
-
+	switch(this->selected)
+	{
+	case MenuOption::Controls:
+		std::cout << "Controls" << std::endl;
+		return MenuOption::None;
+		break;
+	default:
+		return this->selected;
+		break;
+	}
 }
 
-void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
+MenuOption Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 {
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
@@ -102,8 +114,6 @@ void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 	this->_camera->setPosition(glm::vec3(cameraPosition.x, 0.0f, cameraPosition.y + 4.0f));
 	this->_camera->setYaw(270.0f);
 	this->_camera->setPitch(0.0f);
-
-	this->handleInput(actions);
 	
 	for (MenuItem item : this->menuItems)
 	{
@@ -116,4 +126,6 @@ void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 	}
 
 	window.display();
+
+	return this->handleInput(actions);
 }
