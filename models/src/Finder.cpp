@@ -468,17 +468,17 @@ EnemyMoveState Finder::update_path(const Map &mapeth, sf::Vector2i start, sf::Ve
 		// display the map with the route
 		
 	// }
-	cout << TOP;
+	// cout << TOP;
 	for(int y=0;y<mapeth.size().y;y++)
 	{
 		for(int x=0;x<mapeth.size().x;x++)
 			switch(map[x][y]){
-				case 0:		//empty
-					cout<< BBLACK <<FBLACK << "."<<RESET;
-					break;
-				case 1:	//obstacle
-					cout<< BRED <<FRED << "O"<<RESET;
-					break;
+				// case 0:		//empty
+				// 	cout<< BBLACK <<FBLACK << "."<<RESET;
+				// 	break;
+				// case 1:	//obstacle
+				// 	cout<< BRED <<FRED << "O"<<RESET;
+				// 	break;
 				case 2:	//start
 					if		(map[x + 1][y] == 3)
 						direction = EnemyMoveState::east;
@@ -492,29 +492,29 @@ EnemyMoveState Finder::update_path(const Map &mapeth, sf::Vector2i start, sf::Ve
 							direction = (EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
 					
 					
-					cout<< BYELLOW <<FYELLOW << "S"<<RESET;
-					break;
-				case 3:	//routee
-					cout<< BGREEN <<FGREEN << "R"<<RESET;
-					break;
-				case 4:	//finish
-					cout<< BCYAN <<FCYAN << "F"<<RESET;
-					break;
-				default:
-					cout<< BBLACK <<FBLACK << "."<<RESET;
-					break;
+				// 	cout<< BYELLOW <<FYELLOW << "S"<<RESET;
+				// 	break;
+				// case 3:	//routee
+				// 	cout<< BGREEN <<FGREEN << "R"<<RESET;
+				// 	break;
+				// case 4:	//finish
+				// 	cout<< BCYAN <<FCYAN << "F"<<RESET;
+				// 	break;
+				// default:
+				// 	cout<< BBLACK <<FBLACK << "."<<RESET;
+				// 	break;
 		}
-		cout<<endl;
+		// cout<<endl;
 	}
 	// free(map);
-	switch(direction)
-	{
-		case EnemyMoveState::north:cout << "N\n";break;
-		case EnemyMoveState::south:cout << "S\n";break;
-		case EnemyMoveState::east:cout << "E\n";break;
-		case EnemyMoveState::west:cout << "W\n";break;
-		default :break;
-	}
+	// switch(direction)
+	// {
+	// 	case EnemyMoveState::north:cout << "N\n";break;
+	// 	case EnemyMoveState::south:cout << "S\n";break;
+	// 	case EnemyMoveState::east:cout << "E\n";break;
+	// 	case EnemyMoveState::west:cout << "W\n";break;
+	// 	default :break;
+	// }
 	return direction;
 }
 // int main()
