@@ -1,8 +1,5 @@
 #include "../include/Map.hpp"
 
-#include <cstdlib>
-#include <ctime>
-
 const sf::Vector2i DEFAULT_SIZE(21, 21);
 const float DESTRUCTABLE_CHANCE = 0.1;
 
@@ -34,6 +31,34 @@ Map::Map()
 
 Map::~Map()
 {
+}
+
+bool Map::collide(const sf::Vector2f &pos, float hw, bool (*comp)(Tile)) const
+{
+	typedef sf::Vector2i v2i;
+	typedef sf::Vector2f v2f;
+
+	Tile t1 = this->tileAt(v2i(pos + v2f(-hw, -hw)));
+	Tile t2 = this->tileAt(v2i(pos + v2f(-hw, +hw)));
+	Tile t3 = this->tileAt(v2i(pos + v2f(+hw, -hw)));
+	Tile t4 = this->tileAt(v2i(pos + v2f(+hw, +hw)));
+
+	if (comp(t1) || comp(t2) || comp(t3) || comp(t4))
+		return true;
+	return false;
+}
+
+bool Map::lerpCollide(sf::Vector2f &pos, sf::Vector2f mv, float hw, bool (*comp)(Tile)) const
+{
+	for (float i = 1.0; i > 0.1; i *= 0.75)
+	{
+		sf::Vector2f newPos = pos + (i * mv);
+		if (!this->collide(newPos, hw, comp)) {
+			pos = newPos;
+			return true;
+		}
+	}
+	return false;
 }
 
 Tile Map::tileAt(sf::Vector2i pos) const

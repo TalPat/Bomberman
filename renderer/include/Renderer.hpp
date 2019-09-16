@@ -13,6 +13,7 @@
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
 #include "../src/Camera.hpp"
+#include "../src/GuiChar.hpp"
 
 enum modelNames
 {
@@ -36,19 +37,25 @@ struct Model_st
 class Renderer
 {
 private:
+	std::map<char, int> fontMap;
 	std::vector<Model_st> _models;
+	std::vector<GuiChar *> _characters;
 	Shader *_shader;
+	Shader *_textShader;
 	Camera *_camera;
+	void pickups(sf::RenderWindow &window, const GameState &state);
 	void player(sf::RenderWindow &window, const GameState &state);
 	void map(sf::RenderWindow &window, const GameState &state);
 	void enemy(sf::RenderWindow &window, const GameState &state);
 	void light(sf::RenderWindow &window, const GameState &state);
+	void loadFont();
 
 public:
 	Renderer(/* args */);
 	~Renderer();
 	void init();
 	void render(sf::RenderWindow &window, const GameState &state);
+	void writeLine(sf::RenderWindow &window, std::string string, sf::Vector3i color, sf::Vector2f pos, float scale); //only render alpha numeric characters, is displayed as uppercase only
 };
 
 #endif

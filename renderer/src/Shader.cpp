@@ -115,5 +115,10 @@ void Shader::setMat4(const std::string &name, glm::mat4 value) const
 void Shader::setVec4(const std::string &name, glm::vec4 value) const
 {
 	unsigned int transformLoc = glGetUniformLocation(ID, name.c_str());
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(value));
+	glUniform4f(transformLoc, value.x, value.y, value.z, 1.0f);
+}
+void Shader::setVec3(const std::string &name, glm::vec3 value) const
+{
+	unsigned int transformLoc = glGetUniformLocation(ID, name.c_str());
+	glUniform3f(transformLoc, value.x, value.y, value.z);
 }
