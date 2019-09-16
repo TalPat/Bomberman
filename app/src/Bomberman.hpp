@@ -17,6 +17,13 @@ static const uint WINDOW_WIDTH = 800;
 static const uint WINDOW_HEIGHT = 800;
 static const char *WINDOW_TITLE = "Bomberman";
 
+enum MenuState
+{
+	InMenu,
+	Paused,
+	Playing
+};
+
 class Bomberman : private AMainLoop
 {
 private:
@@ -25,6 +32,7 @@ private:
 	Renderer renderer;
 	Input input;
 	Menu menu;
+	MenuState menuState;
 
 	GameState gameState;
 

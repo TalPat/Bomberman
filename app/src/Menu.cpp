@@ -41,7 +41,7 @@ void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
 	this->_renderer->writeLine(window, item.text, color, startLocation, scale);
 }
 
-void Menu::render(sf::RenderWindow &window, const GameState &state)
+void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 {
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
@@ -53,9 +53,9 @@ void Menu::render(sf::RenderWindow &window, const GameState &state)
 	this->_shader->setMat4("projection", projection);
 	this->_shader->setMat4("view", view);
 
-	sf::Vector2f playerPosition(state.player.position());
-	playerPosition -= sf::Vector2f(0.5, 0.5);
-	this->_camera->setPosition(glm::vec3(playerPosition.x, 0.0f, playerPosition.y + 4.0f));
+	sf::Vector2f cameraPosition(1.5, 1.5);
+	cameraPosition -= sf::Vector2f(0.5, 0.5);
+	this->_camera->setPosition(glm::vec3(cameraPosition.x, 0.0f, cameraPosition.y + 4.0f));
 	this->_camera->setYaw(270.0f);
 	this->_camera->setPitch(0.0f);
 

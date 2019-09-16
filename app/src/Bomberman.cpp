@@ -22,6 +22,7 @@ Bomberman::Bomberman()
 	window->setActive();
 	renderer.init();
 	menu.init(renderer);
+	menuState = InMenu;
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
@@ -61,17 +62,22 @@ void Bomberman::updateFunc()
 	this->renderTime = this->deltaClock.getElapsedTime().asSeconds();
 	this->deltaClock.restart();
 
-	this->engine.update(this->renderTime + this->engineTime, actions, this->gameState);
+	if (this->menuState == MenuState::Playing)
+	{
+		this->engine.update(this->renderTime + this->engineTime, actions, this->gameState);
 
-	// Record the time taken by the engine
-	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
-	this->deltaClock.restart();
+		// Record the time taken by the engine
+		this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
+		this->deltaClock.restart();
+	}
 
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		// this->renderer.render(*(this->window), this->gameState);
-		this->menu.render(*(this->window), this->gameState);
+		if (this->menuState == MenuState::Playing)
+			this->renderer.render(*(this->window), this->gameState);
+		else
+			this->menu.render(*(this->window), actions);
 		std::string textString = "FPS " + std::to_string((int)(1 / this->frameClock.getElapsedTime().asSeconds()));
 		sf::Vector3i color = sf::Vector3i(10, 20, 50);
 		sf::Vector2f startLocation = sf::Vector2f(-1.0f, -1.0f);

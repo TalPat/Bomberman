@@ -2,6 +2,9 @@
 #define _Menu_hpp_
 
 #include <Renderer.hpp>
+#include <EngineEvent.hpp>
+
+#include <vector>
 
 struct MenuItem
 {
@@ -27,7 +30,7 @@ public:
 	~Menu();
 
 	void init(Renderer &renderer);
-	void render(sf::RenderWindow &window, const GameState &state);
+	void render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
 };
 
 #endif
