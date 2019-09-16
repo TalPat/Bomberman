@@ -5,7 +5,6 @@
 #include <EngineEvent.hpp>
 
 #include <vector>
-#include <algorithm>
 
 struct MenuItem
 {
@@ -30,6 +29,11 @@ private:
 	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
 	void handleInput(std::vector<EngineEvent> &actions);
+	void menuLeft();
+	void menuRight();
+	void select();
+	int getSelected();
+	void setSelected(int option);
 
 public:
 	Menu();

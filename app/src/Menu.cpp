@@ -48,9 +48,70 @@ void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
 
 void Menu::handleInput(std::vector<EngineEvent> &actions)
 {
-	std::for_each(actions.begin(), actions.end(), [this](EngineEvent &action){
-		// Handle each action here
-	});
+	for (EngineEvent action : actions)
+	{
+		switch (action)
+		{
+		case EngineEvent::move_left:
+			this->menuLeft();
+			break;
+		case EngineEvent::move_right:
+			this->menuRight();
+			break;
+		case EngineEvent::place_bomb:
+			this->select();
+		default:	
+			break;
+		}
+	}
+}
+
+void Menu::menuLeft()
+{
+	int selected = this->getSelected();
+
+	this->setSelected(selected - 1);
+}
+
+void Menu::menuRight()
+{
+	int selected = this->getSelected();
+
+	this->setSelected(selected + 1);
+}
+
+void Menu::select()
+{
+
+}
+
+int Menu::getSelected()
+{
+	std::vector<MenuItem>::iterator it = this->menuItems.begin();
+	int selected = 0;
+
+	while (it != this->menuItems.end())
+	{
+		if ((*it).selected)
+			return selected;
+		else
+			selected++;
+		
+		it++;
+	}
+
+	return 0;
+}
+
+void Menu::setSelected(int option)
+{
+	int current = this->getSelected();
+
+	if (option >= 0 && option < this->menuItems.size())
+	{
+		this->menuItems[current].selected = false;
+		this->menuItems[option].selected = true;
+	}
 }
 
 void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
@@ -73,13 +134,15 @@ void Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 
 	this->handleInput(actions);
 	
-	std::for_each(this->menuItems.begin(), this->menuItems.end(), [this](MenuItem &item){
+	for (MenuItem item : this->menuItems)
+	{
 		this->drawMenuBlock(item);
-	});
+	}
 
-	std::for_each(this->menuItems.begin(), this->menuItems.end(), [this, &window](MenuItem &item){
+	for (MenuItem item : this->menuItems)
+	{
 		this->drawMenuText(window, item);
-	});
+	}
 
 	window.display();
 }
