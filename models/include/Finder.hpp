@@ -16,5 +16,10 @@ public:
 	EnemyMoveState findpath(Map map, sf::Vector2i start, sf::Vector2i end);
 	void update(float deltaTime, const Map &map, const Player &player);
 	void changeAggression();
+
+
+
+	EnemyMoveState update_path(const Map &mapeth, sf::Vector2i start, sf::Vector2i end);
+
 };
 #endif

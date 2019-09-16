@@ -2,7 +2,7 @@
 
 Enemies::Enemies()
 {
-	populate(50);
+	populate(1);
 }
 
 Enemies::~Enemies()
