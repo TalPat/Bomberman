@@ -151,6 +151,11 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 	_models[balloonModel].model->draw(*_shader);
 }
 
+void Renderer::light(sf::RenderWindow &window, const GameState &state)
+{
+	_shader->setVec4("LightPosW", glm::vec4(20.0f, 20.0f, 20.0f, 10.0f));
+}
+
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
 {
 	sf::Vector2u size = window.getSize();

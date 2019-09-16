@@ -4,7 +4,8 @@ in vec4 positionW; // Position in world space.
 in vec4 normalW; // Surface normal in world space.
 in vec2 textureCoord;
 
-uniform vec4 LightPosW = vec4(10.0f, 5.0f, 10.0f, 1.0f); // Light's position in world space.
+// uniform vec4 LightPosW = vec4(10.0f, 5.0f, 10.0f, 1.0f); // Light's position in world space.
+uniform vec4 LightPosW;
 uniform vec4 LightColour = vec4(1.0f, 1.0f, 1.0f, 1.0f); // Light's diffuse and specular contribution.
 
 uniform vec4 Ambient = vec4(0.5f, 0.5f, 0.5f, 1.0f); // Global ambient contribution.
