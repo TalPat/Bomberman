@@ -2,7 +2,7 @@
 
 Enemies::Enemies()
 {
-	populate(1);
+	populate(500);
 }
 
 Enemies::~Enemies()
@@ -36,14 +36,14 @@ void Enemies::populate(int numEnemies)
 		enemyType = (rand() % 3);
 		switch (enemyType)
 		{
-			// case 0:
-			// 	e = new Ballom();
-			// 	break;
-			// case 1:
-			// 	e = new Finder();
-			// 	break;
-			default:
+			case 0:
+				e = new Ballom();
+				break;
+			case 1:
 				e = new Finder();
+				break;
+			default:
+				e = new IEnemy();
 				break;
 		}
 		list.push_back(e);
