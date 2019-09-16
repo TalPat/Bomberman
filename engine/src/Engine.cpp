@@ -1,8 +1,10 @@
 
 #include "../include/Engine.hpp"
 
-#include <iostream>
-#include <vector>
+void Engine::init(GameState &gameState)
+{
+	gameState.pickups.initPickups(gameState.map);
+}
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
 {
@@ -44,7 +46,10 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		}
 	}
 
-	gameState.player.move(deltaTime, gameState.map);
-	gameState.enemy.update(deltaTime, gameState.map);
 	gameState.bombs.update(deltaTime, gameState.map);
+	gameState.bombs.updateMap(gameState.player, gameState.map);
+	gameState.player.move(deltaTime, gameState.map);
+	gameState.pickups.update(gameState.player, gameState.map, gameState.enemies, gameState.bombs);
+	gameState.enemies.updateAll(deltaTime, gameState.map);
+	gameState.enemies.kill(gameState.map);
 }

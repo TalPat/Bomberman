@@ -2,8 +2,10 @@
 #define MAP_HPP
 
 #include <SFML/System.hpp>
-
 #include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
 enum Tile
 {
@@ -11,6 +13,7 @@ enum Tile
 	Clear,
 	Destructible,
 	Bomb,
+	BombClear,
 	Flame,
 };
 
@@ -24,6 +27,8 @@ public:
 	Map();
 	~Map();
 
+	bool collide(const sf::Vector2f &pos, float hw, bool (*comp)(Tile)) const;
+	bool lerpCollide(sf::Vector2f &pos, sf::Vector2f mv, float hw, bool (*comp)(Tile)) const;
 	Tile tileAt(sf::Vector2i pos) const;
 	void setTile(sf::Vector2i pos, Tile tile);
 	const sf::Vector2i &size() const;

@@ -10,6 +10,7 @@ add_library(Renderer STATIC
     src/Shader.cpp
     src/Mesh.cpp
     src/Animation.cpp
+    src/GuiChar.cpp
 )
 
 include_directories(${GLM_INCLUDE_DIRS})
