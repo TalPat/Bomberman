@@ -13,7 +13,6 @@
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
 #include "../src/Camera.hpp"
-#include "../src/GuiChar.hpp"
 #include "../src/Particle.hpp"
 #include "../src/Square.hpp"
 #include "../src/Swarm.hpp"
