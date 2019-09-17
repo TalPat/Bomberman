@@ -43,6 +43,7 @@ private:
 	Shader *_shader;
 	Shader *_textShader;
 	Camera *_camera;
+	void pickups(sf::RenderWindow &window, const GameState &state);
 	void player(sf::RenderWindow &window, const GameState &state);
 	void map(sf::RenderWindow &window, const GameState &state);
 	void enemy(sf::RenderWindow &window, const GameState &state);
