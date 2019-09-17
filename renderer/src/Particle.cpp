@@ -7,8 +7,8 @@ Particle::Particle()
 {
 	m_x = ((double)rand() / RAND_MAX) * (0.9765 - -0.9765) + -0.9765;
 	m_y = ((double)rand() / RAND_MAX) * (pos_y(m_x) / 2 - 0) + 0;
-	m_x /= 2;
-	m_z = ((double)rand() / RAND_MAX) * (0.9765 - -0.9765) + -0.9765;
+	m_x /= 4;
+	m_z = (((double)rand() / RAND_MAX) * (0.9765 - -0.9765) + -0.9765) / 4;
 
 	speed = (0.1 * rand()) / RAND_MAX;
 	direction = 2 * M_PI * rand() / RAND_MAX;
