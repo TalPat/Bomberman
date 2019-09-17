@@ -23,9 +23,9 @@ Bomberman::Bomberman()
 	renderer.init();
 
 	std::vector<MenuItem> mainMenuItems;
-	mainMenuItems.push_back(MenuItem(-2, "Start", MenuOption::Start));
-	mainMenuItems.push_back(MenuItem(0, "Controls", MenuOption::Controls));
-	mainMenuItems.push_back(MenuItem(2, "Exit", MenuOption::Exit));
+	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuOption::Start));
+	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuOption::Controls));
+	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuOption::Exit));
 	mainMenu.init(renderer, mainMenuItems);
 	pauseMenu.init(renderer, mainMenuItems);
 

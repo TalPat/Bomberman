@@ -30,8 +30,7 @@ void Menu::drawMenuBlock(MenuItem &item)
 	name = unbreakableModel;
 	model = glm::translate(model, this->_wallModel.initialPos + glm::vec3(cellPosition.x + item.offset, 0.0f, cellPosition.y));
 
-	bool selected = (this->selected == item.option);
-	glm::vec3 scale(0.5f + selected * 0.2f);
+	glm::vec3 scale(0.5f + item.selected * 0.2f);
 	model = glm::scale(model, scale);
 	model = glm::rotate(model, glm::radians(this->_wallModel.initialRot.w), glm::vec3(this->_wallModel.initialRot));
 	this->_shader->setMat4("model", model);
@@ -71,28 +70,42 @@ MenuOption Menu::handleInput(std::vector<EngineEvent> &actions)
 
 void Menu::menuLeft()
 {
-	if (this->selected > 0)
-		this->selected = MenuOption(this->selected - 1);
+	if (this->menuItems[0].selected)
+		return;
+
+	for (int i = 0; i < this->menuItems.size() - 1; i++)
+	{
+		if (this->menuItems[i + 1].selected)
+		{
+			this->menuItems[i].selected = true;
+			this->menuItems[i + 1].selected = false;
+			break;
+		}
+	}
 }
 
 void Menu::menuRight()
 {
-	if (this->selected < this->menuItems.size() - 1)
-		this->selected = MenuOption(this->selected + 1);
+	for (int i = 0; i < this->menuItems.size() - 1; i++)
+	{
+		if (this->menuItems[i].selected)
+		{
+			this->menuItems[i].selected = false;
+			this->menuItems[i + 1].selected = true;
+			break;
+		}
+	}
 }
 
 MenuOption Menu::select()
 {
-	switch(this->selected)
+	for (int i = 0; i < this->menuItems.size(); i++)
 	{
-	case MenuOption::Controls:
-		std::cout << "Controls" << std::endl;
-		return MenuOption::None;
-		break;
-	default:
-		return this->selected;
-		break;
+		if (this->menuItems[i].selected)
+			return this->menuItems[i].option;
 	}
+
+	return MenuOption::None;
 }
 
 MenuOption Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
