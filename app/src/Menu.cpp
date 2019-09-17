@@ -18,7 +18,6 @@ void Menu::init(Renderer &renderer, std::vector<MenuItem> &items)
 	modelLoad.initialScale = glm::vec3(0.5f);
 	_wallModel = modelLoad;
 
-	this->selected = MenuOption::Start;
 	this->menuItems = items;
 }
 

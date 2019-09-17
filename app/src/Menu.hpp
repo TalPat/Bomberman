@@ -34,7 +34,6 @@ private:
 	Model_st _wallModel;
 
 	std::vector<MenuItem> menuItems;
-	MenuOption selected;
 
 	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);

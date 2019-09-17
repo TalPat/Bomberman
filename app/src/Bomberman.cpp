@@ -27,7 +27,11 @@ Bomberman::Bomberman()
 	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuOption::Controls));
 	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuOption::Exit));
 	mainMenu.init(renderer, mainMenuItems);
-	pauseMenu.init(renderer, mainMenuItems);
+
+	std::vector<MenuItem> pauseMenuItems;
+	pauseMenuItems.push_back(MenuItem(-1, "Continue", true, MenuOption::Start));
+	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuOption::Exit));
+	pauseMenu.init(renderer, pauseMenuItems);
 
 	menuState = MenuState::MainMenu;
 
@@ -75,8 +79,10 @@ void Bomberman::updateFunc()
 		break;
 	case InputResponse::pause:
 		// Can be used to pause game with 'Esc' key
-		this->menuState = MenuState::PauseMenu;
-		// this->stop();
+		if (this->menuState == MenuState::PauseMenu)
+			this->menuState = MenuState::Playing;
+		else if (this->menuState == MenuState::Playing)
+			this->menuState = MenuState::PauseMenu;
 		break;
 	default:
 		break;
