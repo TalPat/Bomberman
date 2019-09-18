@@ -125,9 +125,9 @@ void Renderer::init()
 
 	//particles
 	Swarm swarm;
-	square = new Square("../../renderer/src/Flame_Particle.png");
-	skybox_model = new Square("../../renderer/src/skybox.png");
-	dirt_model = new Square("../../renderer/src/dirt.png");
+	square = new Square(std::string(SPRITE_DIR) + "/Flame_Particle.png");
+	skybox_model = new Square(std::string(SPRITE_DIR) + "/skybox.png");
+	dirt_model = new Square(std::string(SPRITE_DIR) + "/dirt.png");
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
