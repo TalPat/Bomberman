@@ -2,7 +2,7 @@
 // #include <thread>
 Enemies::Enemies()
 {
-	populate(100);
+	populate(10);
 }
 
 Enemies::~Enemies()
