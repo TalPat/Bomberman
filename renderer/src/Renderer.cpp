@@ -335,11 +335,11 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	if (playerPosition.y < camoffset) {
 		playerPosition.y = camoffset;
 	}
-	if (playerPosition.x > state.map.size().x - camoffset) {
-		playerPosition.x = state.map.size().x - camoffset;
+	if (playerPosition.x > state.map.size().x - camoffset - 1) {
+		playerPosition.x = state.map.size().x - camoffset - 1;
 	}
-	if (playerPosition.y > state.map.size().y - camoffset) {
-		playerPosition.y = state.map.size().y - camoffset;
+	if (playerPosition.y > state.map.size().y - camoffset - 1) {
+		playerPosition.y = state.map.size().y - camoffset - 1;
 	}
 	_camera->setPosition(glm::vec3(playerPosition.x, 15.0f, playerPosition.y + 7.5f));
 	_camera->setYaw(270.0f);
