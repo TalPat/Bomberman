@@ -12,6 +12,7 @@
 #include <GameState.hpp>
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
+#include "../src/Square.hpp"
 #include "../src/Camera.hpp"
 #include "../src/GuiChar.hpp"
 
@@ -22,8 +23,20 @@ enum modelNames
 	playerModel,
 	bombModel,
 	flameModel,
-	balloonModel,
-	robotModel
+	pigModel,
+	robotModel,
+	ghostModel,
+	giraffeModel,
+	shoel,
+	shoer
+};
+
+enum tileNames
+{
+	floorTile,
+	doorTile,
+	bombTile,
+	flameTile
 };
 
 struct Model_st
@@ -37,9 +50,11 @@ struct Model_st
 class Renderer
 {
 private:
-	std::map<char, int> fontMap;
 	std::vector<Model_st> _models;
+
+	std::map<char, int> fontMap;
 	std::vector<GuiChar *> _characters;
+	std::vector<Square *> _squares;
 	Shader *_shader;
 	Shader *_textShader;
 	Camera *_camera;
@@ -48,6 +63,9 @@ private:
 	void map(sf::RenderWindow &window, const GameState &state);
 	void enemy(sf::RenderWindow &window, const GameState &state);
 	void loadFont();
+
+	//troubleshooting frame counter
+	sf::Clock _clock;
 
 public:
 	Renderer(/* args */);

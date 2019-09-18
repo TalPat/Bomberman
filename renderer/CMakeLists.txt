@@ -10,6 +10,7 @@ add_library(Renderer STATIC
     src/Shader.cpp
     src/Mesh.cpp
     src/Animation.cpp
+    src/Square.cpp
     src/GuiChar.cpp
 )
 
@@ -22,3 +23,12 @@ target_link_libraries(Renderer ${GLEW_LIBRARIES})
 if (APPLE)
     target_link_libraries(Renderer "-framework OpenGL")
 endif()
+
+set(SHADER_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/shaders\")
+target_compile_definitions(Renderer PUBLIC SHADER_DIR=${SHADER_DIR})
+set(MODEL_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/models\")
+target_compile_definitions(Renderer PUBLIC MODEL_DIR=${MODEL_DIR})
+set(SPRITE_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/sprites\")
+target_compile_definitions(Renderer PUBLIC SPRITE_DIR=${SPRITE_DIR})
+set(CHARACTER_DIR \"${PROJECT_SOURCE_DIR}/renderer/res/characters\")
+target_compile_definitions(Renderer PUBLIC CHARACTER_DIR=${CHARACTER_DIR})
