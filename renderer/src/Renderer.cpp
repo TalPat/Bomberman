@@ -360,15 +360,15 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	{
 		playerPosition.x = camoffset;
 	}
+	else if (playerPosition.x > state.map.size().x - camoffset - 1)
+	{
+		playerPosition.x = state.map.size().x - camoffset - 1;
+	}
 	if (playerPosition.y < camoffset)
 	{
 		playerPosition.y = camoffset;
 	}
-	if (playerPosition.x > state.map.size().x - camoffset - 1)
-	{
-		playerPosition.x = state.map.size().x - camoffset - 1;
-	}
-	if (playerPosition.y > state.map.size().y - camoffset - 1)
+	else if (playerPosition.y > state.map.size().y - camoffset - 1)
 	{
 		playerPosition.y = state.map.size().y - camoffset - 1;
 	}
