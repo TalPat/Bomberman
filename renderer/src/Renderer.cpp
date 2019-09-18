@@ -328,7 +328,19 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_clock.restart();
 
 	sf::Vector2f playerPosition(state.player.position());
-	playerPosition -= sf::Vector2f(0.5, 0.5);
+	playerPosition -= sf::Vector2f(0.5, 0.5);	int camoffset = 7;
+	if (playerPosition.x < camoffset) {
+		playerPosition.x = camoffset;
+	}
+	if (playerPosition.y < camoffset) {
+		playerPosition.y = camoffset;
+	}
+	if (playerPosition.x > state.map.size().x - camoffset) {
+		playerPosition.x = state.map.size().x - camoffset;
+	}
+	if (playerPosition.y > state.map.size().y - camoffset) {
+		playerPosition.y = state.map.size().y - camoffset;
+	}
 	_camera->setPosition(glm::vec3(playerPosition.x, 15.0f, playerPosition.y + 7.5f));
 	_camera->setYaw(270.0f);
 	_camera->setPitch(-60.0f);
