@@ -39,7 +39,9 @@ enum tileNames
 	floorTile,
 	doorTile,
 	bombTile,
-	flameTile
+	flameTile,
+	flameParticle,
+	skyboxTile
 };
 
 struct Model_st
@@ -53,9 +55,6 @@ struct Model_st
 class Renderer
 {
 private:
-	Square *square;
-	Square *skybox_model;
-	Square *dirt_model;
 	std::vector<Model_st> _models;
 	std::map<char, int> fontMap;
 	std::vector<GuiChar *> _characters;
@@ -69,7 +68,7 @@ private:
 	void enemy(sf::RenderWindow &window, const GameState &state);
 	void loadFont();
 	Swarm swarm;
-	void skybox();
+	void skybox(sf::RenderWindow &window, const GameState &state);
 
 	//troubleshooting frame counter
 	sf::Clock _clock;

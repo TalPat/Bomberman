@@ -115,6 +115,8 @@ void Renderer::init()
 	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/trapdoor.png"));
 	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/bomb.png"));
 	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/flame.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/Flame_Particle.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/skybox.png"));
 
 	//compile shader programs
 	_shader = new Shader((std::string(SHADER_DIR) + "/vertexShader.glsl").c_str(), (std::string(SHADER_DIR) + "/fragmentShader.glsl").c_str());
@@ -125,9 +127,6 @@ void Renderer::init()
 
 	//particles
 	Swarm swarm;
-	square = new Square(std::string(SPRITE_DIR) + "/Flame_Particle.png");
-	skybox_model = new Square(std::string(SPRITE_DIR) + "/skybox.png");
-	dirt_model = new Square(std::string(SPRITE_DIR) + "/dirt.png");
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
@@ -228,8 +227,11 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 						model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 						model = glm::rotate(model, 1.5708f, glm::vec3(0.0f, 1.0f, 0.0f));
 						_shader->setMat4("model", model);
-						square->draw(*_shader);
+						_squares[flameParticle]->draw(*_shader);
 					}
+					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					_shader->setMat4("model", tileModel);
+					_squares[floorTile]->draw(*_shader);
 					break;
 				default:
 					break;
@@ -330,13 +332,13 @@ void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
 	}
 }
 
-void Renderer::skybox()
+void Renderer::skybox(sf::RenderWindow &window, const GameState &state)
 {
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, -10.0f, -50.0f));
 	model = glm::scale(model, glm::vec3(200.0f, 1.0f, 200.0f));
 	_shader->setMat4("model", model);
-	skybox_model->draw(*_shader);
+	_squares[skyboxTile]->draw(*_shader);
 }
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
@@ -363,22 +365,11 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	_shader->setMat4("projection", projection);
 	_shader->setMat4("view", view);
 
-	for (size_t i = 0; i < 20; i++)
-	{
-		for (size_t j = 0; j < 20; j++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(i, 0.0f, j));
-			_shader->setMat4("model", model);
-			dirt_model->draw(*_shader);
-		}
-	}
-
 	pickups(window, state);
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
-	skybox();
+	skybox(window, state);
 
 	window.display();
 }
