@@ -3,6 +3,8 @@
 
 void Engine::init(GameState &gameState)
 {
+	//if (gameState.level != 0 && gameState.level % 5 == 0)
+	//	gameState.player.addLife();
 	gameState.loading = true;
 	gameState.map.init(gameState.level);
 	gameState.bombs.clear();
@@ -14,6 +16,12 @@ void Engine::init(GameState &gameState)
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
 {
+	if (gameState.loading)
+	{
+		this->init(gameState);
+		return;
+	}
+
 	MoveState &moveState = gameState.player.moveState;
 
 	for (EngineEvent event : actions)
@@ -45,20 +53,20 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 			moveState.west = false;
 			break;
 		case EngineEvent::place_bomb:
-			// This should most likly be a method on gameState;
 			gameState.bombs.placeBomb(gameState.player, gameState.map);
 		default:
 			break;
 		}
 	}
 
-	gameState.bombs.update(deltaTime, gameState.map);
-	gameState.bombs.updateMap(gameState.player, gameState.map);
-	gameState.player.move(deltaTime, gameState.map);
-	gameState.pickups.update(gameState);
-	gameState.enemies.updateAll(deltaTime, gameState.map);
-	gameState.enemies.kill(gameState.map);
-	if (gameState.loading)
-		this->init(gameState);
+	if (gameState.player.isAlive())
+	{
+		gameState.bombs.update(deltaTime, gameState.map);
+		gameState.bombs.updateMap(gameState.player, gameState.map);
+		gameState.pickups.update(gameState);
+		gameState.enemies.updateAll(deltaTime, gameState.map);
+		gameState.enemies.kill(gameState.map);
+	}
+	gameState.player.update(deltaTime, gameState.map);
 	
 }

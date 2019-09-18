@@ -17,6 +17,9 @@ struct MoveState
 class Player
 {
 	float _playerSpeed;
+	bool _alive;
+	float _lives;
+	float _deathTime;
 	sf::Vector2f _position;
 
 public:
@@ -25,8 +28,12 @@ public:
 
 	MoveState moveState;
 
+	void kill(void);
 	void init(int level);
-	void move(float deltaTime, const Map &map);
+	void handleMovement(float deltaTime, const Map &map);
+	void update(float deltaTime, const Map &map);
+	void addLife(void);
+	bool isAlive(void) const;
 	const sf::Vector2f &position() const;
 };
 

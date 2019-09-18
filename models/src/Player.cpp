@@ -1,7 +1,11 @@
 #include "../include/Player.hpp"
 
+#include <iostream>
+
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
 const float DEFAULT_SPEED = 5;
+const float DEATH_TIMER = 2.5;
+const float HALF_WIDTH = 0.35;
 
 Player::Player() : _position(DEFAULT_START),
 				   _playerSpeed(DEFAULT_SPEED),
@@ -15,11 +19,18 @@ Player::~Player()
 
 void Player::init(int level)
 {
+	this->_alive = true;
 	this->_position = DEFAULT_START;
 	this->moveState = {false, false, false, false};
 }
 
-void Player::move(float deltaTime, const Map &map)
+void Player::kill(void)
+{
+	this->_alive = false;
+	this->_deathTime = DEATH_TIMER;
+}
+
+void Player::handleMovement(float deltaTime, const Map &map)
 {
 	MoveState &move = this->moveState;
 	sf::Vector2f &pos = this->_position;
@@ -50,12 +61,42 @@ void Player::move(float deltaTime, const Map &map)
 		return tile != Tile::Clear && tile != Tile::BombClear;
 	};
 	// Move player as far as possible without colliding
-	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, 0.35, comp))
+	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, HALF_WIDTH, comp))
 		return;
-	if (dx.x != 0 && map.lerpCollide(pos, dx, 0.35, comp))
+	if (dx.x != 0 && map.lerpCollide(pos, dx, HALF_WIDTH, comp))
 		return;
-	if (dy.y != 0 && map.lerpCollide(pos, dy, 0.35, comp))
+	if (dy.y != 0 && map.lerpCollide(pos, dy, HALF_WIDTH, comp))
 		return;
+}
+
+void Player::update(float deltaTime, const Map &map)
+{
+	if (this->_alive == false)
+	{
+		this->_deathTime -= deltaTime;
+		//if (this->_deathTime < 0)
+		//	gameState.loading = true;
+		return;
+	}
+
+	this->handleMovement(deltaTime, map);
+	
+	// kill player on flame collisions
+	auto compFlame = [](Tile tile) {
+		return tile == Tile::Flame;
+	};
+	if (map.collide(this->_position, HALF_WIDTH, compFlame))
+		this->kill();
+}
+
+void Player::addLife(void)
+{
+	this->_lives++;
+}
+
+bool Player::isAlive(void) const
+{
+	return this->_alive;
 }
 
 const sf::Vector2f &Player::position() const
