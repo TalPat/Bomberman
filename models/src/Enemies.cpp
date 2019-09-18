@@ -1,20 +1,22 @@
 #include "../include/Enemies.hpp"
-
+// #include <thread>
 Enemies::Enemies()
 {
-	populate(500);
+	populate(100);
 }
 
 Enemies::~Enemies()
 {
-	// for(auto &e:this->list)
-	// 	delete e;
+	for(auto &e:this->list)
+		delete e;
 }
 void Enemies::updateAll(float deltaTime, const Map &map, const Player &player)
 {
 	for(auto &e:this->list)
 	{
+		// std::thread t1(std::ref(e->update), std::ref(deltaTime), std::ref(map), std::ref(player));
 		e->update(deltaTime, map, player);
+		// t1.join();
 	}
 }
 
@@ -26,9 +28,12 @@ void Enemies::populate()
 	list.push_back(e);
 	list.push_back(b);
 }
+// void Enemies::populate(int numEnemies,int level, const Map &map){
 
+// }
 void Enemies::populate(int numEnemies)
 {
+	srand(time(NULL));
 	int enemyType;
 	IEnemy *e;
 	for(int i = 0; i < numEnemies;i++)
@@ -43,6 +48,7 @@ void Enemies::populate(int numEnemies)
 				e = new Finder();
 				break;
 			default:
+				// e = new Finder();
 				e = new IEnemy();
 				break;
 		}

@@ -2,6 +2,7 @@
 #define _FINDER_HPP_
 
 #include "IEnemy.hpp"
+#include <pthread.h>
 
 class Finder : public IEnemy
 {
@@ -16,10 +17,9 @@ public:
 	EnemyMoveState findpath(Map map, sf::Vector2i start, sf::Vector2i end);
 	void update(float deltaTime, const Map &map, const Player &player);
 	void changeAggression();
-
-
-
-	EnemyMoveState update_path(const Map &mapeth, sf::Vector2i start, sf::Vector2i end);
+	sf::Vector2i distance(sf::Vector2i start, sf::Vector2i end);
+	
+	// EnemyMoveState update_path(const Map &mapeth, sf::Vector2i start, sf::Vector2i end);
 
 };
 #endif
