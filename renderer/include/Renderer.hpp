@@ -15,7 +15,6 @@
 #include "../src/Square.hpp"
 #include "../src/Camera.hpp"
 #include "../src/Particle.hpp"
-#include "../src/Square.hpp"
 #include "../src/Swarm.hpp"
 #include "../src/GuiChar.hpp"
 
