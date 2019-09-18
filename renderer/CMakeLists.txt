@@ -11,6 +11,8 @@ add_library(Renderer STATIC
     src/Mesh.cpp
     src/Animation.cpp
     src/Square.cpp
+    src/Particle.cpp
+    src/Swarm.cpp
     src/GuiChar.cpp
 )
 
