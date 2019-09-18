@@ -4,15 +4,13 @@
 GuiChar::GuiChar(std::string path)
 {
 	std::vector<float> vertices = {
-			0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-			0.5f, 0.0f, 0.0f, 1.0f, 1.0f,
-			0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.0f, 0.0f
-	};
+		0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.0f, 0.0f, 1.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f};
 	std::vector<unsigned int> indices = {
-			0, 1, 3,
-			1, 2, 3
-	};
+		0, 1, 3,
+		1, 2, 3};
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);

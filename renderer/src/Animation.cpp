@@ -160,7 +160,8 @@ glm::mat4 Animation::floating(glm::mat4 model)
 	return (model);
 }
 
-void Animation::setDeltas(glm::vec2 pos) {
+void Animation::setDeltas(glm::vec2 pos)
+{
 	float deltax = _lastPos.x - pos.x;
 	float deltay = _lastPos.y - pos.y;
 	_deltas = glm::vec2(deltax, deltay);
