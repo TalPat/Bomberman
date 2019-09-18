@@ -212,11 +212,14 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					_squares[floorTile]->draw(*_shader);
 					break;
 				case Tile::Flame:
-					name = flameModel;
+					//name = flameModel;
+					//model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					//tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					//_shader->setMat4("model", tileModel);
+					//_squares[floorTile]->draw(*_shader);
+					name = breakableModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
-					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
-					_shader->setMat4("model", tileModel);
-					_squares[floorTile]->draw(*_shader);
+					break;
 					break;
 				default:
 					break;

@@ -3,7 +3,13 @@
 
 void Engine::init(GameState &gameState)
 {
-	gameState.pickups.initPickups(gameState.map);
+	gameState.loading = true;
+	gameState.map.init(gameState.level);
+	gameState.bombs.clear();
+	gameState.enemies.init(gameState.level);
+	gameState.player.init(gameState.level);
+	gameState.pickups.init(gameState.map, gameState.level);
+	gameState.loading = false;
 }
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
@@ -49,7 +55,10 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 	gameState.bombs.update(deltaTime, gameState.map);
 	gameState.bombs.updateMap(gameState.player, gameState.map);
 	gameState.player.move(deltaTime, gameState.map);
-	gameState.pickups.update(gameState.player, gameState.map, gameState.enemies, gameState.bombs);
+	gameState.pickups.update(gameState);
 	gameState.enemies.updateAll(deltaTime, gameState.map);
 	gameState.enemies.kill(gameState.map);
+	if (gameState.loading)
+		this->init(gameState);
+	
 }

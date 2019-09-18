@@ -13,6 +13,12 @@ Player::~Player()
 {
 }
 
+void Player::init(int level)
+{
+	this->_position = DEFAULT_START;
+	this->moveState = {false, false, false, false};
+}
+
 void Player::move(float deltaTime, const Map &map)
 {
 	MoveState &move = this->moveState;
@@ -27,13 +33,13 @@ void Player::move(float deltaTime, const Map &map)
 	sf::Vector2i west = sf::Vector2i( pos + sf::Vector2f(-0.6, 0.0) );
 	sf::Vector2i east = sf::Vector2i( pos + sf::Vector2f(0.6, 0.0) );
 	if (move.south && map.tileAt( south ) == Tile::Clear )
-		dx.x += 0.5 * ((south.x + 0.5) - pos.x);
+		dx.x += 0.8 * ((south.x + 0.5) - pos.x);
 	if (move.north && map.tileAt( north ) == Tile::Clear )
-		dx.x += 0.5 * ((north.x + 0.5) - pos.x);
+		dx.x += 0.8 * ((north.x + 0.5) - pos.x);
 	if (move.east && map.tileAt( east ) == Tile::Clear )
-		dy.y += 0.5 * ((east.y + 0.5) - pos.y);
+		dy.y += 0.8 * ((east.y + 0.5) - pos.y);
 	if (move.west && map.tileAt( west ) == Tile::Clear )
-		dy.y += 0.5 * ((west.y + 0.5) - pos.y);
+		dy.y += 0.8 * ((west.y + 0.5) - pos.y);
 
 	// Scale movement vectors
 	dx *= this->_playerSpeed * deltaTime;

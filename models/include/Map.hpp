@@ -27,6 +27,7 @@ public:
 	Map();
 	~Map();
 
+	void init(int level);
 	bool collide(const sf::Vector2f &pos, float hw, bool (*comp)(Tile)) const;
 	bool lerpCollide(sf::Vector2f &pos, sf::Vector2f mv, float hw, bool (*comp)(Tile)) const;
 	Tile tileAt(sf::Vector2i pos) const;

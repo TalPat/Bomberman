@@ -28,6 +28,7 @@ Bomberman::Bomberman()
 
 	//thread stuff
 	threadActive = false;
+	this->gameState.level = 0; // TODO: save game level/progress
 	this->engine.init(this->gameState);
 }
 
@@ -77,12 +78,13 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		if (!threadActive)
-		{
-			this->frameClock.restart();
-			threadActive = true;
-			pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
-		}
+		this->renderer.render(*this->window, this->gameState);
+		//if (!threadActive)
+		//{
+		//	this->frameClock.restart();
+		//	threadActive = true;
+		//	pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
+		//}
 	}
 }
 

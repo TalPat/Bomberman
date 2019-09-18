@@ -27,15 +27,17 @@ struct sPickup
 	PickupType type;
 };
 
+class GameState;
+
 class Pickups
 {
 private:
 public:
 	std::list<sPickup> _pickups;
 	Pickups();
-	void initPickups(Map &map);
+	void init(Map &map, int level);
 	void addPickup(sf::Vector2i pos, PickupType type);
-	void update(Player &player, Map &map, Enemies &enemies, Bombs &bombs);
+	void update(GameState &state);
 };
 
 #endif

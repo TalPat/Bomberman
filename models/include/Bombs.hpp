@@ -29,6 +29,7 @@ public:
 	static int max_bombs;
 	
 	Bombs();
+	void clear(void);
 	void placeBomb(const Player &player, Map &map);
 	void placeFlame(sf::Vector2i pos, Map &map);
 	void bombExplodeDirection(Map &map, sf::Vector2i pos, sf::Vector2i dir);

@@ -18,6 +18,11 @@ Bombs::Bombs()
 {
 }
 
+void Bombs::clear(void)
+{
+	this->_bombs.remove_if([](sBomb &bomb) { return true; });
+}
+
 void Bombs::placeBomb(const Player &player, Map &map)
 {
 	sf::Vector2i playerCell(player.position());

@@ -2,7 +2,6 @@
 
 Enemies::Enemies()
 {
-	populate(5);
 }
 
 Enemies::~Enemies()
@@ -10,6 +9,12 @@ Enemies::~Enemies()
 	for(auto &e:this->list)
 		delete e;
 }
+
+void Enemies::init(int level)
+{
+	populate(5);
+}
+
 void Enemies::updateAll(float deltaTime, const Map &map)
 {
 	for(auto &e:this->list)

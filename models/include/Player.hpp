@@ -18,7 +18,6 @@ class Player
 {
 	float _playerSpeed;
 	sf::Vector2f _position;
-	bool correctPlayerCellCollision(sf::Vector2i cell);
 
 public:
 	Player();
@@ -26,6 +25,7 @@ public:
 
 	MoveState moveState;
 
+	void init(int level);
 	void move(float deltaTime, const Map &map);
 	const sf::Vector2f &position() const;
 };

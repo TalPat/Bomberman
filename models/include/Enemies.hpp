@@ -16,6 +16,7 @@ public:
 	void populate(int numEnemies);
 	Enemies();
 	~Enemies();
+	void init(int level);
 	void kill(const Map &map); 
 };
 #endif
