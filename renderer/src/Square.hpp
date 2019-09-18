@@ -1,7 +1,7 @@
 #ifndef SQUARE_HPP
 #define SQUARE_HPP
 
- #include <glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -10,7 +10,7 @@
 #include "Mesh.hpp"
 #include "Animation.hpp"
 
- class Square
+class Square
 {
 private:
 	std::vector<Mesh> _meshes;
@@ -23,10 +23,10 @@ private:
 	Animation _animation;
 	unsigned int VAO, VBO, EBO, textureId;
 
- public:
+public:
 	Square(std::string path);
 	~Square();
 	void draw(Shader shader);
 };
 
- #endif 
+#endif

@@ -3,6 +3,7 @@
 
 #include "Map.hpp"
 
+#include <cmath>
 #include <SFML/System.hpp>
 
 struct MoveState
@@ -15,10 +16,8 @@ struct MoveState
 
 class Player
 {
-	sf::Vector2f _position;
-
 	float _playerSpeed;
-
+	sf::Vector2f _position;
 	bool correctPlayerCellCollision(sf::Vector2i cell);
 
 public:

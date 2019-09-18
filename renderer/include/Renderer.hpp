@@ -12,10 +12,12 @@
 #include <GameState.hpp>
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
+#include "../src/Square.hpp"
 #include "../src/Camera.hpp"
 #include "../src/Particle.hpp"
 #include "../src/Square.hpp"
 #include "../src/Swarm.hpp"
+#include "../src/GuiChar.hpp"
 
 enum modelNames
 {
@@ -24,8 +26,20 @@ enum modelNames
 	playerModel,
 	bombModel,
 	flameModel,
-	balloonModel,
-	robotModel
+	pigModel,
+	robotModel,
+	ghostModel,
+	giraffeModel,
+	shoel,
+	shoer
+};
+
+enum tileNames
+{
+	floorTile,
+	doorTile,
+	bombTile,
+	flameTile
 };
 
 struct Model_st
@@ -39,12 +53,15 @@ struct Model_st
 class Renderer
 {
 private:
-	std::map<char, int> fontMap;
 	Square *square;
 	Square *skybox_model;
 	Square *dirt_model;
 	std::vector<Model_st> _models;
+	std::map<char, int> fontMap;
+	std::vector<GuiChar *> _characters;
+	std::vector<Square *> _squares;
 	Shader *_shader;
+	Shader *_textShader;
 	Camera *_camera;
 	void pickups(sf::RenderWindow &window, const GameState &state);
 	void player(sf::RenderWindow &window, const GameState &state);
@@ -54,11 +71,15 @@ private:
 	Swarm swarm;
 	void skybox();
 
+	//troubleshooting frame counter
+	sf::Clock _clock;
+
 public:
 	Renderer(/* args */);
 	~Renderer();
 	void init();
 	void render(sf::RenderWindow &window, const GameState &state);
+	void writeLine(sf::RenderWindow &window, std::string string, sf::Vector3i color, sf::Vector2f pos, float scale); //only render alpha numeric characters, is displayed as uppercase only
 };
 
 #endif

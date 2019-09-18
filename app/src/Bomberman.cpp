@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <pthread.h>
 
 const int MAP_WIDTH = 11;
 const int MAP_HEIGHT = 11;
@@ -24,6 +25,10 @@ Bomberman::Bomberman()
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
+
+	//thread stuff
+	threadActive = false;
+	this->engine.init(this->gameState);
 }
 
 Bomberman::~Bomberman()
@@ -34,6 +39,21 @@ void Bomberman::startGame()
 {
 	this->start();
 };
+
+
+void *Bomberman::threadFunction(void *arg)
+{
+	Bomberman *bman = (Bomberman *)arg;
+
+	// uncomment if object must be mutated by renderer
+	// pthread_mutex_lock(bman->lock);
+
+	bman->renderer.render(*(bman->window), bman->gameState);
+	bman->threadActive = false;
+	
+	// uncomment if object must be mutated by renderer
+	// pthread_mutex_unlock(bman->lock);
+}
 
 void Bomberman::updateFunc()
 {
@@ -57,7 +77,15 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		this->renderer.render(*(this->window), this->gameState);
-		this->frameClock.restart();
+		if (!threadActive)
+		{
+			this->frameClock.restart();
+			threadActive = true;
+			pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
+		}
 	}
+}
+
+void Bomberman::setMutex(pthread_mutex_t *mutex) {
+	lock = mutex;
 }
