@@ -59,12 +59,12 @@ MenuOption Menu::handleInput(std::vector<EngineEvent> &actions)
 		case EngineEvent::place_bomb:
 			return this->select();
 		default:	
-			return MenuOption::None;
+			return MenuOption::Nothing;
 			break;
 		}
 	}
 
-	return MenuOption::None;
+	return MenuOption::Nothing;
 }
 
 void Menu::menuLeft()
@@ -104,7 +104,7 @@ MenuOption Menu::select()
 			return this->menuItems[i].option;
 	}
 
-	return MenuOption::None;
+	return MenuOption::Nothing;
 }
 
 MenuOption Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)

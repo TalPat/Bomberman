@@ -1,13 +1,13 @@
-#include "GuiChar.hpp"
+#include "Square.hpp"
 #include "stb_image.h"
 
-GuiChar::GuiChar(std::string path)
+Square::Square(std::string path)
 {
 	std::vector<float> vertices = {
-		0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.0f, 0.0f, 1.0f, 1.0f,
-		0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.0f, 0.5f, 0.0f, 0.0f, 0.0f};
+		0.5f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		-0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f};
 	std::vector<unsigned int> indices = {
 		0, 1, 3,
 		1, 2, 3};
@@ -25,20 +25,22 @@ GuiChar::GuiChar(std::string path)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_st), (void *)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *)(sizeof(float) * 3));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_st), (void *)offsetof(Vertex_st, normal));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_st), (void *)offsetof(Vertex_st, texcoords));
 
 	glBindVertexArray(0);
 
-	textureId = textureFromFile(path.c_str());
+	textureId = textureFromfile(path.c_str());
 }
 
-GuiChar::~GuiChar()
+Square::~Square()
 {
 }
 
-void GuiChar::draw(Shader shader)
+void Square::draw(Shader shader)
 {
 	glActiveTexture(GL_TEXTURE0);
 	shader.setInt("texture_diffuse1", 0);
@@ -51,7 +53,7 @@ void GuiChar::draw(Shader shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
-unsigned int GuiChar::textureFromFile(const char *path)
+unsigned int Square::textureFromfile(const char *path)
 {
 	unsigned int textureID;
 	glGenTextures(1, &textureID);

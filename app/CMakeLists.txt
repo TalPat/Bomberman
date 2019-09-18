@@ -12,7 +12,14 @@ target_link_libraries(App
     Engine
     Renderer
     Models
+    pthread
 )
+
+if(NOT APPLE)
+target_link_libraries(App
+    X11
+)
+endif()
 
 add_executable(bomberman src/main.cpp)
 target_link_libraries(bomberman App)

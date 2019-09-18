@@ -11,7 +11,7 @@ enum MenuOption
 	Start,
 	Controls,
 	Exit,
-	None
+	Nothing
 };
 
 struct MenuItem

@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <pthread.h>
 
 const int MAP_WIDTH = 11;
 const int MAP_HEIGHT = 11;
@@ -37,6 +38,9 @@ Bomberman::Bomberman()
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
+
+	//thread stuff
+	threadActive = false;
 	this->engine.init(this->gameState);
 }
 
@@ -62,6 +66,21 @@ void Bomberman::handleMenuOption(MenuOption option)
 	default:
 		break;
 	}
+}
+
+
+void *Bomberman::threadFunction(void *arg)
+{
+	Bomberman *bman = (Bomberman *)arg;
+
+	// uncomment if object must be mutated by renderer
+	// pthread_mutex_lock(bman->lock);
+
+	bman->renderer.render(*(bman->window), bman->gameState);
+	bman->threadActive = false;
+	
+	// uncomment if object must be mutated by renderer
+	// pthread_mutex_unlock(bman->lock);
 }
 
 void Bomberman::updateFunc()
@@ -100,7 +119,7 @@ void Bomberman::updateFunc()
 	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
 	this->deltaClock.restart();
 
-	MenuOption option = MenuOption::None;
+	MenuOption option = MenuOption::Nothing;
 
 	if (this->menuState == MenuState::Playing)
 	{
@@ -114,7 +133,13 @@ void Bomberman::updateFunc()
 			float scale = 0.2f;
 			// example of "writeline implementation, rather use in renderer to avoid syncopated draw calls
 			renderer.writeLine(*window, textString, color, startLocation, scale);
-			this->frameClock.restart();
+
+			if (!threadActive)
+			{
+				this->frameClock.restart();
+				threadActive = true;
+				pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
+			}
 		}
 	}
 	else if (this->menuState == MenuState::MainMenu)
@@ -127,4 +152,8 @@ void Bomberman::updateFunc()
 		option = this->pauseMenu.render(*(this->window), actions);
 		this->handleMenuOption(option);
 	}
+}
+
+void Bomberman::setMutex(pthread_mutex_t *mutex) {
+	lock = mutex;
 }

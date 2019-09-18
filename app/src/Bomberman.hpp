@@ -12,6 +12,9 @@
 
 #include <vector>
 #include <ctime>
+#if !__APPLE__
+	#include <X11/Xlib.h>
+#endif
 
 static const uint WINDOW_WIDTH = 800;
 static const uint WINDOW_HEIGHT = 800;
@@ -48,9 +51,15 @@ private:
 
 	void handleMenuOption(MenuOption option);
 
+	static void *threadFunction(void *arg); //thread stuff
+	pthread_t myThread;
+	pthread_mutex_t *lock;
+	bool threadActive;
+
 public:
 	Bomberman();
 	~Bomberman();
+	void setMutex(pthread_mutex_t *mutex);
 
 	void startGame();
 };
