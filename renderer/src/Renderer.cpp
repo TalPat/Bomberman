@@ -4,7 +4,7 @@
 Renderer::Renderer(/* args */)
 {
 	fontMap = {
-			{'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {' ', 10}, {'a', 11}, {'b', 12}, {'c', 13}, {'d', 14}, {'e', 15}, {'f', 16}, {'g', 17}, {'h', 18}, {'i', 19}, {'j', 20}, {'k', 21}, {'l', 22}, {'m', 23}, {'n', 24}, {'o', 25}, {'p', 26}, {'q', 27}, {'r', 28}, {'s', 29}, {'t', 30}, {'u', 31}, {'v', 32}, {'w', 33}, {'x', 34}, {'y', 35}, {'z', 36}};
+		{'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {' ', 10}, {'a', 11}, {'b', 12}, {'c', 13}, {'d', 14}, {'e', 15}, {'f', 16}, {'g', 17}, {'h', 18}, {'i', 19}, {'j', 20}, {'k', 21}, {'l', 22}, {'m', 23}, {'n', 24}, {'o', 25}, {'p', 26}, {'q', 27}, {'r', 28}, {'s', 29}, {'t', 30}, {'u', 31}, {'v', 32}, {'w', 33}, {'x', 34}, {'y', 35}, {'z', 36}};
 }
 
 Renderer::~Renderer()
@@ -115,6 +115,8 @@ void Renderer::init()
 	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/trapdoor.png"));
 	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/bomb.png"));
 	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/flame.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/Flame_Particle.png"));
+	_squares.push_back(new Square(std::string(SPRITE_DIR) + "/skybox.png"));
 
 	//compile shader programs
 	_shader = new Shader((std::string(SHADER_DIR) + "/vertexShader.glsl").c_str(), (std::string(SHADER_DIR) + "/fragmentShader.glsl").c_str());
@@ -122,6 +124,9 @@ void Renderer::init()
 
 	//build camera
 	_camera = new Camera(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 180.0f, 0.0f);
+
+	//particles
+	Swarm swarm;
 }
 
 void Renderer::player(sf::RenderWindow &window, const GameState &state)
@@ -140,14 +145,14 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
 	shoelModel = glm::translate(shoelModel, glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
 	shoerModel = glm::translate(shoerModel, glm::vec3(playerPosition.x, 0.0f, playerPosition.y));
 
-	model = _models[playerModel].model->getAnimation().orientation(model, glm::vec2(playerPosition.x, playerPosition.y)); //simple animation. generate class to manage
+	model = _models[playerModel].model->getAnimation().orientation(model, glm::vec2(playerPosition.x, playerPosition.y)); 	//simple animation. generate class to manage
 	model = _models[playerModel].model->getAnimation().waddle(model);
 	shoelModel = _models[shoel].model->getAnimation().orientation(shoelModel, glm::vec2(playerPosition.x, playerPosition.y));
 	shoelModel = _models[shoel].model->getAnimation().leftFoot(shoelModel);
 	shoerModel = _models[shoer].model->getAnimation().orientation(shoerModel, glm::vec2(playerPosition.x, playerPosition.y));
 	shoerModel = _models[shoer].model->getAnimation().rightFoot(shoerModel);
 
-	model = _models[playerModel].model->getAnimation().pulse(model, 10, 3);																								//simple animation. generate class to manage
+	model = _models[playerModel].model->getAnimation().pulse(model, 10, 3); 												//simple animation. generate class to manage
 
 	model = glm::scale(model, _models[playerModel].initialScale);
 	model = glm::rotate(model, glm::radians(_models[playerModel].initialRot.w), glm::vec3(_models[playerModel].initialRot));
@@ -171,7 +176,9 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 {
 	const Map &map = state.map;
 	const sf::Vector2i &mapSize = map.size();
+	Particle *pParticles = swarm.getParticles();
 	Tile tile;
+	swarm.update();
 	for (int y = 0; y < mapSize.y; y++)
 	{
 		for (int x = 0; x < mapSize.x; x++)
@@ -198,7 +205,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					name = bombModel;
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
-																																									// model = _models[bombModel].model->getAnimation().spin(model, 3, glm::vec3(0.0f, 1.0f, 0.0f)); //simple animation. generate class to manage
+																							// model = _models[bombModel].model->getAnimation().spin(model, 3, glm::vec3(0.0f, 1.0f, 0.0f)); //simple animation. generate class to manage
 					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					_shader->setMat4("model", tileModel);
 					_squares[floorTile]->draw(*_shader);
@@ -212,8 +219,16 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					_squares[floorTile]->draw(*_shader);
 					break;
 				case Tile::Flame:
-					name = flameModel;
-					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
+					for (int a = 0; a < swarm.NPARTICLES; a++)
+					{
+						Particle points = pParticles[a];
+						glm::mat4 model = glm::mat4(1.0f);
+						model = glm::translate(model, glm::vec3(x + points.m_x, points.m_y, y + points.m_z));
+						model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+						model = glm::rotate(model, 1.5708f, glm::vec3(0.0f, 1.0f, 0.0f));
+						_shader->setMat4("model", model);
+						_squares[flameParticle]->draw(*_shader);
+					}
 					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					_shader->setMat4("model", tileModel);
 					_squares[floorTile]->draw(*_shader);
@@ -225,7 +240,9 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 				model = glm::rotate(model, glm::radians(_models[name].initialRot.w), glm::vec3(_models[name].initialRot));
 				_shader->setMat4("model", model);
 				_models[name].model->draw(*_shader);
-			} else {
+			}
+			else
+			{
 				tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 				_shader->setMat4("model", tileModel);
 				_squares[floorTile]->draw(*_shader);
@@ -236,7 +253,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 {
-	for(auto &e: state.enemies.list)
+	for (auto &e : state.enemies.list)
 	{
 		glm::mat4 model = glm::mat4(1.0f);
 		sf::Vector2f enemyPosition(e->position());
@@ -266,7 +283,7 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
 			model = _models[name].model->getAnimation().waddle(model);
 			break;
-		
+
 		default:
 			name = giraffeModel;
 			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
@@ -285,7 +302,7 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 
 void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
 {
-	for(auto &pickup: state.pickups._pickups)
+	for (auto &pickup : state.pickups._pickups)
 	{
 		glm::mat4 model = glm::mat4(1.0f);
 		sf::Vector2f pickupPosition(pickup.position);
@@ -302,17 +319,26 @@ void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
 		case BombRange:
 			name = flameTile;
 			break;
-		
+
 		default:
 			break;
 		}
 
 		model = glm::translate(model, glm::vec3(pickupPosition.x, 0.1f, pickupPosition.y));
-		model = glm::rotate(model, glm::radians(180.0f),glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		_shader->setMat4("model", model);
 		_squares[name]->draw(*_shader);
 	}
+}
+
+void Renderer::skybox(sf::RenderWindow &window, const GameState &state)
+{
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, -10.0f, -50.0f));
+	model = glm::scale(model, glm::vec3(200.0f, 1.0f, 200.0f));
+	_shader->setMat4("model", model);
+	_squares[skyboxTile]->draw(*_shader);
 }
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
@@ -324,7 +350,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//frame counter
-	writeLine(window, "FPS "+std::to_string((int)(1/_clock.getElapsedTime().asSeconds())), sf::Vector3i(10,20,50), sf::Vector2f(-1.0f,-1.0f), 0.2f);
+	writeLine(window, "FPS " + std::to_string((int)(1 / _clock.getElapsedTime().asSeconds())), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, -1.0f), 0.2f);
 	_clock.restart();
 
 	sf::Vector2f playerPosition(state.player.position());
@@ -355,6 +381,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
+	skybox(window, state);
 
 	window.display();
 }
@@ -365,7 +392,7 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 
 	float offset = 0.0f;
 	sf::Vector2u size = window.getSize();
-	float ratio = (float)(size.y)/size.x;
+	float ratio = (float)(size.y) / size.x;
 	float stride = 0.35 * scale * ratio / 1.4;
 	glm::mat4 posMat = glm::mat4(1.0f);
 	glm::mat4 scaleMat = glm::mat4(1.0f);
@@ -373,7 +400,7 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 	posMat = glm::translate(posMat, glm::vec3(pos.x, pos.y, 0.0f));
 	scaleMat = glm::scale(scaleMat, glm::vec3(scale * ratio / 1.4, scale, scale));
 
-	_textShader->setVec3("textColor", glm::vec3((float)(color.x)/255, (float)(color.y)/255, (float)(color.z)/255));
+	_textShader->setVec3("textColor", glm::vec3((float)(color.x) / 255, (float)(color.y) / 255, (float)(color.z) / 255));
 
 	for (char &c : string)
 	{
