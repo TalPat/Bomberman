@@ -1,6 +1,7 @@
 #include "../include/Enemies.hpp"
 #include <RNG.hpp>
 const int SAFE_ZONE = 2;
+const int TOTAL_ENEMIES = 3; 
 Enemies::Enemies()
 {
 	// populate();
@@ -43,7 +44,7 @@ void Enemies::populate(int numEnemies,int level, const Map &map){
 			start = sf::Vector2f(x+0.5, y+0.5);
 		}
 
-		enemyType = RNG::getRandomNumber(0,level);
+		enemyType = RNG::getRandomNumber(0,level-1);
 		switch (enemyType)
 		{
 			case 0:
@@ -66,7 +67,7 @@ void Enemies::populate(int numEnemies)
 	IEnemy *e;
 	for(int i = 0; i < numEnemies;i++)
 	{
-		enemyType = (RNG::getRandomNumber(0,3));
+		enemyType = (RNG::getRandomNumber(0,TOTAL_ENEMIES - 1));
 		switch (enemyType)
 		{
 			case 0:
