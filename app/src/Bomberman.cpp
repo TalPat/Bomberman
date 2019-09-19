@@ -25,7 +25,7 @@ Bomberman::Bomberman()
 
 	std::vector<MenuItem> mainMenuItems;
 	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuAction::StartGame));
-	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::ToControlsMenu));
+	mainMenuItems.push_back(MenuItem(0, "Settings", false, MenuAction::ToSettingsMenu));
 	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuAction::Exit));
 	mainMenu.init(renderer, mainMenuItems);
 

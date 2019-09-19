@@ -10,6 +10,7 @@ enum MenuAction
 {
 	StartGame,
 	ToControlsMenu,
+	ToSettingsMenu,
 	ToMainMenu,
 	Exit,
 	Nothing
