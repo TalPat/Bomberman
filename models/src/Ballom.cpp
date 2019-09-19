@@ -1,5 +1,6 @@
 #include "../include/Ballom.hpp"
 #include <RNG.hpp>
+
 const int NUM_MOVEMENT_STATES = 4;
 const float AGGROTIME = 4;
 const float DEFAULT_SPEED = 2.5;
@@ -34,7 +35,7 @@ Ballom::~Ballom(){
 
 void Ballom::changeMoveState()
 {
-	int num = RNG::getRandomNumber(0,NUM_MOVEMENT_STATES-1);
+	int num = RNG::getRandomNumber(0, NUM_MOVEMENT_STATES - 1);
 	this->moveState =(EnemyMoveState)(num);
 }
 

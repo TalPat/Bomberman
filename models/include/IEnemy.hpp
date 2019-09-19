@@ -51,7 +51,7 @@ public:
 	IEnemy(sf::Vector2f start);
 	~IEnemy();
 	bool correctEnemyCellCollision(sf::Vector2i cell);
-	virtual void update(float deltaTime, const Map &map,const Player &player);
+	virtual void update(float deltaTime, const Map &map, const Player &player);
 	EnemyMoveState moveState;
 	virtual void changeMoveState();
 	virtual void changeAggression();
@@ -59,5 +59,4 @@ public:
 	const sf::Vector2f &position() const;
 	bool operator == (const IEnemy& e) const { return this->_position == e._position; }
 };
-
 #endif

@@ -8,4 +8,5 @@ add_library(Models STATIC
     src/Finder.cpp
     src/Enemies.cpp
     src/Pickups.cpp
+    src/RNG.cpp
 )

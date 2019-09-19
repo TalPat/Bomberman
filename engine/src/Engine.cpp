@@ -4,7 +4,7 @@
 void Engine::init(GameState &gameState)
 {
 	gameState.pickups.initPickups(gameState.map);
-	gameState.enemies.populate(10,2,gameState.map);
+	gameState.enemies.populate(10, 2, gameState.map);
 }
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
