@@ -2,6 +2,7 @@
 #define _Player_hpp_
 
 #include "Map.hpp"
+#include "EngineEvent.hpp"
 
 #include <cmath>
 #include <SFML/System.hpp>
@@ -18,8 +19,9 @@ class Player
 {
 	float _playerSpeed;
 	bool _alive;
-	float _lives;
-	float _deathTime;
+	int _lives;
+	int _bombRange;
+	int _maxBombs;
 	sf::Vector2f _position;
 
 public:
@@ -28,6 +30,10 @@ public:
 
 	MoveState moveState;
 
+	void addBombRange(void);
+	void addMaxBombs(void);
+	int getBombRange(void) const;
+	int getMaxBombs(void) const;
 	void kill(void);
 	void init(int level);
 	void handleMovement(float deltaTime, const Map &map);

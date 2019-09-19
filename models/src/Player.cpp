@@ -4,12 +4,15 @@
 
 const sf::Vector2f DEFAULT_START(1.5, 1.5);
 const float DEFAULT_SPEED = 5;
-const float DEATH_TIMER = 2.5;
 const float HALF_WIDTH = 0.35;
 
 Player::Player() : _position(DEFAULT_START),
-				   _playerSpeed(DEFAULT_SPEED),
-				   moveState({false, false, false, false})
+					_playerSpeed(DEFAULT_SPEED),
+					_lives(3),
+					moveState({false, false, false, false}),
+					_alive(true),
+					_bombRange(3),
+					_maxBombs(3)
 {
 }
 
@@ -27,7 +30,6 @@ void Player::init(int level)
 void Player::kill(void)
 {
 	this->_alive = false;
-	this->_deathTime = DEATH_TIMER;
 }
 
 void Player::handleMovement(float deltaTime, const Map &map)
@@ -58,7 +60,7 @@ void Player::handleMovement(float deltaTime, const Map &map)
 
 
 	auto comp = [](Tile tile) {
-		return tile != Tile::Clear && tile != Tile::BombClear;
+		return tile != Tile::Clear && tile != Tile::BombClear && tile != Tile::Flame;
 	};
 	// Move player as far as possible without colliding
 	if (dx.x != 0 && dy.y != 0 && map.lerpCollide(pos, dx + dy, HALF_WIDTH, comp))
@@ -73,9 +75,6 @@ void Player::update(float deltaTime, const Map &map)
 {
 	if (this->_alive == false)
 	{
-		this->_deathTime -= deltaTime;
-		//if (this->_deathTime < 0)
-		//	gameState.loading = true;
 		return;
 	}
 
@@ -87,6 +86,26 @@ void Player::update(float deltaTime, const Map &map)
 	};
 	if (map.collide(this->_position, HALF_WIDTH, compFlame))
 		this->kill();
+}
+
+int Player::getBombRange(void) const
+{
+	return this->_bombRange;
+}
+
+int Player::getMaxBombs(void) const
+{
+	return this->_maxBombs;
+}
+
+void Player::addBombRange(void)
+{
+	this->_bombRange++;
+}
+
+void Player::addMaxBombs(void)
+{
+	this->_maxBombs++;
 }
 
 void Player::addLife(void)

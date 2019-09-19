@@ -1,10 +1,13 @@
 
 #include "../include/Engine.hpp"
 
+const float WAIT_TIME = 2.0;
+
 void Engine::init(GameState &gameState)
 {
 	//if (gameState.level != 0 && gameState.level % 5 == 0)
 	//	gameState.player.addLife();
+	gameState.waitTime = WAIT_TIME;
 	gameState.loading = true;
 	gameState.map.init(gameState.level);
 	gameState.bombs.clear();
@@ -19,6 +22,11 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 	if (gameState.loading)
 	{
 		this->init(gameState);
+		return;
+	}
+	if (gameState.waitTime > 0.0)
+	{
+		gameState.waitTime -= deltaTime;	
 		return;
 	}
 
@@ -58,14 +66,20 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 			break;
 		}
 	}
+	actions.clear();
 
 	if (gameState.player.isAlive())
 	{
-		gameState.bombs.update(deltaTime, gameState.map);
+		gameState.bombs.update(deltaTime, gameState.map, gameState.player);
 		gameState.bombs.updateMap(gameState.player, gameState.map);
 		gameState.pickups.update(gameState);
 		gameState.enemies.updateAll(deltaTime, gameState.map);
 		gameState.enemies.kill(gameState.map);
+	} else {
+		if (!gameState.player.isAlive())
+		{
+			gameState.loading = true;
+		}
 	}
 	gameState.player.update(deltaTime, gameState.map);
 	

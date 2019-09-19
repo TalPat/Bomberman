@@ -23,6 +23,7 @@ public:
 	Pickups pickups;
 	int level;
 	bool loading;
+	float waitTime;
 };
 
 #endif
