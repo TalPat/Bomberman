@@ -44,13 +44,16 @@ void Enemies::populate(int numEnemies,int level, const Map &map){
 			start = sf::Vector2f(x+0.5, y+0.5);
 		}
 
-		enemyType = RNG::getRandomNumber(0,level-1);
+		enemyType = RNG::getRandomNumber(0,level);
 		switch (enemyType)
 		{
 			case 0:
-				e = new Ballom(sf::Vector2f(start));
+				e = new IEnemy(sf::Vector2f(start));
 				break;
 			case 1:
+				e = new Ballom(sf::Vector2f(start));
+				break;
+			case 2:
 				e = new Finder(sf::Vector2f(start));
 				break;
 			default:
@@ -71,9 +74,12 @@ void Enemies::populate(int numEnemies)
 		switch (enemyType)
 		{
 			case 0:
-				e = new Ballom();
+				e = new IEnemy();
 				break;
 			case 1:
+				e = new Ballom();
+				break;
+			case 2:
 				e = new Finder();
 				break;
 			default:
