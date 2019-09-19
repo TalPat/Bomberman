@@ -1,5 +1,7 @@
 #include "../include/Enemies.hpp"
-// #include <thread>
+#include <iostream>
+#include <RNG.hpp>
+const int SAFE_ZONE = 2;
 Enemies::Enemies()
 {
 	// populate();
@@ -32,57 +34,64 @@ void Enemies::populate()
 	list.push_back(f);
 
 }
+
 void Enemies::populate(int numEnemies,int level, const Map &map){
-	srand(time(NULL));
 	int enemyType;
 	IEnemy *e;
 	//generate coordinates here
-	sf::Vector2i start(0,0);
-	while(map.tileAt(start) != Tile::Clear){
-		start.x = (rand()*((map.size().x/2)-1))*2;
-		start.y = (rand()*((map.size().x/2)-1))*2;
-	}
+
 	//only generates on uneven blocks
 	//check if tile at coordinates exist
 	//rerun random number generator
 	for(int i = 0; i < numEnemies;i++)
 	{
-		enemyType = (rand() % 3);
+		sf::Vector2f start(0,0);
+		while(map.tileAt(sf::Vector2i(start)) != Tile::Clear)
+		{
+			// std::cout << "mapsize x : "<< (map.size().x)/2<< "\n";
+			int x = RNG::getRandomNumber(SAFE_ZONE,((map.size().x/2)-1)) *2+1;
+			int y = RNG::getRandomNumber(SAFE_ZONE,((map.size().y/2)-1)) *2+1;
+			start = sf::Vector2f(x+0.5, y+0.5);
+		}
+		// std::cout << "x : ["<<start.x << "] | y : ["<< start.y<<"]\n";
+
+		enemyType = RNG::getRandomNumber(0,level);
 		switch (enemyType)
 		{
-			// case 0:
-			// 	e = new Ballom(sf::Vector2f(start));
-			// 	break;
-			// case 1:
-			// 	e = new Finder(sf::Vector2f(start));
-			// 	break;
-			default:
+			case 0:
+				e = new Ballom(sf::Vector2f(start));
+				break;
+			case 1:
 				e = new Finder(sf::Vector2f(start));
-				// e = new IEnemy(sf::Vector2f(start));
+				break;
+			default:
+				// e = new Finder(sf::Vector2f(start));
+				e = new IEnemy(sf::Vector2f(start));
 				break;
 		}
 		list.push_back(e);
 	}
 }
+
 void Enemies::populate(int numEnemies)
 {
-	srand(time(NULL));
+	// srand(time(NULL));
 	int enemyType;
 	IEnemy *e;
 	for(int i = 0; i < numEnemies;i++)
 	{
-		enemyType = (rand() % 3);
+		enemyType = (RNG::getRandomNumber(0,3));
 		switch (enemyType)
 		{
-			case 0:
-				e = new Ballom();
-				break;
-			case 1:
-				e = new Finder();
-				break;
+			// case 0:
+			// 	e = new Ballom();
+			// 	break;
+			// case 1:
+			// 	e = new Finder();
+			// 	break;
 			default:
-				// e = new Finder();
-				e = new IEnemy();
+				e = new Finder();
+				// e = new IEnemy();
 				break;
 		}
 		list.push_back(e);

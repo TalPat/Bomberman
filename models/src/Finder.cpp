@@ -5,7 +5,7 @@ const float AGGROTIME = 4;
 const float DEFAULT_SPEED = 2.5;
 const float AUTOSWITCH = 1;
 const bool DEFAULT_WALLPASS = true;
-const int SIGHT_RANGE = 4;
+const int SIGHT_RANGE = 8;
 const sf::Vector2f DEFAULT_START(9.5, 9.5);
 
 Finder::Finder()		
