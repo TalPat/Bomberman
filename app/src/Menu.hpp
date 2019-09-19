@@ -12,6 +12,9 @@ enum MenuAction
 	ToControlsMenu,
 	ToSettingsMenu,
 	ToResolutionMenu,
+	SetResolution800,
+	SetResolution1024,
+	SetResolutionFullscreen,
 	ToMainMenu,
 	Exit,
 	Nothing

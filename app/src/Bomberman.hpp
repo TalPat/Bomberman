@@ -25,6 +25,7 @@ enum MenuState
 	MainMenu,
 	PauseMenu,
 	SettingsMenu,
+	ResolutionMenu,
 	ControlsMenu,
 	Playing
 };
@@ -40,6 +41,7 @@ private:
 	Menu mainMenu;
 	Menu pauseMenu;
 	Menu settingsMenu;
+	Menu resolutionMenu;
 	MenuState menuState;
 
 	GameState gameState;

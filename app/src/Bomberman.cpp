@@ -40,6 +40,13 @@ Bomberman::Bomberman()
 	settingsMenuItems.push_back(MenuItem(2, "Back", false, MenuAction::ToMainMenu));
 	settingsMenu.init(renderer, settingsMenuItems);
 
+	std::vector<MenuItem> resolutionMenuItems;
+	resolutionMenuItems.push_back(MenuItem(-3, "800 x 800", true, MenuAction::SetResolution800));
+	resolutionMenuItems.push_back(MenuItem(-1, "1024 x 1000 ", false, MenuAction::SetResolution1024));
+	resolutionMenuItems.push_back(MenuItem(1, "Fullscreen", false, MenuAction::SetResolutionFullscreen));
+	resolutionMenuItems.push_back(MenuItem(3, "Back", false, MenuAction::ToSettingsMenu));
+	resolutionMenu.init(renderer, resolutionMenuItems);
+
 	menuState = MenuState::MainMenu;
 
 	this->deltaClock.restart();
@@ -71,6 +78,15 @@ void Bomberman::handleMenuAction(MenuAction option)
 		break;
 	case MenuAction::ToSettingsMenu:
 		this->menuState = MenuState::SettingsMenu;
+		break;
+	case MenuAction::ToResolutionMenu:
+		this->menuState = MenuState::ResolutionMenu;
+		break;
+	case MenuAction::SetResolution800:
+		this->window->setSize(sf::Vector2u(800, 800));
+		break;
+	case MenuAction::SetResolution1024:
+		this->window->setSize(sf::Vector2u(1024, 1000));
 		break;
 	case MenuAction::Exit:
 		this->stop();
@@ -159,6 +175,11 @@ void Bomberman::updateFunc()
 	else if (this->menuState == MenuState::SettingsMenu)
 	{
 		option = this->settingsMenu.render(*(this->window), actions);
+		this->handleMenuAction(option);
+	}
+	else if (this->menuState == MenuState::ResolutionMenu)
+	{
+		option = this->resolutionMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
 	}
 }
