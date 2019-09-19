@@ -20,6 +20,7 @@ Bombs::Bombs()
 void Bombs::clear(void)
 {
 	this->_bombs.remove_if([](sBomb &bomb) { return true; });
+	this->_flames.remove_if([](sFlame &flame) { return true; });
 }
 
 void Bombs::placeBomb(const Player &player, Map &map)
