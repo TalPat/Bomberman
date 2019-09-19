@@ -1,5 +1,4 @@
 #include "../include/Enemies.hpp"
-#include <iostream>
 #include <RNG.hpp>
 const int SAFE_ZONE = 2;
 Enemies::Enemies()
@@ -16,23 +15,14 @@ void Enemies::updateAll(float deltaTime, const Map &map, const Player &player)
 {
 	for(auto &e:this->list)
 	{
-		// std::thread t1(std::ref(e->update), std::ref(deltaTime), std::ref(map), std::ref(player));
 		e->update(deltaTime, map, player);
-		// t1.join();
 	}
 }
 
 void Enemies::populate()
 {
-	//Used for testing new Enemies
-	// IEnemy *e =new IEnemy();
-	// Ballom *b = new Ballom();
 	Finder *f = new Finder();
-
-	// list.push_back(e);
-	// list.push_back(b);
 	list.push_back(f);
-
 }
 
 void Enemies::populate(int numEnemies,int level, const Map &map){
@@ -48,12 +38,10 @@ void Enemies::populate(int numEnemies,int level, const Map &map){
 		sf::Vector2f start(0,0);
 		while(map.tileAt(sf::Vector2i(start)) != Tile::Clear)
 		{
-			// std::cout << "mapsize x : "<< (map.size().x)/2<< "\n";
 			int x = RNG::getRandomNumber(SAFE_ZONE,((map.size().x/2)-1)) *2+1;
 			int y = RNG::getRandomNumber(SAFE_ZONE,((map.size().y/2)-1)) *2+1;
 			start = sf::Vector2f(x+0.5, y+0.5);
 		}
-		// std::cout << "x : ["<<start.x << "] | y : ["<< start.y<<"]\n";
 
 		enemyType = RNG::getRandomNumber(0,level);
 		switch (enemyType)
@@ -65,7 +53,6 @@ void Enemies::populate(int numEnemies,int level, const Map &map){
 				e = new Finder(sf::Vector2f(start));
 				break;
 			default:
-				// e = new Finder(sf::Vector2f(start));
 				e = new IEnemy(sf::Vector2f(start));
 				break;
 		}
@@ -75,7 +62,6 @@ void Enemies::populate(int numEnemies,int level, const Map &map){
 
 void Enemies::populate(int numEnemies)
 {
-	// srand(time(NULL));
 	int enemyType;
 	IEnemy *e;
 	for(int i = 0; i < numEnemies;i++)
@@ -83,15 +69,14 @@ void Enemies::populate(int numEnemies)
 		enemyType = (RNG::getRandomNumber(0,3));
 		switch (enemyType)
 		{
-			// case 0:
-			// 	e = new Ballom();
-			// 	break;
-			// case 1:
-			// 	e = new Finder();
-			// 	break;
-			default:
+			case 0:
+				e = new Ballom();
+				break;
+			case 1:
 				e = new Finder();
-				// e = new IEnemy();
+				break;
+			default:
+				e = new IEnemy();
 				break;
 		}
 		list.push_back(e);

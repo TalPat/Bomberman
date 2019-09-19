@@ -38,28 +38,21 @@ void Finder::changeMoveState()
 {
 	this->moveState =(EnemyMoveState)(RNG::getRandomNumber(0,NUM_MOVEMENT_STATES-1));
 }
-void Finder::changeMoveState(const Map &map, const Player &player){
-	// this->moveState = update_path(map, )
-	// this->moveState = update_path(map, sf::Vector2i(this->position()), sf::Vector2i(player.position()));
-
+void Finder::changeMoveState(const Map &map, const Player &player)
+{
 	this->moveState = findpath(map, sf::Vector2i(this->position()), sf::Vector2i(player.position()));
 }
 
 void Finder::update(float deltaTime, const Map &map, const Player &player)
 {
 	_switchTime -= deltaTime;
-	// _aggression -= deltaTime;
-	// if(_aggression <= 0)
-	// {
-		// this->changeAggression();
-	// }
 	double mf;
 	double xdec, ydec;
 	xdec = modf(this->position().x, &mf);
 	ydec = modf(this->position().y, &mf);
 	sf::Vector2i dist = distance(sf::Vector2i(this->position()), sf::Vector2i(player.position()));
 	if(abs(dist.y) < SIGHT_RANGE && abs(dist.x) < SIGHT_RANGE){
-		if((xdec <0.55 && xdec > 0.4) && (ydec <0.55 && ydec > 0.4)/*(xdec==0.49) &&(ydec == 0.49)*/ &&  ((int)(this->position().x)%2 || (int)(this->position().y)%2))
+		if((xdec <0.55 && xdec > 0.4) && (ydec <0.55 && ydec > 0.4) &&  ((int)(this->position().x)%2 || (int)(this->position().y)%2))
 			this->changeMoveState(map, player);
 	}else{
 		if(_switchTime <= 0)
@@ -74,7 +67,6 @@ void Finder::update(float deltaTime, const Map &map, const Player &player)
 
 void Finder::changeAggression()
 {
-	// _aggression = (rand() % 4);
 	if(_aggression == 3 && type == EnemyType::EBallom)
 	{
 		_enemySpeed = DEFAULT_SPEED + 1.5;
@@ -105,35 +97,25 @@ EnemyMoveState Finder::calculatedirection(sf::Vector2i start, sf::Vector2i end){
         return (dist.y > 0 ? EnemyMoveState::north:EnemyMoveState::south );
     else if(abs(dist.y) >= abs(dist.x))
         return (dist.y >= 0 ? EnemyMoveState::north:EnemyMoveState::south );
-    else/* if(abs(dx) > abs(dy))*/
+    else
         return (dist.x >= 0 ? EnemyMoveState::west:EnemyMoveState::east);
-    /*else
-        return EnemyMoveState::none;
-    */
-    
 }
 EnemyMoveState Finder::findpath(Map map, sf::Vector2i start, sf::Vector2i end){
-    // sf::Vector2i estblock(start.x, start.y);
 	EnemyMoveState estDir = calculatedirection(start, end);
     sf::Vector2i path(start.x,start.y);
-        // findpath(map, start, end);
         switch (estDir)
         {
         case EnemyMoveState::north:
             path.y -= 1;
-            // std::cout << "North"<<"\n";
             break;
         case EnemyMoveState::south:
             path.y += 1;
-            // std::cout << "South"<<"\n";
             break;
         case EnemyMoveState::west:
             path.x -= 1;
-            // std::cout << "West"<<"\n";
             break;
         case EnemyMoveState::east:
             path.x += 1;
-            // std::cout << "East"<<"\n";
             break;
         default:
             break;
