@@ -34,6 +34,12 @@ Bomberman::Bomberman()
 	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuAction::ToMainMenu));
 	pauseMenu.init(renderer, pauseMenuItems);
 
+	std::vector<MenuItem> settingsMenuItems;
+	settingsMenuItems.push_back(MenuItem(-2, "Resolution", true, MenuAction::ToResolutionMenu));
+	settingsMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::ToControlsMenu));
+	settingsMenuItems.push_back(MenuItem(2, "Back", false, MenuAction::ToMainMenu));
+	settingsMenu.init(renderer, settingsMenuItems);
+
 	menuState = MenuState::MainMenu;
 
 	this->deltaClock.restart();
@@ -62,6 +68,9 @@ void Bomberman::handleMenuAction(MenuAction option)
 		break;
 	case MenuAction::ToMainMenu:
 		this->menuState = MenuState::MainMenu;
+		break;
+	case MenuAction::ToSettingsMenu:
+		this->menuState = MenuState::SettingsMenu;
 		break;
 	case MenuAction::Exit:
 		this->stop();
@@ -145,6 +154,11 @@ void Bomberman::updateFunc()
 	else if (this->menuState == MenuState::PauseMenu)
 	{
 		option = this->pauseMenu.render(*(this->window), actions);
+		this->handleMenuAction(option);
+	}
+	else if (this->menuState == MenuState::SettingsMenu)
+	{
+		option = this->settingsMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
 	}
 }

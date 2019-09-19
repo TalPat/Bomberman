@@ -11,6 +11,7 @@ enum MenuAction
 	StartGame,
 	ToControlsMenu,
 	ToSettingsMenu,
+	ToResolutionMenu,
 	ToMainMenu,
 	Exit,
 	Nothing
