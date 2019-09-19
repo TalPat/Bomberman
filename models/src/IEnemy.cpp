@@ -1,13 +1,12 @@
 #include "../include/IEnemy.hpp"
-
-#include <iostream>
+#include <RNG.hpp>
 
 const float AUTOSWITCH = 8;
 const sf::Vector2f DEFAULT_START(11.5, 11.5);
 const float DEFAULT_SPEED = 2.2;
 const int NUM_MOVEMENT_STATES = 4;
 const float AGGROTIME = 8;
-
+int IEnemy::idCounter = 0;
 // Testing order here is important
 // Test cardinals first
 
@@ -20,6 +19,7 @@ IEnemy::IEnemy() :
 					type(EnemyType::EGeneric),
 					_wallPass(false)
 {
+	this->id = IEnemy::idCounter++;
 }
 
 IEnemy::IEnemy(sf::Vector2f start):
@@ -31,6 +31,7 @@ IEnemy::IEnemy(sf::Vector2f start):
 					type(EnemyType::EGeneric),
 					_wallPass(false)
 {
+	this->id = IEnemy::idCounter++;
 }
 
 IEnemy::~IEnemy()
@@ -97,16 +98,16 @@ bool IEnemy::correctEnemyCellCollision(sf::Vector2i cell)
 
 void IEnemy::changeMoveState()
 {
-	this->moveState = (EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
+	this->moveState = (EnemyMoveState)(RNG::getRandomNumber(0, NUM_MOVEMENT_STATES - 1));
 }
 
-void IEnemy::update(float deltaTime, const Map &map)
+void IEnemy::update(float deltaTime, const Map &map, const Player &player)
 {
 	_switchTime -= deltaTime;
 	if(_switchTime <= 0)
 	{
 		changeMoveState();
-		_switchTime = (rand() % (int)AUTOSWITCH)+1;
+		_switchTime = RNG::getRandomNumber(0, (int)AUTOSWITCH) + 1;
 	}
 	move(deltaTime, map);
 }
