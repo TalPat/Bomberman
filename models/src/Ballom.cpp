@@ -53,7 +53,7 @@ void Ballom::update(float deltaTime, const Map &map, const Player &player)
 		if(_aggression)
 			_switchTime = (RNG::getRandomNumber(0, (int)(AUTOSWITCH/2))) + 1;
 		else
-			_switchTime = (RNG::getRandomNumber(0 , (int)(AUTOSWITCH))) +1 ;
+			_switchTime = (RNG::getRandomNumber(0, (int)(AUTOSWITCH))) + 1;
 	}
 	this->move(deltaTime, map);
 }
