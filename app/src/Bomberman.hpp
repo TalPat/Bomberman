@@ -49,7 +49,7 @@ private:
 
 	virtual void updateFunc();
 
-	void handleMenuOption(MenuOption option);
+	void handleMenuAction(MenuAction option);
 
 	static void *threadFunction(void *arg); //thread stuff
 	pthread_t myThread;

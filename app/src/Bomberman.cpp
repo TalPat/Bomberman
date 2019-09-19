@@ -24,14 +24,14 @@ Bomberman::Bomberman()
 	renderer.init();
 
 	std::vector<MenuItem> mainMenuItems;
-	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuOption::Start));
-	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuOption::Controls));
-	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuOption::Exit));
+	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuAction::Start));
+	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::Controls));
+	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuAction::Exit));
 	mainMenu.init(renderer, mainMenuItems);
 
 	std::vector<MenuItem> pauseMenuItems;
-	pauseMenuItems.push_back(MenuItem(-1, "Continue", true, MenuOption::Start));
-	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuOption::Exit));
+	pauseMenuItems.push_back(MenuItem(-1, "Continue", true, MenuAction::Start));
+	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuAction::Exit));
 	pauseMenu.init(renderer, pauseMenuItems);
 
 	menuState = MenuState::MainMenu;
@@ -53,14 +53,14 @@ void Bomberman::startGame()
 	this->start();
 }
 
-void Bomberman::handleMenuOption(MenuOption option)
+void Bomberman::handleMenuAction(MenuAction option)
 {
 	switch (option)
 	{
-	case MenuOption::Start:
+	case MenuAction::Start:
 		this->menuState = MenuState::Playing;
 		break;
-	case MenuOption::Exit:
+	case MenuAction::Exit:
 		this->stop();
 		break;
 	default:
@@ -119,7 +119,7 @@ void Bomberman::updateFunc()
 	this->engineTime = this->deltaClock.getElapsedTime().asSeconds();
 	this->deltaClock.restart();
 
-	MenuOption option = MenuOption::Nothing;
+	MenuAction option = MenuAction::Nothing;
 
 	if (this->menuState == MenuState::Playing)
 	{
@@ -137,12 +137,12 @@ void Bomberman::updateFunc()
 	else if (this->menuState == MenuState::MainMenu)
 	{
 		option = this->mainMenu.render(*(this->window), actions);
-		this->handleMenuOption(option);
+		this->handleMenuAction(option);
 	}
 	else if (this->menuState == MenuState::PauseMenu)
 	{
 		option = this->pauseMenu.render(*(this->window), actions);
-		this->handleMenuOption(option);
+		this->handleMenuAction(option);
 	}
 }
 

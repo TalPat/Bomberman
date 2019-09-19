@@ -6,7 +6,7 @@
 
 #include <vector>
 
-enum MenuOption
+enum MenuAction
 {
 	Start,
 	Controls,
@@ -19,9 +19,9 @@ struct MenuItem
 	int offset;
 	std::string text;
 	bool selected;
-	MenuOption option;
+	MenuAction option;
 
-	MenuItem(int offset, std::string text, bool selected, MenuOption option)
+	MenuItem(int offset, std::string text, bool selected, MenuAction option)
 		: offset(offset), text(text), selected(selected), option(option) {}
 };
 
@@ -37,17 +37,17 @@ private:
 
 	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
-	MenuOption handleInput(std::vector<EngineEvent> &actions);
+	MenuAction handleInput(std::vector<EngineEvent> &actions);
 	void menuLeft();
 	void menuRight();
-	MenuOption select();
+	MenuAction select();
 
 public:
 	Menu();
 	~Menu();
 
 	void init(Renderer &renderer, std::vector<MenuItem> &items);
-	MenuOption render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
+	MenuAction render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
 };
 
 #endif

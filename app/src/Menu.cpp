@@ -44,7 +44,7 @@ void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
 	this->_renderer->writeLine(window, item.text, color, startLocation, scale);
 }
 
-MenuOption Menu::handleInput(std::vector<EngineEvent> &actions)
+MenuAction Menu::handleInput(std::vector<EngineEvent> &actions)
 {
 	for (EngineEvent action : actions)
 	{
@@ -59,12 +59,12 @@ MenuOption Menu::handleInput(std::vector<EngineEvent> &actions)
 		case EngineEvent::place_bomb:
 			return this->select();
 		default:	
-			return MenuOption::Nothing;
+			return MenuAction::Nothing;
 			break;
 		}
 	}
 
-	return MenuOption::Nothing;
+	return MenuAction::Nothing;
 }
 
 void Menu::menuLeft()
@@ -96,7 +96,7 @@ void Menu::menuRight()
 	}
 }
 
-MenuOption Menu::select()
+MenuAction Menu::select()
 {
 	for (int i = 0; i < this->menuItems.size(); i++)
 	{
@@ -104,10 +104,10 @@ MenuOption Menu::select()
 			return this->menuItems[i].option;
 	}
 
-	return MenuOption::Nothing;
+	return MenuAction::Nothing;
 }
 
-MenuOption Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
+MenuAction Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
 {
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
