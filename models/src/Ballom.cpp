@@ -31,7 +31,7 @@ Ballom::Ballom(sf::Vector2f start)
 Ballom::~Ballom(){
 	return;
 }
-#include <iostream>
+
 void Ballom::changeMoveState()
 {
 	int num = RNG::getRandomNumber(0,NUM_MOVEMENT_STATES-1);
