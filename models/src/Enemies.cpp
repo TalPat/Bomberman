@@ -2,7 +2,7 @@
 // #include <thread>
 Enemies::Enemies()
 {
-	populate(10);
+	// populate();
 }
 
 Enemies::~Enemies()
@@ -23,14 +23,47 @@ void Enemies::updateAll(float deltaTime, const Map &map, const Player &player)
 void Enemies::populate()
 {
 	//Used for testing new Enemies
-	IEnemy *e =new IEnemy();
-	Ballom *b = new Ballom();
-	list.push_back(e);
-	list.push_back(b);
-}
-// void Enemies::populate(int numEnemies,int level, const Map &map){
+	// IEnemy *e =new IEnemy();
+	// Ballom *b = new Ballom();
+	Finder *f = new Finder();
 
-// }
+	// list.push_back(e);
+	// list.push_back(b);
+	list.push_back(f);
+
+}
+void Enemies::populate(int numEnemies,int level, const Map &map){
+	srand(time(NULL));
+	int enemyType;
+	IEnemy *e;
+	//generate coordinates here
+	sf::Vector2i start(0,0);
+	while(map.tileAt(start) != Tile::Clear){
+		start.x = (rand()*((map.size().x/2)-1))*2;
+		start.y = (rand()*((map.size().x/2)-1))*2;
+	}
+	//only generates on uneven blocks
+	//check if tile at coordinates exist
+	//rerun random number generator
+	for(int i = 0; i < numEnemies;i++)
+	{
+		enemyType = (rand() % 3);
+		switch (enemyType)
+		{
+			// case 0:
+			// 	e = new Ballom(sf::Vector2f(start));
+			// 	break;
+			// case 1:
+			// 	e = new Finder(sf::Vector2f(start));
+			// 	break;
+			default:
+				e = new Finder(sf::Vector2f(start));
+				// e = new IEnemy(sf::Vector2f(start));
+				break;
+		}
+		list.push_back(e);
+	}
+}
 void Enemies::populate(int numEnemies)
 {
 	srand(time(NULL));

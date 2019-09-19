@@ -14,6 +14,7 @@ public:
 	void updateAll(float deltaTime, const Map &map, const Player &player);
 	void populate();
 	void populate(int numEnemies);
+	void populate(int numEnemies,int level, const Map &map);
 	Enemies();
 	~Enemies();
 	void kill(const Map &map); 

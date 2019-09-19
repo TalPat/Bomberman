@@ -18,8 +18,5 @@ public:
 	void update(float deltaTime, const Map &map, const Player &player);
 	void changeAggression();
 	sf::Vector2i distance(sf::Vector2i start, sf::Vector2i end);
-	
-	// EnemyMoveState update_path(const Map &mapeth, sf::Vector2i start, sf::Vector2i end);
-
 };
 #endif
