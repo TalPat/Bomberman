@@ -1,5 +1,5 @@
 #include "../include/Finder.hpp"
-#include <iostream>
+#include <RNG.hpp>
 const int NUM_MOVEMENT_STATES = 4;
 const float AGGROTIME = 4;
 const float DEFAULT_SPEED = 2.5;
@@ -10,7 +10,6 @@ const sf::Vector2f DEFAULT_START(9.5, 9.5);
 
 Finder::Finder()		
 {
-	srand(time(NULL));
 	_position = (DEFAULT_START);
 	_enemySpeed = (DEFAULT_SPEED);
 	moveState = (EnemyMoveState::north);
@@ -22,7 +21,6 @@ Finder::Finder()
 
 Finder::Finder(sf::Vector2f start)		
 {
-	srand(time(NULL));
 	_position = (start);
 	_enemySpeed = (DEFAULT_SPEED);
 	moveState = (EnemyMoveState::north);
@@ -38,7 +36,7 @@ Finder::~Finder(){
 
 void Finder::changeMoveState()
 {
-	this->moveState =(EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
+	this->moveState =(EnemyMoveState)(RNG::getRandomNumber(0,NUM_MOVEMENT_STATES-1));
 }
 void Finder::changeMoveState(const Map &map, const Player &player){
 	// this->moveState = update_path(map, )
@@ -67,7 +65,7 @@ void Finder::update(float deltaTime, const Map &map, const Player &player)
 		if(_switchTime <= 0)
 		{	
 			this->changeMoveState();
-			_switchTime = (rand() % (int)(AUTOSWITCH)) +1 ;
+			_switchTime = (RNG::getRandomNumber(0, (int)(AUTOSWITCH))) +1 ;
 		}
 	}
 
@@ -141,6 +139,6 @@ EnemyMoveState Finder::findpath(Map map, sf::Vector2i start, sf::Vector2i end){
             break;
         }
         if(map.tileAt(path) == Tile::Solid || (!_wallPass && map.tileAt(path) == Tile::Destructible) || (!_wallPass && map.tileAt(path) == Tile::Bomb))
-            return (EnemyMoveState)(rand() % (NUM_MOVEMENT_STATES));
+            return (EnemyMoveState)(RNG::getRandomNumber(0, (NUM_MOVEMENT_STATES-1)));
     return estDir;
 }
