@@ -24,14 +24,14 @@ Bomberman::Bomberman()
 	renderer.init();
 
 	std::vector<MenuItem> mainMenuItems;
-	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuAction::Start));
-	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::Controls));
+	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuAction::StartGame));
+	mainMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::ToControlsMenu));
 	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuAction::Exit));
 	mainMenu.init(renderer, mainMenuItems);
 
 	std::vector<MenuItem> pauseMenuItems;
-	pauseMenuItems.push_back(MenuItem(-1, "Continue", true, MenuAction::Start));
-	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuAction::Exit));
+	pauseMenuItems.push_back(MenuItem(-1, "Continue", true, MenuAction::StartGame));
+	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuAction::ToMainMenu));
 	pauseMenu.init(renderer, pauseMenuItems);
 
 	menuState = MenuState::MainMenu;
@@ -57,8 +57,11 @@ void Bomberman::handleMenuAction(MenuAction option)
 {
 	switch (option)
 	{
-	case MenuAction::Start:
+	case MenuAction::StartGame:
 		this->menuState = MenuState::Playing;
+		break;
+	case MenuAction::ToMainMenu:
+		this->menuState = MenuState::MainMenu;
 		break;
 	case MenuAction::Exit:
 		this->stop();

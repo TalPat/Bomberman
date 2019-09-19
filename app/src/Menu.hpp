@@ -8,8 +8,9 @@
 
 enum MenuAction
 {
-	Start,
-	Controls,
+	StartGame,
+	ToControlsMenu,
+	ToMainMenu,
 	Exit,
 	Nothing
 };
