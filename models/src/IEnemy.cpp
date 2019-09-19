@@ -3,7 +3,7 @@
 #include <RNG.hpp>
 
 const float AUTOSWITCH = 8;
-const sf::Vector2f DEFAULT_START(11, 11);
+const sf::Vector2f DEFAULT_START(11.5, 11.5);
 const float DEFAULT_SPEED = 2.2;
 const int NUM_MOVEMENT_STATES = 4;
 const float AGGROTIME = 8;
