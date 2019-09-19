@@ -98,7 +98,7 @@ bool IEnemy::correctEnemyCellCollision(sf::Vector2i cell)
 
 void IEnemy::changeMoveState()
 {
-	this->moveState = (EnemyMoveState)(RNG::getRandomNumber( 0, NUM_MOVEMENT_STATES-1));
+	this->moveState = (EnemyMoveState)(RNG::getRandomNumber(0, NUM_MOVEMENT_STATES - 1));
 }
 
 void IEnemy::update(float deltaTime, const Map &map,const Player &player)
@@ -107,7 +107,7 @@ void IEnemy::update(float deltaTime, const Map &map,const Player &player)
 	if(_switchTime <= 0)
 	{
 		changeMoveState();
-		_switchTime = RNG::getRandomNumber(0, (int)AUTOSWITCH)+1;
+		_switchTime = RNG::getRandomNumber(0, (int)AUTOSWITCH) + 1;
 	}
 	move(deltaTime, map);
 }
