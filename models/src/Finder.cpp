@@ -18,7 +18,6 @@ Finder::Finder()
 	_wallPass = (DEFAULT_WALLPASS);
 	changeMoveState();
 }
-
 Finder::Finder(sf::Vector2f start)		
 {
 	_position = (start);

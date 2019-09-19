@@ -1,5 +1,4 @@
 #include "../include/IEnemy.hpp"
-
 #include <RNG.hpp>
 
 const float AUTOSWITCH = 8;
@@ -7,7 +6,7 @@ const sf::Vector2f DEFAULT_START(11.5, 11.5);
 const float DEFAULT_SPEED = 2.2;
 const int NUM_MOVEMENT_STATES = 4;
 const float AGGROTIME = 8;
-
+int IEnemy::idCounter = 0;
 // Testing order here is important
 // Test cardinals first
 
@@ -20,6 +19,7 @@ IEnemy::IEnemy() :
 					type(EnemyType::EGeneric),
 					_wallPass(false)
 {
+	this->id = IEnemy::idCounter++;
 }
 
 IEnemy::IEnemy(sf::Vector2f start):
@@ -31,6 +31,7 @@ IEnemy::IEnemy(sf::Vector2f start):
 					type(EnemyType::EGeneric),
 					_wallPass(false)
 {
+	this->id = IEnemy::idCounter++;
 }
 
 IEnemy::~IEnemy()

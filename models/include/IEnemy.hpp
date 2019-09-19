@@ -42,8 +42,10 @@ protected:
 	float _enemySpeed;
 	float _switchTime;
 	bool _wallPass;
-
+	sf::Clock lifeClock;
+	int id;
 public:
+	static int idCounter;
 	EnemyType type;
 	IEnemy();
 	IEnemy(sf::Vector2f start);
