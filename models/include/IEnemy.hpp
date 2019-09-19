@@ -5,7 +5,6 @@
 #include "Player.hpp"
 
 #include "EnemyType.hpp"
-// #include <GameState.hpp>
 #include <SFML/System.hpp>
 #include <cmath>
 
