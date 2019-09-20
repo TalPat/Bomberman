@@ -277,7 +277,6 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 
 		enemyAniData.id = e->getid();
 		enemyAniData.lifeClock = e->getLifeClock();
-		std::cout << enemyAniData.id << std::endl;
 
 		switch (e->type)
 		{
