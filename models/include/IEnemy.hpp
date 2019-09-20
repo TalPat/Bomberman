@@ -58,5 +58,8 @@ public:
 	void move(float deltaTime, const Map &map);
 	const sf::Vector2f &position() const;
 	bool operator == (const IEnemy& e) const { return this->_position == e._position; }
+
+	sf::Clock getLifeClock(void);
+	int getid(void);
 };
 #endif
