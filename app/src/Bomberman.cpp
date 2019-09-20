@@ -78,13 +78,12 @@ void Bomberman::updateFunc()
 	// Only render if required to enforce frameRate
 	if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 	{
-		this->renderer.render(*this->window, this->gameState);
-		//if (!threadActive)
-		//{
-		//	this->frameClock.restart();
-		//	threadActive = true;
-		//	pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
-		//}
+		if (!threadActive)
+		{
+			this->frameClock.restart();
+			threadActive = true;
+			pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
+		}
 	}
 }
 

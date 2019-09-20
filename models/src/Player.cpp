@@ -11,8 +11,9 @@ Player::Player() : _position(DEFAULT_START),
 					_lives(3),
 					moveState({false, false, false, false}),
 					_alive(true),
-					_bombRange(3),
-					_maxBombs(3)
+					_bombRange(1),
+					_maxBombs(1),
+					_score(0)
 {
 }
 
@@ -25,11 +26,16 @@ void Player::init(int level)
 	this->_alive = true;
 	this->_position = DEFAULT_START;
 	this->moveState = {false, false, false, false};
+	this->previousState = {this->_bombRange, this->_maxBombs, this->_score};
 }
 
 void Player::kill(void)
 {
+	this->_lives--;
 	this->_alive = false;
+	this->_bombRange = this->previousState._bombRange;
+	this->_maxBombs = this->previousState._maxBombs;
+	this->_score = this->previousState._score;		
 }
 
 void Player::handleMovement(float deltaTime, const Map &map)
@@ -84,8 +90,13 @@ void Player::update(float deltaTime, const Map &map)
 	auto compFlame = [](Tile tile) {
 		return tile == Tile::Flame;
 	};
-	if (map.collide(this->_position, HALF_WIDTH, compFlame))
+	if (map.collide(this->_position, HALF_WIDTH - 0.2, compFlame))
 		this->kill();
+}
+
+int Player:: getLives(void) const
+{
+	return this->_lives;
 }
 
 int Player::getBombRange(void) const

@@ -15,6 +15,13 @@ struct MoveState
 	bool west;
 };
 
+struct PreviousState
+{
+	int _bombRange;
+	int _maxBombs;
+	int _score;
+};
+
 class Player
 {
 	float _playerSpeed;
@@ -22,12 +29,14 @@ class Player
 	int _lives;
 	int _bombRange;
 	int _maxBombs;
+	int _score;
 	sf::Vector2f _position;
 
 public:
 	Player();
 	~Player();
 
+	PreviousState previousState;
 	MoveState moveState;
 
 	void addBombRange(void);
@@ -39,6 +48,7 @@ public:
 	void handleMovement(float deltaTime, const Map &map);
 	void update(float deltaTime, const Map &map);
 	void addLife(void);
+	int getLives(void) const;
 	bool isAlive(void) const;
 	const sf::Vector2f &position() const;
 };
