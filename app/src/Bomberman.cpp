@@ -28,7 +28,7 @@ Bomberman::Bomberman()
 
 	//thread stuff
 	threadActive = false;
-	this->gameState.level = 0; // TODO: save game level/progress
+	this->gameState.level = 0;
 	this->engine.init(this->gameState);
 }
 

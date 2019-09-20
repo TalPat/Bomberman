@@ -5,9 +5,6 @@ const float WAIT_TIME = 2.0;
 
 void Engine::init(GameState &gameState)
 {
-	//if (gameState.level != 0 && gameState.level % 5 == 0)
-	//	gameState.player.addLife();
-	
 	gameState.waitTime = WAIT_TIME;
 	gameState.loading = true;
 	gameState.map.init(gameState.level);
