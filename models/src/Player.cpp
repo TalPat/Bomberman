@@ -11,8 +11,8 @@ Player::Player() : _position(DEFAULT_START),
 					_lives(3),
 					moveState({false, false, false, false}),
 					_alive(true),
-					_bombRange(1),
-					_maxBombs(1),
+					_bombRange(2),
+					_maxBombs(3),
 					_score(0)
 {
 }
