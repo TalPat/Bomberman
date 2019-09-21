@@ -105,10 +105,10 @@ void Bombs::explode(Map &map, sf::Vector2i pos, sf::Vector2i dir, int range)
 			auto vecEqual = [](sf::Vector2i a, sf::Vector2i b) {
 				return ((a.x == b.x) && (a.y == b.y));
 			};
-			if (!vecEqual(-dir, EAST)) this->bombExplodeDirection(map, pos + dir * i, EAST, range);
-			if (!vecEqual(-dir, WEST)) this->bombExplodeDirection(map, pos + dir * i, WEST, range);
-			if (!vecEqual(-dir, NORTH)) this->bombExplodeDirection(map, pos + dir * i, NORTH, range);
-			if (!vecEqual(-dir, SOUTH)) this->bombExplodeDirection(map, pos + dir * i, SOUTH, range);
+			if (!vecEqual(-dir, EAST)) this->explode(map, pos + dir * i, EAST, range);
+			if (!vecEqual(-dir, WEST)) this->explode(map, pos + dir * i, WEST, range);
+			if (!vecEqual(-dir, NORTH)) this->explode(map, pos + dir * i, NORTH, range);
+			if (!vecEqual(-dir, SOUTH)) this->explode(map, pos + dir * i, SOUTH, range);
 			return;
 		}
 		if (tile == Tile::Destructible || tile == Tile::Solid)
