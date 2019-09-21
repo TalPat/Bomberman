@@ -75,7 +75,9 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		gameState.pickups.update(gameState);
 		gameState.enemies.updateAll(deltaTime, gameState.map, gameState.player);
 		gameState.enemies.kill(gameState.map);
-	} else {
+	}
+	else
+	{
 		if (!gameState.player.isAlive())
 		{
 			gameState.loading = true;
