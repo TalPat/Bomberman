@@ -68,10 +68,10 @@ void Bombs::update(float deltaTime, Map &map, Player &player)
 		if (bomb.timeLeft < 0)
 		{
 			this->placeFlame(bomb.position, map);
-			this->bombExplodeDirection(map, bomb.position, EAST, player.getBombRange());
-			this->bombExplodeDirection(map, bomb.position, WEST, player.getBombRange());
-			this->bombExplodeDirection(map, bomb.position, NORTH, player.getBombRange());
-			this->bombExplodeDirection(map, bomb.position, SOUTH, player.getBombRange());
+			this->explode(map, bomb.position, EAST, player.getBombRange());
+			this->explode(map, bomb.position, WEST, player.getBombRange());
+			this->explode(map, bomb.position, NORTH, player.getBombRange());
+			this->explode(map, bomb.position, SOUTH, player.getBombRange());
 		}
 		if (map.tileAt(bomb.position) == Tile::Flame)
 		{
@@ -91,7 +91,7 @@ void Bombs::update(float deltaTime, Map &map, Player &player)
 	this->_flames.remove_if([](sFlame &flame) { return flame.timeLeft < 0; });
 }
 
-void Bombs::bombExplodeDirection(Map &map, sf::Vector2i pos, sf::Vector2i dir, int range)
+void Bombs::explode(Map &map, sf::Vector2i pos, sf::Vector2i dir, int range)
 {
 	for (int i = 0; i < range + 1; ++i)
 	{
