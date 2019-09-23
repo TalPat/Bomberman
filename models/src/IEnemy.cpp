@@ -156,3 +156,13 @@ const sf::Vector2f &IEnemy::position() const
 {
 	return this->_position;
 };
+
+sf::Clock IEnemy::getLifeClock(void)
+{
+	return(lifeClock);
+}
+
+int IEnemy::getid(void)
+{
+	return(id);
+}

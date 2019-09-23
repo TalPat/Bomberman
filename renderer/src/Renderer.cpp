@@ -136,6 +136,13 @@ void Renderer::player(sf::RenderWindow &window, const GameState &state)
 	glm::mat4 shoerModel = glm::mat4(1.0f);
 	sf::Vector2f playerPosition(state.player.position());
 	playerPosition -= sf::Vector2f(0.5, 0.5);
+	Model_vals_st playerData;
+	playerData.id = 0;
+
+	_models[shoel].model->getAnimation().primeData(playerData);
+	_models[shoer].model->getAnimation().primeData(playerData);
+	_models[playerModel].model->getAnimation().primeData(playerData);
+
 
 	_models[shoel].model->getAnimation().setDeltas(glm::vec2(playerPosition.x, playerPosition.y));
 	_models[shoer].model->getAnimation().setDeltas(glm::vec2(playerPosition.x, playerPosition.y));
@@ -190,6 +197,7 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 			{
 				glm::mat4 model = glm::mat4(1.0f);
 				modelNames name;
+				Model_vals_st bombAniData;
 
 				switch (tile)
 				{
@@ -203,6 +211,9 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					break;
 				case Tile::Bomb:
 					name = bombModel;
+
+					bombAniData.id = 0;
+					_models[bombModel].model->getAnimation().primeData(bombAniData);
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 																							// model = _models[bombModel].model->getAnimation().spin(model, 3, glm::vec3(0.0f, 1.0f, 0.0f)); //simple animation. generate class to manage
@@ -212,6 +223,9 @@ void Renderer::map(sf::RenderWindow &window, const GameState &state)
 					break;
 				case Tile::BombClear:
 					name = bombModel;
+
+					bombAniData.id = 0;
+					_models[bombModel].model->getAnimation().primeData(bombAniData);
 					model = glm::translate(model, _models[name].initialPos + glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
 					model = _models[bombModel].model->getAnimation().pulse(model, 100, 30); //simple animation. generate class to manage
 					tileModel = glm::translate(tileModel, glm::vec3(cellPosition.x, 0.0f, cellPosition.y));
@@ -259,11 +273,16 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 		sf::Vector2f enemyPosition(e->position());
 		enemyPosition -= sf::Vector2f(0.5, 0.5);
 		modelNames name;
+		Model_vals_st enemyAniData;
+
+		enemyAniData.id = e->getid();
+		enemyAniData.lifeClock = e->getLifeClock();
 
 		switch (e->type)
 		{
 		case EAggroBallom:
 			name = ghostModel;
+			_models[name].model->getAnimation().primeData(enemyAniData);
 			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
 			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
@@ -271,6 +290,7 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 			break;
 		case EBallom:
 			name = ghostModel;
+			_models[name].model->getAnimation().primeData(enemyAniData);
 			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
 			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
@@ -278,6 +298,7 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 			break;
 		case EGeneric:
 			name = pigModel;
+			_models[name].model->getAnimation().primeData(enemyAniData);
 			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
 			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
@@ -286,6 +307,7 @@ void Renderer::enemy(sf::RenderWindow &window, const GameState &state)
 
 		default:
 			name = giraffeModel;
+			_models[name].model->getAnimation().primeData(enemyAniData);
 			_models[name].model->getAnimation().setDeltas(glm::vec2(enemyPosition.x, enemyPosition.y));
 			model = glm::translate(model, _models[name].initialPos + glm::vec3(enemyPosition.x, 0.0f, enemyPosition.y));
 			model = _models[name].model->getAnimation().orientation(model, glm::vec2(enemyPosition.x, enemyPosition.y));
