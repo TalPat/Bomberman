@@ -1,14 +1,36 @@
 
 #include "../include/Engine.hpp"
 
+const float WAIT_TIME = 2.0;
+
 void Engine::init(GameState &gameState)
 {
-	gameState.pickups.initPickups(gameState.map);
-	gameState.enemies.populate(10, 2, gameState.map);
+	gameState.waitTime = WAIT_TIME;
+	gameState.loading = true;
+	gameState.map.init(gameState.level);
+	gameState.bombs.clear();
+	gameState.enemies.init(gameState.level);
+	gameState.player.init(gameState.level);
+	gameState.pickups.init(gameState.map, gameState.level);
+	gameState.enemies.populate(10, gameState.level, gameState.map);
+	gameState.loading = false;
 }
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
 {
+	if (gameState.loading)
+	{
+		this->init(gameState);
+		return;
+	}
+	if (gameState.waitTime > 0.0)
+	{
+		if (gameState.player.getLives() <= 0)
+			gameState.waitTime = WAIT_TIME;
+		gameState.waitTime -= deltaTime;	
+		return;
+	}
+
 	MoveState &moveState = gameState.player.moveState;
 
 	for (EngineEvent event : actions)
@@ -40,17 +62,26 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 			moveState.west = false;
 			break;
 		case EngineEvent::place_bomb:
-			// This should most likly be a method on gameState;
 			gameState.bombs.placeBomb(gameState.player, gameState.map);
 		default:
 			break;
 		}
 	}
 
-	gameState.bombs.update(deltaTime, gameState.map);
-	gameState.bombs.updateMap(gameState.player, gameState.map);
-	gameState.player.move(deltaTime, gameState.map);
-	gameState.pickups.update(gameState.player, gameState.map, gameState.enemies, gameState.bombs);
-	gameState.enemies.updateAll(deltaTime, gameState.map, gameState.player);
-	gameState.enemies.kill(gameState.map);
+	if (gameState.player.isAlive())
+	{
+		gameState.bombs.update(deltaTime, gameState.map, gameState.player);
+		gameState.bombs.updateMap(gameState.player, gameState.map);
+		gameState.pickups.update(gameState);
+		gameState.enemies.updateAll(deltaTime, gameState.map, gameState.player);
+		gameState.enemies.kill(gameState.map);
+	}
+	else
+	{
+		if (!gameState.player.isAlive())
+		{
+			gameState.loading = true;
+		}
+	}
+	gameState.player.update(deltaTime, gameState.map);
 }

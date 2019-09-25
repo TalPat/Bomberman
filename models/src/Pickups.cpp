@@ -1,13 +1,16 @@
 #include "../include/Pickups.hpp"
+#include "../include/GameState.hpp"
 
 #include <iostream>
 
 Pickups::Pickups() {}
 
-void Pickups::initPickups(Map &map)
+void Pickups::init(Map &map, int level)
 {
 	//Should change based on level being loaded
 	
+	this->_pickups.erase(this->_pickups.begin(),this->_pickups.end());
+
 	sf::Vector2i size = map.size();
 	std::vector<sf::Vector2i> availableCells;
 
@@ -39,30 +42,32 @@ void Pickups::addPickup(sf::Vector2i pos, PickupType type)
 	this->_pickups.push_back(newPickup);
 }
 
-void Pickups::update(Player &player, Map &map, Enemies &enemies, Bombs &bombs)
+void Pickups::update(GameState &state)
 {
 	std::list<sPickup>::iterator pickup = this->_pickups.begin();
 	while (pickup != this->_pickups.end())
 	{
-		sf::Vector2i ppos(player.position());
+		sf::Vector2i ppos(state.player.position());
 		if (ppos.x == pickup->position.x && ppos.y == pickup->position.y)
 		{
-			if (pickup->type == PickupType::LevelUp && enemies.list.size() == 0)
+			if (pickup->type == PickupType::LevelUp && state.enemies.list.size() == 0)
 			{
+				state.loading = true;
+				state.level++;
 				this->_pickups.erase(pickup++);
 			}
-			else if (pickup->type == PickupType::LevelUp && enemies.list.size() != 0)
+			else if (pickup->type == PickupType::LevelUp && state.enemies.list.size() != 0)
 			{
 				pickup++;
 			}
 			else if (pickup->type == PickupType::BombTotal)
 			{
-				Bombs::max_bombs++;
+				state.player.addMaxBombs();
 				this->_pickups.erase(pickup++);
 			}
 			else if (pickup->type == PickupType::BombRange)
 			{
-				Bombs::bomb_range++;
+				state.player.addBombRange();
 				this->_pickups.erase(pickup++);
 			}
 			else
