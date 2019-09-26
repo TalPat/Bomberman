@@ -1,4 +1,5 @@
 #include "../include/Enemies.hpp"
+
 #include <RNG.hpp>
 
 const int SAFE_ZONE = 2;
@@ -6,7 +7,6 @@ const int TOTAL_ENEMIES = 3;
 
 Enemies::Enemies()
 {
-	// populate();
 }
 
 Enemies::~Enemies()
@@ -15,11 +15,23 @@ Enemies::~Enemies()
 		delete e;
 }
 
-void Enemies::updateAll(float deltaTime, const Map &map, const Player &player)
+void Enemies::init(int level)
 {
+	this->list.remove_if([](IEnemy *bomb) { return true; });
+}
+
+void Enemies::updateAll(float deltaTime, const Map &map, Player &player)
+{
+	sf::Vector2f ppos = player.position();
 	for(auto &e:this->list)
 	{
 		e->update(deltaTime, map, player);
+		sf::Vector2f epos = e->position();
+		float dist = sqrt(((ppos.x-epos.x)*(ppos.x-epos.x)) + ((ppos.y-epos.y)*(ppos.y-epos.y)));
+		if (dist < 0.8)
+		{
+			player.kill();
+		}
 	}
 }
 
@@ -29,7 +41,7 @@ void Enemies::populate()
 	list.push_back(f);
 }
 
-void Enemies::populate(int numEnemies,int level, const Map &map)
+void Enemies::populate(int numEnemies, int level, const Map &map)
 {
 	int enemyType;
 	IEnemy *e;

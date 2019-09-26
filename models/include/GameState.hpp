@@ -21,6 +21,9 @@ public:
 	Map map;
 	Bombs bombs;
 	Pickups pickups;
+	int level;
+	bool loading;
+	float waitTime;
 };
 
 #endif
