@@ -149,8 +149,9 @@ void Bomberman::updateFunc()
 
 	MenuAction option = MenuAction::Nothing;
 
-	if (this->menuState == MenuState::Playing)
+	switch (this->menuState)
 	{
+	case MenuState::Playing:
 		// Only render if required to enforce frameRate
 		if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
 		{
@@ -161,26 +162,23 @@ void Bomberman::updateFunc()
 				pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
 			}
 		}
-	}
-	else if (this->menuState == MenuState::MainMenu)
-	{
+		break;
+	case MenuState::MainMenu:
 		option = this->mainMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
-	}
-	else if (this->menuState == MenuState::PauseMenu)
-	{
+		break;
+	case MenuState::PauseMenu:
 		option = this->pauseMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
-	}
-	else if (this->menuState == MenuState::SettingsMenu)
-	{
+		break;
+	case MenuState::SettingsMenu:
 		option = this->settingsMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
-	}
-	else if (this->menuState == MenuState::ResolutionMenu)
-	{
+		break;
+	case MenuState::ResolutionMenu:
 		option = this->resolutionMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
+		break;
 	}
 }
 
