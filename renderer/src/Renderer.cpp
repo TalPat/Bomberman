@@ -352,6 +352,8 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	//frame counter
 	writeLine(window, "FPS " + std::to_string((int)(1 / _clock.getElapsedTime().asSeconds())), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, -1.0f), 0.2f);
 	writeLine(window, "Lives " + std::to_string(state.player.getLives()), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, 0.9f), 0.2f);
+	writeLine(window, "Score " + std::to_string(state.player.getScore()), sf::Vector3i(10, 20, 50), sf::Vector2f(-0.5f, 0.9f), 0.2f);
+
 	// TODO: change to proper menu rendering 
 	if (state.waitTime > 0.0)
 	{
