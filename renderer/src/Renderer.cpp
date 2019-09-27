@@ -354,6 +354,10 @@ void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
 	}
 }
 
+void Renderer::light(sf::RenderWindow &window, const GameState &state, glm::vec4 pos)
+{
+	_shader->setVec4("LightPosW", pos);
+}
 void Renderer::skybox(sf::RenderWindow &window, const GameState &state)
 {
 	glm::mat4 model = glm::mat4(1.0f);
@@ -416,6 +420,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
+	light(window, state, glm::vec4(_camera->getPosition(), 1.0f));
 	skybox(window, state);
 
 	window.display();
