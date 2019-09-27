@@ -199,9 +199,9 @@ void Renderer::pickups(sf::RenderWindow &window, const GameState &state)
 	}
 }
 
-void Renderer::light(sf::RenderWindow &window, const GameState &state)
+void Renderer::light(sf::RenderWindow &window, const GameState &state, glm::vec4 pos)
 {
-	_shader->setVec4("LightPosW", glm::vec4(10.0f, 5.0f, 10.0f, 1.0f));
+	_shader->setVec4("LightPosW", pos);
 }
 
 void Renderer::render(sf::RenderWindow &window, const GameState &state)
@@ -226,7 +226,7 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	map(window, state);
 	player(window, state);
 	enemy(window, state);
-	light(window, state);
+	light(window, state, glm::vec4(_camera->getPosition(), 1.0f));
 
 	window.display();
 }
