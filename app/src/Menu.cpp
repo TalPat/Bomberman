@@ -38,6 +38,12 @@ MenuAction Menu::handleInput(std::vector<EngineEvent> &actions)
 		case EngineEvent::move_right:
 			this->menuRight();
 			break;
+		case EngineEvent::move_up:
+			this->menuLeft();
+			break;
+		case EngineEvent::move_down:
+			this->menuRight();
+			break;
 		case EngineEvent::place_bomb:
 			return this->select();
 		default:	
