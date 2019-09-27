@@ -24,27 +24,27 @@ Bomberman::Bomberman()
 	renderer.init();
 
 	std::vector<MenuItem> mainMenuItems;
-	mainMenuItems.push_back(MenuItem(-2, "Start", true, MenuAction::StartGame));
+	mainMenuItems.push_back(MenuItem(2, "Start", true, MenuAction::StartGame));
 	mainMenuItems.push_back(MenuItem(0, "Settings", false, MenuAction::ToSettingsMenu));
-	mainMenuItems.push_back(MenuItem(2, "Exit", false, MenuAction::Exit));
+	mainMenuItems.push_back(MenuItem(-2, "Exit", false, MenuAction::Exit));
 	mainMenu.init(renderer, mainMenuItems);
 
 	std::vector<MenuItem> pauseMenuItems;
-	pauseMenuItems.push_back(MenuItem(-1, "Continue", true, MenuAction::StartGame));
-	pauseMenuItems.push_back(MenuItem(1, "Main Menu", false, MenuAction::ToMainMenu));
+	pauseMenuItems.push_back(MenuItem(1, "Continue", true, MenuAction::StartGame));
+	pauseMenuItems.push_back(MenuItem(-1, "Main Menu", false, MenuAction::ToMainMenu));
 	pauseMenu.init(renderer, pauseMenuItems);
 
 	std::vector<MenuItem> settingsMenuItems;
-	settingsMenuItems.push_back(MenuItem(-2, "Resolution", true, MenuAction::ToResolutionMenu));
+	settingsMenuItems.push_back(MenuItem(2, "Resolution", true, MenuAction::ToResolutionMenu));
 	settingsMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::ToControlsMenu));
-	settingsMenuItems.push_back(MenuItem(2, "Back", false, MenuAction::ToMainMenu));
+	settingsMenuItems.push_back(MenuItem(-2, "Back", false, MenuAction::ToMainMenu));
 	settingsMenu.init(renderer, settingsMenuItems);
 
 	std::vector<MenuItem> resolutionMenuItems;
-	resolutionMenuItems.push_back(MenuItem(-3, "800 x 800", true, MenuAction::SetResolution800));
-	resolutionMenuItems.push_back(MenuItem(-1, "1024 x 1000 ", false, MenuAction::SetResolution1024));
-	resolutionMenuItems.push_back(MenuItem(1, "Fullscreen", false, MenuAction::SetResolutionFullscreen));
-	resolutionMenuItems.push_back(MenuItem(3, "Back", false, MenuAction::ToSettingsMenu));
+	resolutionMenuItems.push_back(MenuItem(3, "800 x 800", true, MenuAction::SetResolution800));
+	resolutionMenuItems.push_back(MenuItem(1, "1024 x 1000 ", false, MenuAction::SetResolution1024));
+	resolutionMenuItems.push_back(MenuItem(-1, "Fullscreen", false, MenuAction::SetResolutionFullscreen));
+	resolutionMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
 	resolutionMenu.init(renderer, resolutionMenuItems);
 
 	menuState = MenuState::MainMenu;

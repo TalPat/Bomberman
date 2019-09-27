@@ -37,11 +37,9 @@ private:
 	Renderer *_renderer;
 	Shader *_shader;
 	Camera *_camera;
-	Model_st _wallModel;
 
 	std::vector<MenuItem> menuItems;
 
-	void drawMenuBlock(MenuItem &item);
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
 	MenuAction handleInput(std::vector<EngineEvent> &actions);
 	void menuLeft();
