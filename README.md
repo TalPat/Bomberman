@@ -21,8 +21,8 @@ https://www.retrogames.cz/play_085-NES.php?emulator=js
 ### Linux dependancy installation
     sudo apt-get install cmake
     sudo apt-get install pkg-config
-    sudo apt-get libsfml-dev
-    sudo apt-get libglew-dev
-    sudo apt-get libglm-dev
-    sudo apt-get libassimp-dev
+    sudo apt-get install libsfml-dev
+    sudo apt-get install libglew-dev
+    sudo apt-get install libglm-dev
+    sudo apt-get install libassimp-dev
 

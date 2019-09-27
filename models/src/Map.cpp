@@ -7,12 +7,21 @@ Map::Map()
 	: _size(DEFAULT_SIZE),
 	  _tiles(this->_size.x * this->_size.y, Tile::Clear)
 {
+}
+
+Map::~Map()
+{
+}
+
+void Map::init(int level)
+{
 	std::srand(time(NULL));
 
 	for (int y = 0; y < _size.y; y++)
 	{
 		for (int x = 0; x < _size.x; x++)
 		{
+			this->_tiles[y * this->_size.x + x] = Tile::Clear;
 			if (x == 0 || y == 0 || x == this->_size.x - 1 || y == this->_size.y - 1)
 				this->_tiles[y * this->_size.x + x] = Tile::Solid;
 			else if (x % 2 == 0 && y % 2 == 0)
@@ -25,12 +34,10 @@ Map::Map()
 		}
 	}
 
-	// Player starting cell
+	// Player starting cells
 	this->_tiles[1 * this->_size.x + 1] = Tile::Clear;
-}
-
-Map::~Map()
-{
+	this->_tiles[1 * this->_size.x + 2] = Tile::Clear;
+	this->_tiles[2 * this->_size.x + 1] = Tile::Clear;
 }
 
 bool Map::collide(const sf::Vector2f &pos, float hw, bool (*comp)(Tile)) const

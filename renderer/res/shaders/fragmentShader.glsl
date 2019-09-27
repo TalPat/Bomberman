@@ -16,11 +16,14 @@ layout (location=0) out vec4 FragColor;
 
 void main()
 {
-    // Compute the diffuse term.
-    vec4 N = normalize(normalW);
-    vec4 L = normalize(LightPosW - positionW);
-    float NdotL = max(dot(N, L), 0);
-    vec4 Diffuse =  NdotL * LightColour;
+  vec4 texColor = texture(texture_diffuse1, textureCoord);
+	if(texColor.a < 0.1)
+		discard;
+	// Compute the diffuse term.
+	vec4 N = normalize(normalW);
+	vec4 L = normalize(LightPosW - positionW);
+	float NdotL = max(dot(N, L), 0);
+	vec4 Diffuse =  NdotL * LightColour;
 
-	FragColor = (Ambient + Diffuse) * texture(texture_diffuse1, textureCoord);
+	FragColor = (Ambient + Diffuse) * texColor;
 }

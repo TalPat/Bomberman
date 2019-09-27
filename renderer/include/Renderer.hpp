@@ -12,7 +12,10 @@
 #include <GameState.hpp>
 #include "../src/Shader.hpp"
 #include "../src/Model.hpp"
+#include "../src/Square.hpp"
 #include "../src/Camera.hpp"
+#include "../src/Particle.hpp"
+#include "../src/Swarm.hpp"
 #include "../src/GuiChar.hpp"
 
 enum modelNames
@@ -22,8 +25,22 @@ enum modelNames
 	playerModel,
 	bombModel,
 	flameModel,
-	balloonModel,
-	robotModel
+	pigModel,
+	robotModel,
+	ghostModel,
+	giraffeModel,
+	shoel,
+	shoer
+};
+
+enum tileNames
+{
+	floorTile,
+	doorTile,
+	bombTile,
+	flameTile,
+	flameParticle,
+	skyboxTile
 };
 
 struct Model_st
@@ -37,9 +54,10 @@ struct Model_st
 class Renderer
 {
 private:
-	std::map<char, int> fontMap;
 	std::vector<Model_st> _models;
+	std::map<char, int> fontMap;
 	std::vector<GuiChar *> _characters;
+	std::vector<Square *> _squares;
 	Shader *_shader;
 	Shader *_textShader;
 	Camera *_camera;
@@ -49,6 +67,11 @@ private:
 	void enemy(sf::RenderWindow &window, const GameState &state);
 	void light(sf::RenderWindow &window, const GameState &state, glm::vec4 pos);
 	void loadFont();
+	Swarm swarm;
+	void skybox(sf::RenderWindow &window, const GameState &state);
+
+	//troubleshooting frame counter
+	sf::Clock _clock;
 
 public:
 	Renderer(/* args */);
