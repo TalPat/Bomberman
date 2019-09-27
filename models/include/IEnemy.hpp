@@ -2,8 +2,9 @@
 #define _IEnemy_hpp_
 
 #include "Map.hpp"
-#include "EnemyType.hpp"
+#include "Player.hpp"
 
+#include "EnemyType.hpp"
 #include <SFML/System.hpp>
 #include <cmath>
 
@@ -41,20 +42,24 @@ protected:
 	float _enemySpeed;
 	float _switchTime;
 	bool _wallPass;
-
+	sf::Clock lifeClock;
+	int id;
 public:
+	static int idCounter;
 	EnemyType type;
 	IEnemy();
 	IEnemy(sf::Vector2f start);
 	~IEnemy();
 	bool correctEnemyCellCollision(sf::Vector2i cell);
-	virtual void update(float deltaTime, const Map &map);
+	virtual void update(float deltaTime, const Map &map, const Player &player);
 	EnemyMoveState moveState;
 	virtual void changeMoveState();
 	virtual void changeAggression();
 	void move(float deltaTime, const Map &map);
 	const sf::Vector2f &position() const;
 	bool operator == (const IEnemy& e) const { return this->_position == e._position; }
-};
 
+	sf::Clock getLifeClock(void);
+	int getid(void);
+};
 #endif
