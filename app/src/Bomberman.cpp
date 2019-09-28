@@ -1,4 +1,3 @@
-
 #include "./Bomberman.hpp"
 
 #include <stdexcept>
@@ -47,6 +46,15 @@ Bomberman::Bomberman()
 	resolutionMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
 	resolutionMenu.init(renderer, resolutionMenuItems);
 
+	std::vector<MenuItem> controlsMenuItems;
+	controlsMenuItems.push_back(MenuItem(3.0f, "Up", true, MenuAction::SetUpControl));
+	controlsMenuItems.push_back(MenuItem(2.0f, "Down", false, MenuAction::SetDownControl));
+	controlsMenuItems.push_back(MenuItem(1.0f, "Left", false, MenuAction::SetLeftControl));
+	controlsMenuItems.push_back(MenuItem(-0.5f, "Right", false, MenuAction::SetRightControl));
+	controlsMenuItems.push_back(MenuItem(-1.5f, "Bomb", false, MenuAction::SetBombControl));
+	controlsMenuItems.push_back(MenuItem(-2.5f, "Back", false, MenuAction::ToSettingsMenu));
+	controlsMenu.init(renderer, controlsMenuItems);
+
 	menuState = MenuState::MainMenu;
 
 	this->deltaClock.restart();
@@ -82,6 +90,9 @@ void Bomberman::handleMenuAction(MenuAction option)
 	case MenuAction::ToResolutionMenu:
 		this->menuState = MenuState::ResolutionMenu;
 		break;
+	case MenuAction::ToControlsMenu:
+		this->menuState = MenuState::ControlsMenu;
+		break;
 	case MenuAction::SetResolution800:
 		this->window->setSize(sf::Vector2u(800, 800));
 		break;
@@ -95,7 +106,6 @@ void Bomberman::handleMenuAction(MenuAction option)
 		break;
 	}
 }
-
 
 void *Bomberman::threadFunction(void *arg)
 {
@@ -177,6 +187,10 @@ void Bomberman::updateFunc()
 		break;
 	case MenuState::ResolutionMenu:
 		option = this->resolutionMenu.render(*(this->window), actions);
+		this->handleMenuAction(option);
+		break;
+	case MenuState::ControlsMenu:
+		option = this->controlsMenu.render(*(this->window), actions);
 		this->handleMenuAction(option);
 		break;
 	}

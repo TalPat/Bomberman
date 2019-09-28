@@ -42,6 +42,7 @@ private:
 	Menu pauseMenu;
 	Menu settingsMenu;
 	Menu resolutionMenu;
+	Menu controlsMenu;
 	MenuState menuState;
 
 	GameState gameState;

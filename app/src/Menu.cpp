@@ -114,9 +114,7 @@ MenuAction Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &acti
 	this->_camera->setPitch(0.0f);
 
 	for (MenuItem item : this->menuItems)
-	{
 		this->drawMenuText(window, item);
-	}
 
 	window.display();
 

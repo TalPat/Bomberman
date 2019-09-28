@@ -12,10 +12,15 @@ enum MenuAction
 	ToControlsMenu,
 	ToSettingsMenu,
 	ToResolutionMenu,
+	ToMainMenu,
 	SetResolution800,
 	SetResolution1024,
 	SetResolutionFullscreen,
-	ToMainMenu,
+	SetUpControl,
+	SetDownControl,
+	SetLeftControl,
+	SetRightControl,
+	SetBombControl,
 	Exit,
 	Nothing
 };
@@ -27,7 +32,7 @@ struct MenuItem
 	bool selected;
 	MenuAction option;
 
-	MenuItem(int offset, std::string text, bool selected, MenuAction option)
+	MenuItem(float offset, std::string text, bool selected, MenuAction option)
 		: offset(offset), text(text), selected(selected), option(option) {}
 };
 
