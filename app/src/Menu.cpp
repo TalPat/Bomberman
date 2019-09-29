@@ -47,6 +47,9 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 				case sf::Keyboard::Return:
 					return this->select();
 					break;
+				case sf::Keyboard::Space:
+					return this->select();
+					break;
 			}
 			break;
 		}
