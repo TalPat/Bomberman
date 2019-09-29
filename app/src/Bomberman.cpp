@@ -26,25 +26,25 @@ Bomberman::Bomberman()
 	mainMenuItems.push_back(MenuItem(2, "Start", true, MenuAction::StartGame));
 	mainMenuItems.push_back(MenuItem(0, "Settings", false, MenuAction::ToSettingsMenu));
 	mainMenuItems.push_back(MenuItem(-2, "Exit", false, MenuAction::Exit));
-	mainMenu.init(renderer, mainMenuItems);
+	mainMenu.init(renderer, mainMenuItems, MenuAction::Nothing);
 
 	std::vector<MenuItem> pauseMenuItems;
 	pauseMenuItems.push_back(MenuItem(1, "Continue", true, MenuAction::StartGame));
 	pauseMenuItems.push_back(MenuItem(-1, "Main Menu", false, MenuAction::ToMainMenu));
-	pauseMenu.init(renderer, pauseMenuItems);
+	pauseMenu.init(renderer, pauseMenuItems, MenuAction::StartGame);
 
 	std::vector<MenuItem> settingsMenuItems;
 	settingsMenuItems.push_back(MenuItem(2, "Resolution", true, MenuAction::ToResolutionMenu));
 	settingsMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::ToControlsMenu));
 	settingsMenuItems.push_back(MenuItem(-2, "Back", false, MenuAction::ToMainMenu));
-	settingsMenu.init(renderer, settingsMenuItems);
+	settingsMenu.init(renderer, settingsMenuItems, MenuAction::ToMainMenu);
 
 	std::vector<MenuItem> resolutionMenuItems;
 	resolutionMenuItems.push_back(MenuItem(3, "800 x 800", true, MenuAction::SetResolution800));
 	resolutionMenuItems.push_back(MenuItem(1, "1024 x 1000 ", false, MenuAction::SetResolution1024));
 	resolutionMenuItems.push_back(MenuItem(-1, "Fullscreen", false, MenuAction::SetResolutionFullscreen));
 	resolutionMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
-	resolutionMenu.init(renderer, resolutionMenuItems);
+	resolutionMenu.init(renderer, resolutionMenuItems, MenuAction::ToSettingsMenu);
 
 	std::vector<MenuItem> controlsMenuItems;
 	controlsMenuItems.push_back(MenuItem(3.0f, "Up", true, MenuAction::SetUpControl));
@@ -53,7 +53,7 @@ Bomberman::Bomberman()
 	controlsMenuItems.push_back(MenuItem(-0.5f, "Right", false, MenuAction::SetRightControl));
 	controlsMenuItems.push_back(MenuItem(-1.5f, "Bomb", false, MenuAction::SetBombControl));
 	controlsMenuItems.push_back(MenuItem(-2.5f, "Back", false, MenuAction::ToSettingsMenu));
-	controlsMenu.init(renderer, controlsMenuItems);
+	controlsMenu.init(renderer, controlsMenuItems, MenuAction::ToSettingsMenu);
 
 	menuState = MenuState::MainMenu;
 

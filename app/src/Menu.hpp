@@ -44,6 +44,7 @@ private:
 	Camera *_camera;
 
 	std::vector<MenuItem> menuItems;
+	MenuAction backOption;
 
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
 	MenuAction handleInput(sf::RenderWindow &window);
@@ -55,7 +56,7 @@ public:
 	Menu();
 	~Menu();
 
-	void init(Renderer &renderer, std::vector<MenuItem> &items);
+	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption);
 	MenuAction render(sf::RenderWindow &window);
 };
 

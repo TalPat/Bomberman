@@ -4,11 +4,12 @@ Menu::Menu() {}
 
 Menu::~Menu() {}
 
-void Menu::init(Renderer &renderer, std::vector<MenuItem> &items)
+void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption)
 {
 	this->_renderer = &renderer;
 	this->_shader = renderer.shader();
 	this->_camera = renderer.camera();
+	this->backOption = backOption;
 
 	this->menuItems = items;
 }
@@ -49,6 +50,9 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 					break;
 				case sf::Keyboard::Space:
 					return this->select();
+					break;
+				case sf::Keyboard::Escape:
+					return this->backOption;
 					break;
 			}
 			break;
