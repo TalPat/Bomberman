@@ -26,27 +26,31 @@ void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
 	this->_renderer->writeLine(window, item.text, color, startLocation, scale);
 }
 
-MenuAction Menu::handleInput(std::vector<EngineEvent> &actions)
+MenuAction Menu::handleInput(sf::RenderWindow &window)
 {
-	for (EngineEvent action : actions)
+	sf::Event event;
+	while (window.pollEvent(event))
 	{
-		switch (action)
+		switch (event.type)
 		{
-		case EngineEvent::move_left:
-			this->menuLeft();
+		case event.KeyPressed:
+		{
+			sf::Keyboard::Key key = event.key.code;
+			switch (key)
+			{
+				case sf::Keyboard::Up:
+					this->menuLeft();
+					break;
+				case sf::Keyboard::Down:
+					this->menuRight();
+					break;
+				case sf::Keyboard::Return:
+					return this->select();
+					break;
+			}
 			break;
-		case EngineEvent::move_right:
-			this->menuRight();
-			break;
-		case EngineEvent::move_up:
-			this->menuLeft();
-			break;
-		case EngineEvent::move_down:
-			this->menuRight();
-			break;
-		case EngineEvent::place_bomb:
-			return this->select();
-		default:	
+		}
+		default:
 			return MenuAction::Nothing;
 			break;
 		}
@@ -95,7 +99,7 @@ MenuAction Menu::select()
 	return MenuAction::Nothing;
 }
 
-MenuAction Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &actions)
+MenuAction Menu::render(sf::RenderWindow &window)
 {
 	sf::Vector2u size = window.getSize();
 	glViewport(0, 0, size.x, size.y);
@@ -118,5 +122,5 @@ MenuAction Menu::render(sf::RenderWindow &window, std::vector<EngineEvent> &acti
 
 	window.display();
 
-	return this->handleInput(actions);
+	return this->handleInput(window);
 }

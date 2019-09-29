@@ -126,23 +126,25 @@ void Bomberman::updateFunc()
 	if (!this->window->isOpen())
 		this->stop();
 
-	sf::Event event;
 	std::vector<EngineEvent> actions;
-	InputResponse response = this->input.parseKeys(actions, *window);
-	switch (response)
+	if (this->menuState == Playing)
 	{
-	case InputResponse::quit:	
-		this->stop();
-		break;
-	case InputResponse::pause:
-		// Can be used to pause game with 'Esc' key
-		if (this->menuState == MenuState::PauseMenu)
-			this->menuState = MenuState::Playing;
-		else if (this->menuState == MenuState::Playing)
-			this->menuState = MenuState::PauseMenu;
-		break;
-	default:
-		break;
+		InputResponse response = this->input.parseKeys(actions, *window);
+		switch (response)
+		{
+		case InputResponse::quit:
+			this->stop();
+			break;
+		case InputResponse::pause:
+			// Can be used to pause game with 'Esc' key
+			if (this->menuState == MenuState::PauseMenu)
+				this->menuState = MenuState::Playing;
+			else if (this->menuState == MenuState::Playing)
+				this->menuState = MenuState::PauseMenu;
+			break;
+		default:
+			break;
+		}
 	}
 
 	// Record the time elapsed since starting last render
@@ -174,23 +176,23 @@ void Bomberman::updateFunc()
 		}
 		break;
 	case MenuState::MainMenu:
-		option = this->mainMenu.render(*(this->window), actions);
+		option = this->mainMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	case MenuState::PauseMenu:
-		option = this->pauseMenu.render(*(this->window), actions);
+		option = this->pauseMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	case MenuState::SettingsMenu:
-		option = this->settingsMenu.render(*(this->window), actions);
+		option = this->settingsMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	case MenuState::ResolutionMenu:
-		option = this->resolutionMenu.render(*(this->window), actions);
+		option = this->resolutionMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	case MenuState::ControlsMenu:
-		option = this->controlsMenu.render(*(this->window), actions);
+		option = this->controlsMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	}

@@ -46,7 +46,7 @@ private:
 	std::vector<MenuItem> menuItems;
 
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
-	MenuAction handleInput(std::vector<EngineEvent> &actions);
+	MenuAction handleInput(sf::RenderWindow &window);
 	void menuLeft();
 	void menuRight();
 	MenuAction select();
@@ -56,7 +56,7 @@ public:
 	~Menu();
 
 	void init(Renderer &renderer, std::vector<MenuItem> &items);
-	MenuAction render(sf::RenderWindow &window, std::vector<EngineEvent> &actions);
+	MenuAction render(sf::RenderWindow &window);
 };
 
 #endif
