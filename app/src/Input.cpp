@@ -4,11 +4,13 @@
 
 Input::Input() : _pause(Key::Escape)
 {
-	this->keyMap[Key::Up] = EngineEvent::move_up;
-	this->keyMap[Key::Down] = EngineEvent::move_down;
-	this->keyMap[Key::Left] = EngineEvent::move_left;
-	this->keyMap[Key::Right] = EngineEvent::move_right;
-	this->keyMap[Key::Space] = EngineEvent::place_bomb;
+	this->keyMap = {
+		{ Key::Up, EngineEvent::move_up },
+		{ Key::Down, EngineEvent::move_down },
+		{ Key::Left, EngineEvent::move_left },
+		{ Key::Right, EngineEvent::move_right },
+		{ Key::Space, EngineEvent::place_bomb }
+	};
 }
 
 Input::~Input() {}
