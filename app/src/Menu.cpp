@@ -108,17 +108,6 @@ MenuAction Menu::render(sf::RenderWindow &window)
 	glViewport(0, 0, size.x, size.y);
 	glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->_shader->use();
-	glm::mat4 projection = glm::perspective(glm::radians(this->_camera->getZoom()), (float)size.x / (float)size.y, 0.1f, 100.0f);
-	glm::mat4 view = this->_camera->getViewMatrix();
-	this->_shader->setMat4("projection", projection);
-	this->_shader->setMat4("view", view);
-
-	sf::Vector2f cameraPosition(1.5, 1.5);
-	cameraPosition -= sf::Vector2f(0.5, 0.5);
-	this->_camera->setPosition(glm::vec3(cameraPosition.x, 0.0f, cameraPosition.y + 4.0f));
-	this->_camera->setYaw(270.0f);
-	this->_camera->setPitch(0.0f);
 
 	for (MenuItem item : this->menuItems)
 		this->drawMenuText(window, item);
