@@ -126,8 +126,8 @@ void Bomberman::setKey()
 			try
 			{
 				this->input.setKey(this->settingKey, event.key.code);
+				this->controlsMenu.setControl(this->settingKey, event.key.code);
 				this->settingKey = EngineEvent::unknown;
-				std::cout << "Saved: " << event.key.code << std::endl;
 			}
 			catch(const std::exception& e)
 			{
@@ -232,6 +232,7 @@ void Bomberman::updateFunc()
 		}
 		else
 		{
+			this->controlsMenu.displaySettingScreen(*(this->window));
 			this->setKey();
 		}
 		break;

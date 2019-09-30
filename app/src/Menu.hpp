@@ -35,6 +35,8 @@ struct MenuItem
 	bool selected;
 	MenuAction option;
 
+	MenuItem() {};
+
 	MenuItem(float offset, std::string text, bool selected, MenuAction option)
 		: offset(offset), text(text), selected(selected), option(option) {}
 	
@@ -45,7 +47,6 @@ struct MenuItem
 class Menu
 {
 private:
-	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
 	MenuAction handleInput(sf::RenderWindow &window);
 	void menuLeft();
 	void menuRight();
@@ -58,6 +59,8 @@ protected:
 
 	MenuAction backOption;
 	std::vector<MenuItem> menuItems;
+
+	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
 
 public:
 	Menu();

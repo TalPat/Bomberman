@@ -12,13 +12,15 @@
 class ControlMenu : public Menu
 {
 private:
+	MenuItem settingScreen;
 
 public:
 	ControlMenu();
 	~ControlMenu();
 
 	void init(Renderer &renderer, MenuAction backOption);
-	void setControl(EngineEvent event);
+	void displaySettingScreen(sf::RenderWindow &window);
+	void setControl(EngineEvent action, Key key);
 };
 
 #endif
