@@ -5,6 +5,7 @@ enum EnemyType
 {
 	EGeneric,
 	EBallom,
-	EAggroBallom
+	EAggroBallom,
+	EFinder
 };
 #endif

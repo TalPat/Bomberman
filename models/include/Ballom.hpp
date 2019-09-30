@@ -11,7 +11,7 @@ public:
 	~Ballom();
 	float _aggression;
 	void changeMoveState();
-	void update(float deltaTime, const Map &map);
+	void update(float deltaTime, const Map &map, const Player &player);
 	void changeAggression();
 };
 #endif

@@ -55,6 +55,7 @@ Bomberman::Bomberman()
 
 	//thread stuff
 	threadActive = false;
+	this->gameState.level = 0;
 	this->engine.init(this->gameState);
 }
 
@@ -149,7 +150,7 @@ void *Bomberman::threadFunction(void *arg)
 
 	bman->renderer.render(*(bman->window), bman->gameState);
 	bman->threadActive = false;
-	
+	return (NULL);
 	// uncomment if object must be mutated by renderer
 	// pthread_mutex_unlock(bman->lock);
 }
