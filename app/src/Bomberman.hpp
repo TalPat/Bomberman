@@ -56,6 +56,9 @@ private:
 
 	void handleMenuAction(MenuAction option);
 
+	EngineEvent settingKey = EngineEvent::unknown;
+	void setKey();
+
 	static void *threadFunction(void *arg); //thread stuff
 	pthread_t myThread;
 	pthread_mutex_t *lock;

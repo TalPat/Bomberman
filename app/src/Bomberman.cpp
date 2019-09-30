@@ -99,11 +99,51 @@ void Bomberman::handleMenuAction(MenuAction option)
 	case MenuAction::SetResolution1024:
 		this->window->setSize(sf::Vector2u(1024, 1000));
 		break;
+	case MenuAction::SetUpControl:
+		this->settingKey = EngineEvent::move_up;
+		break;
+	case MenuAction::SetDownControl:
+		this->settingKey = EngineEvent::move_down;
+		break;
+	case MenuAction::SetLeftControl:
+		this->settingKey = EngineEvent::move_left;
+		break;
+	case MenuAction::SetRightControl:
+		this->settingKey = EngineEvent::move_right;
+		break;
+	case MenuAction::SetBombControl:
+		this->settingKey = EngineEvent::place_bomb;
+		break;
 	case MenuAction::Exit:
 		this->stop();
 		break;
 	default:
 		break;
+	}
+}
+
+void Bomberman::setKey()
+{
+	sf::Event event;
+	while (this->window->pollEvent(event))
+	{
+		switch (event.type)
+		{
+		case event.KeyPressed:
+			try
+			{
+				this->input.setKey(this->settingKey, event.key.code);
+				this->settingKey = EngineEvent::unknown;
+				std::cout << "Saved: " << event.key.code << std::endl;
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << '\n';
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -192,8 +232,15 @@ void Bomberman::updateFunc()
 		this->handleMenuAction(option);
 		break;
 	case MenuState::ControlsMenu:
-		option = this->controlsMenu.render(*(this->window));
-		this->handleMenuAction(option);
+		if (this->settingKey == EngineEvent::unknown)
+		{
+			option = this->controlsMenu.render(*(this->window));
+			this->handleMenuAction(option);
+		}
+		else
+		{
+			this->setKey();
+		}
 		break;
 	}
 }
