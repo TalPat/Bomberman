@@ -53,7 +53,7 @@ Bomberman::Bomberman()
 	controlsMenuItems.push_back(MenuItem(-0.5f, "Right", false, MenuAction::SetRightControl, Menu::keyStrings[Key::Right]));
 	controlsMenuItems.push_back(MenuItem(-1.5f, "Bomb", false, MenuAction::SetBombControl, Menu::keyStrings[Key::Space]));
 	controlsMenuItems.push_back(MenuItem(-2.5f, "Back", false, MenuAction::ToSettingsMenu));
-	controlsMenu.init(renderer, controlsMenuItems, MenuAction::ToSettingsMenu);
+	controlsMenu.init(renderer, MenuAction::ToSettingsMenu);
 
 	menuState = MenuState::MainMenu;
 

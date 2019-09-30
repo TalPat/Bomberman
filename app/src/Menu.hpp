@@ -45,18 +45,19 @@ struct MenuItem
 class Menu
 {
 private:
-	Renderer *_renderer;
-	Shader *_shader;
-	Camera *_camera;
-
-	std::vector<MenuItem> menuItems;
-	MenuAction backOption;
-
 	void drawMenuText(sf::RenderWindow &window, MenuItem &item);
 	MenuAction handleInput(sf::RenderWindow &window);
 	void menuLeft();
 	void menuRight();
 	MenuAction select();
+
+protected:
+	Renderer *_renderer;
+	Shader *_shader;
+	Camera *_camera;
+
+	MenuAction backOption;
+	std::vector<MenuItem> menuItems;
 
 public:
 	Menu();

@@ -3,6 +3,7 @@ add_library(App STATIC
     src/Bomberman.cpp
     src/Input.cpp
     src/Menu.cpp
+    src/ControlMenu.cpp
 )
 
 target_link_libraries(App

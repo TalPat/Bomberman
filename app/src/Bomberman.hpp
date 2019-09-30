@@ -4,6 +4,7 @@
 #include "./AMainLoop.hpp"
 #include "./Input.hpp"
 #include "./Menu.hpp"
+#include "./ControlMenu.hpp"
 
 #include <Engine.hpp>
 #include <EngineEvent.hpp>
@@ -42,7 +43,7 @@ private:
 	Menu pauseMenu;
 	Menu settingsMenu;
 	Menu resolutionMenu;
-	Menu controlsMenu;
+	ControlMenu controlsMenu;
 	MenuState menuState;
 
 	GameState gameState;
