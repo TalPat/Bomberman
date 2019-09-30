@@ -47,11 +47,11 @@ Bomberman::Bomberman()
 	resolutionMenu.init(renderer, resolutionMenuItems, MenuAction::ToSettingsMenu);
 
 	std::vector<MenuItem> controlsMenuItems;
-	controlsMenuItems.push_back(MenuItem(3.0f, "Up", true, MenuAction::SetUpControl));
-	controlsMenuItems.push_back(MenuItem(2.0f, "Down", false, MenuAction::SetDownControl));
-	controlsMenuItems.push_back(MenuItem(1.0f, "Left", false, MenuAction::SetLeftControl));
-	controlsMenuItems.push_back(MenuItem(-0.5f, "Right", false, MenuAction::SetRightControl));
-	controlsMenuItems.push_back(MenuItem(-1.5f, "Bomb", false, MenuAction::SetBombControl));
+	controlsMenuItems.push_back(MenuItem(3.0f, "Up", true, MenuAction::SetUpControl, Menu::keyStrings[Key::Up]));
+	controlsMenuItems.push_back(MenuItem(2.0f, "Down", false, MenuAction::SetDownControl, Menu::keyStrings[Key::Down]));
+	controlsMenuItems.push_back(MenuItem(1.0f, "Left", false, MenuAction::SetLeftControl, Menu::keyStrings[Key::Left]));
+	controlsMenuItems.push_back(MenuItem(-0.5f, "Right", false, MenuAction::SetRightControl, Menu::keyStrings[Key::Right]));
+	controlsMenuItems.push_back(MenuItem(-1.5f, "Bomb", false, MenuAction::SetBombControl, Menu::keyStrings[Key::Space]));
 	controlsMenuItems.push_back(MenuItem(-2.5f, "Back", false, MenuAction::ToSettingsMenu));
 	controlsMenu.init(renderer, controlsMenuItems, MenuAction::ToSettingsMenu);
 

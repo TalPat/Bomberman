@@ -4,6 +4,8 @@
 #include <Renderer.hpp>
 #include <EngineEvent.hpp>
 
+#include "./Input.hpp"
+
 #include <vector>
 
 enum MenuAction
@@ -29,11 +31,15 @@ struct MenuItem
 {
 	int offset;
 	std::string text;
+	std::string additional = "";
 	bool selected;
 	MenuAction option;
 
 	MenuItem(float offset, std::string text, bool selected, MenuAction option)
 		: offset(offset), text(text), selected(selected), option(option) {}
+	
+	MenuItem(float offset, std::string text, bool selected, MenuAction option, std::string additional)
+		: offset(offset), text(text), selected(selected), option(option), additional(additional) {}
 };
 
 class Menu
@@ -58,6 +64,8 @@ public:
 
 	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption);
 	MenuAction render(sf::RenderWindow &window);
+
+	static std::map<Key, std::string> keyStrings;
 };
 
 #endif
