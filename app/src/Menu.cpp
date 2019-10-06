@@ -180,7 +180,11 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 void Menu::menuLeft()
 {
 	if (this->menuItems[0].selected)
+	{
+		this->menuItems[this->menuItems.size() - 1].selected = true;
+		this->menuItems[0].selected = false;
 		return;
+	}
 
 	for (int i = 0; i < this->menuItems.size() - 1; i++)
 	{
