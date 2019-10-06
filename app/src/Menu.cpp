@@ -199,12 +199,15 @@ void Menu::menuUp()
 
 void Menu::menuDown()
 {
-	for (int i = 0; i < this->menuItems.size() - 1; i++)
+	for (int i = 0; i < this->menuItems.size(); i++)
 	{
 		if (this->menuItems[i].selected)
 		{
 			this->menuItems[i].selected = false;
-			this->menuItems[i + 1].selected = true;
+			if (i == this->menuItems.size() - 1)
+				this->menuItems[0].selected = true;
+			else
+				this->menuItems[i + 1].selected = true;
 			break;
 		}
 	}
