@@ -157,6 +157,9 @@ void Bomberman::setKey()
 				this->settingKey = EngineEvent::unknown;
 			}
 			break;
+		case event.Closed:
+			this->stop();
+			break;
 		default:
 			break;
 		}

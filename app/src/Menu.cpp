@@ -168,6 +168,9 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 			}
 			break;
 		}
+		case event.Closed:
+			return MenuAction::Exit;
+			break;
 		default:
 			return MenuAction::Nothing;
 			break;
