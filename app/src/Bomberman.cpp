@@ -135,6 +135,7 @@ void Bomberman::setKey()
 			catch(const std::exception& e)
 			{
 				std::cerr << e.what() << '\n';
+				this->settingKey = EngineEvent::unknown;
 			}
 			break;
 		default:
