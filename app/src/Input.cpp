@@ -83,6 +83,9 @@ void Input::setKey(EngineEvent event, Key key)
 	if (event % 2 == 0)
 		throw std::runtime_error("Cannot set stop events");
 
+	if (key == Key::Escape)
+		throw std::runtime_error("Cannot set Escape key");
+
 	// Only set key if it hasn't already been mapped
 	if (current == EngineEvent::unknown)
 	{
