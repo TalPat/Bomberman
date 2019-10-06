@@ -48,8 +48,8 @@ class Menu
 {
 private:
 	MenuAction handleInput(sf::RenderWindow &window);
-	void menuLeft();
-	void menuRight();
+	void menuUp();
+	void menuDown();
 	MenuAction select();
 
 protected:

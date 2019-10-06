@@ -151,10 +151,10 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 			switch (key)
 			{
 				case sf::Keyboard::Up:
-					this->menuLeft();
+					this->menuUp();
 					break;
 				case sf::Keyboard::Down:
-					this->menuRight();
+					this->menuDown();
 					break;
 				case sf::Keyboard::Return:
 					return this->select();
@@ -177,7 +177,7 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 	return MenuAction::Nothing;
 }
 
-void Menu::menuLeft()
+void Menu::menuUp()
 {
 	if (this->menuItems[0].selected)
 	{
@@ -197,7 +197,7 @@ void Menu::menuLeft()
 	}
 }
 
-void Menu::menuRight()
+void Menu::menuDown()
 {
 	for (int i = 0; i < this->menuItems.size() - 1; i++)
 	{
