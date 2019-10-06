@@ -49,6 +49,7 @@ Bomberman::Bomberman()
 	controlsMenu.init(renderer, MenuAction::ToSettingsMenu);
 
 	menuState = MenuState::MainMenu;
+	resolution = Resolution::Default;
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
@@ -90,10 +91,20 @@ void Bomberman::handleMenuAction(MenuAction option)
 		this->menuState = MenuState::ControlsMenu;
 		break;
 	case MenuAction::SetResolution800:
-		this->window->setSize(sf::Vector2u(800, 800));
+		if (this->resolution != Resolution::Default)
+		{
+			this->window->create(sf::VideoMode(800, 800), WINDOW_TITLE, sf::Style::Default, this->window->getSettings());
+			this->renderer.init();
+			this->resolution = Resolution::Default;
+		}
 		break;
 	case MenuAction::SetResolution1024:
-		this->window->setSize(sf::Vector2u(1024, 1000));
+		if (this->resolution != Resolution::Medium)
+		{
+			this->window->create(sf::VideoMode(1024, 1000), WINDOW_TITLE, sf::Style::Default, this->window->getSettings());
+			this->renderer.init();
+			this->resolution = Resolution::Medium;
+		}
 		break;
 	case MenuAction::SetUpControl:
 		this->settingKey = EngineEvent::move_up;

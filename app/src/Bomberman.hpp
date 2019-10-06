@@ -21,6 +21,12 @@ static const uint WINDOW_WIDTH = 800;
 static const uint WINDOW_HEIGHT = 800;
 static const char *WINDOW_TITLE = "Bomberman";
 
+enum Resolution
+{
+	Default,
+	Medium
+};
+
 enum MenuState
 {
 	MainMenu,
@@ -44,7 +50,9 @@ private:
 	Menu settingsMenu;
 	Menu resolutionMenu;
 	ControlMenu controlsMenu;
+
 	MenuState menuState;
+	Resolution resolution;
 
 	GameState gameState;
 
