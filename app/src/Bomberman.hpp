@@ -54,6 +54,7 @@ private:
 
 	MenuState menuState;
 	Resolution resolution;
+	bool gameStarted;
 
 	GameState gameState;
 

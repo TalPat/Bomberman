@@ -70,6 +70,7 @@ public:
 	MenuAction render(sf::RenderWindow &window);
 
 	void resetSelected();
+	void addOption(MenuItem item);
 
 	static std::map<Key, std::string> keyStrings;
 };

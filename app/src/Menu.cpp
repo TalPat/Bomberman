@@ -249,3 +249,8 @@ void Menu::resetSelected()
 	for (int i = 1; i < this->menuItems.size(); i++)
 		this->menuItems[i].selected = false;
 }
+
+void Menu::addOption(MenuItem item)
+{
+	this->menuItems.insert(this->menuItems.begin(), item);
+}

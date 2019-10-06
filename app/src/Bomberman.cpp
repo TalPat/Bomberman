@@ -50,6 +50,7 @@ Bomberman::Bomberman()
 
 	menuState = MenuState::MainMenu;
 	resolution = Resolution::Default;
+	gameStarted = false;
 
 	this->deltaClock.restart();
 	this->frameClock.restart();
@@ -75,6 +76,12 @@ void Bomberman::handleMenuAction(MenuAction option)
 	{
 	case MenuAction::StartGame:
 		this->menuState = MenuState::Playing;
+		if (!this->gameStarted)
+		{
+			this->gameStarted = true;
+			this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::StartGame));
+			this->mainMenu.resetSelected();
+		}
 		break;
 	case MenuAction::ToMainMenu:
 		this->menuState = MenuState::MainMenu;
