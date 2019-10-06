@@ -24,7 +24,8 @@ static const char *WINDOW_TITLE = "Bomberman";
 enum Resolution
 {
 	Default,
-	Medium
+	Medium,
+	Fullscreen
 };
 
 enum MenuState

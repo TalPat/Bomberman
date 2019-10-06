@@ -106,6 +106,14 @@ void Bomberman::handleMenuAction(MenuAction option)
 			this->resolution = Resolution::Medium;
 		}
 		break;
+	case MenuAction::SetResolutionFullscreen:
+		if (this->resolution != Resolution::Fullscreen)
+		{
+			this->window->create(sf::VideoMode(1920, 1080), WINDOW_TITLE, sf::Style::Fullscreen, this->window->getSettings());
+			this->renderer.init();
+			this->resolution = Resolution::Fullscreen;
+		}
+		break;
 	case MenuAction::SetUpControl:
 		this->settingKey = EngineEvent::move_up;
 		break;
