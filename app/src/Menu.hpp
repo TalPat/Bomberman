@@ -69,6 +69,8 @@ public:
 	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption);
 	MenuAction render(sf::RenderWindow &window);
 
+	void resetSelected();
+
 	static std::map<Key, std::string> keyStrings;
 };
 

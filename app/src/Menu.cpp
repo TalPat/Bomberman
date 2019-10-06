@@ -238,3 +238,11 @@ MenuAction Menu::render(sf::RenderWindow &window)
 
 	return this->handleInput(window);
 }
+
+void Menu::resetSelected()
+{
+	this->menuItems[0].selected = true;
+
+	for (int i = 1; i < this->menuItems.size(); i++)
+		this->menuItems[i].selected = false;
+}
