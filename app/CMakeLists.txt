@@ -10,7 +10,7 @@ target_link_libraries(App
     sfml-window
     sfml-system
     Engine
-		Renderer
+    Renderer
     Sound
     Models
     pthread
