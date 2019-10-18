@@ -11,7 +11,7 @@ target_link_libraries(App
     sfml-system
     Engine
 		Renderer
-		Sound
+    Sound
     Models
     pthread
 )

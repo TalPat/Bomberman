@@ -19,8 +19,8 @@ endif()
 
 include_directories(
     engine/include
-		renderer/include
-		sound/include
+    renderer/include
+    sound/include
     models/include
     app/include
 )
