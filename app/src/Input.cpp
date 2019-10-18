@@ -107,6 +107,7 @@ void Input::removeMapping(EngineEvent event)
 		if (it->second == event)
 		{
 			this->keyMap.erase(it);
+			break;
 		}
 
 		it++;
