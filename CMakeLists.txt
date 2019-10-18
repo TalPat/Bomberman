@@ -19,12 +19,14 @@ endif()
 
 include_directories(
     engine/include
-    renderer/include
+		renderer/include
+		sound/include
     models/include
     app/include
 )
 
 add_subdirectory(engine)
 add_subdirectory(renderer)
+add_subdirectory(sound)
 add_subdirectory(models)
 add_subdirectory(app)

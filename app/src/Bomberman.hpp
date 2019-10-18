@@ -25,6 +25,7 @@ private:
 	sf::RenderWindow *window;
 	Engine engine;
 	Renderer renderer;
+
 	Input input;
 
 	GameState gameState;
