@@ -83,7 +83,7 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 			{
 				gameState.level = 0;
 				gameState.player = Player();
-				gameState.waitTime = 4.0;
+				gameState.waitTime = 5.0;
 			}
 		}
 	}
