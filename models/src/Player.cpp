@@ -99,6 +99,11 @@ int Player:: getLives(void) const
 	return this->_lives;
 }
 
+int Player:: getScore(void) const
+{
+	return this->_score;
+}
+
 int Player::getBombRange(void) const
 {
 	return this->_bombRange;
@@ -119,9 +124,14 @@ void Player::addMaxBombs(void)
 	this->_maxBombs++;
 }
 
-void Player::addLife(void)
+void Player::addScore(int score)
 {
-	this->_lives++;
+	this->_score += score;	
+}
+
+void Player::addLives(int lives)
+{
+	this->_lives += lives;
 }
 
 bool Player::isAlive(void) const
