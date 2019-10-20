@@ -375,17 +375,25 @@ void Renderer::render(sf::RenderWindow &window, const GameState &state)
 	glClearColor(0.3f, 0.3f, 5.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//frame counter
-	writeLine(window, "FPS " + std::to_string((int)(1 / _clock.getElapsedTime().asSeconds())), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, -1.0f), 0.2f);
-	writeLine(window, "Lives " + std::to_string(state.player.getLives()), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, 0.9f), 0.2f);
-	writeLine(window, "Score " + std::to_string(state.player.getScore()), sf::Vector3i(10, 20, 50), sf::Vector2f(-0.5f, 0.9f), 0.2f);
-
-	// TODO: change to proper menu rendering 
-	if (state.waitTime > 0.0)
+	if (state.waitTime > 2.0)
 	{
-		writeLine(window, "Stage " + std::to_string(state.level + 1), sf::Vector3i(10, 20, 50), sf::Vector2f(0.0f, 0.0f), 0.2f);
+		writeLine(window, "Game Over", sf::Vector3i(10, 20, 50), sf::Vector2f(-0.3f, 0.0f), 0.2f);
 		window.display();
 		return;
+	}
+	else if (state.waitTime > 0.0 || state.loading)
+	{
+		writeLine(window, "Level " + std::to_string(state.level + 1), sf::Vector3i(10, 20, 50), sf::Vector2f(-0.3f, 0.0f), 0.2f);
+		window.display();
+		return;
+	}
+	else
+	{
+		//frame counter
+		//writeLine(window, "FPS " + std::to_string((int)(1 / _clock.getElapsedTime().asSeconds())), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, -1.0f), 0.2f);
+		writeLine(window, "Lives " + std::to_string(state.player.getLives()), sf::Vector3i(10, 20, 50), sf::Vector2f(-1.0f, 0.9f), 0.2f);
+		writeLine(window, "Score " + std::to_string(state.player.getScore()), sf::Vector3i(10, 20, 50), sf::Vector2f(-0.5f, 0.9f), 0.2f);
+
 	}
 	_clock.restart();
 

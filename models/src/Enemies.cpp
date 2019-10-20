@@ -63,9 +63,9 @@ void Enemies::populate(int level, const Map &map)
 
 	for(int i = 0; i < 5 + level; i++)
 	{
-		if (level > 0)
+		if (level > 0 && i >= 5)
 			list.push_back(new Ballom(getStart()));
-		if (level > 1)
+		if (level > 2 && i >= 7)
 			list.push_back(new Finder(getStart()));
 		list.push_back(new IEnemy(getStart()));
 	}

@@ -82,7 +82,8 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 			if (gameState.player.getLives() <= 0)
 			{
 				gameState.level = 0;
-				gameState.player = Player();	
+				gameState.player = Player();
+				gameState.waitTime = 4.0;
 			}
 		}
 	}
