@@ -38,9 +38,26 @@ Bomberman::~Bomberman()
 
 void Bomberman::startGame()
 {
+	this->saveGame();
 	this->start();
 };
 
+// std::string path = SETTINGS_DIR + std::string("/input_map.cfg");
+void Bomberman::saveGame()
+{
+	std::string path = SETTINGS_DIR + std::string("/gamestate.cfg");
+	std::ofstream saveFile;
+	saveFile.open(path);
+
+	
+
+	saveFile.close();
+}
+
+void Bomberman::loadGame()
+{
+
+}
 
 void *Bomberman::threadFunction(void *arg)
 {
