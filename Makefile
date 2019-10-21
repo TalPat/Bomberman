@@ -24,15 +24,16 @@ cmake :
 	@ /bin/echo -n "Finding cmake..."
 	@ command -v cmake >> /dev/null && echo "found" || ( echo "not found" && exit 1 );
 	
-	mkdir -p build
-	cd build && cmake ..
+	@ mkdir -p build
+	@ cd build && cmake ..
 
 clean :
 	@ rm -rf $(NAME)
 	@ if [ -d build ]; then cd build && make clean; fi
 
 fclean :
-	rm -rf build
+	@ rm -rf $(NAME)
+	@ rm -rf build
 
 re : fclean all
 
