@@ -5,12 +5,11 @@ DEPS = 	sfml \
 		glew \
 		glm \
 		assimp \
-		crap \
-
+		openal-soft
 
 export PKG_CONFIG_PATH=~/.brew/lib/pkgconfig/:~/.brew/Cellar/openal-soft/1.19.1/lib/pkgconfig
 
-all : brew brew_deps cmake $(NAME)
+all : brew cmake $(NAME)
 
 $(NAME) : 
 	cd build && make
@@ -19,12 +18,11 @@ $(NAME) :
 brew :
 	@ bash ./scripts/install_brew.bash
 	@ bash ./scripts/install_brew_deps.bash $(DEPS)
-
+	@ bash ./scripts/fetch_resources.bash
 
 cmake :
 	@ /bin/echo -n "Finding cmake..."
 	@ command -v cmake >> /dev/null && echo "found" || ( echo "not found" && exit 1 );
-
 	
 	mkdir -p build
 	cd build && cmake ..
