@@ -141,7 +141,13 @@ std::string Enemies::to_string()
 
 void Enemies::from_string(std::istream &istream)
 {
-	IEnemy *enemy;
-	enemy->from_string(istream);
-	this->list.push_back(enemy);
+	int n;
+	istream >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		IEnemy *enemy = new IEnemy;
+		enemy->from_string(istream);
+		this->list.push_back(enemy);
+	}
 }
