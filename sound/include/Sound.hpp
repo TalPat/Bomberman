@@ -18,12 +18,13 @@ private:
 	std::vector<sf::SoundBuffer> buffers;
 	std::vector<sf::Sound> sounds;
 	sf::Music music;
-	int vol;
+
+	static int vol;
 
 public:
 	Sound(/* args */);
 	~Sound();
-
+	
 	void playSound(int n);
 	void playMusic(void);
 	void increaseVol(void);

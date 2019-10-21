@@ -1,9 +1,11 @@
 #include "Sound.hpp"
 #include <iostream>
 
+
+int Sound::vol = 50;
+
 Sound::Sound(/* args */)
 {
-	vol = 50;
 	music.openFromFile(std::string(SOUNDRES_DIR) + "/music.wav");
 	music.setLoop(true);
 	for (size_t i = 0; i < 4; i++)
