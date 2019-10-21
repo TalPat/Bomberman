@@ -8,7 +8,6 @@ Pickups::Pickups() {}
 void Pickups::init(Map &map, int level)
 {
 	//Should change based on level being loaded
-	
 	this->_pickups.erase(this->_pickups.begin(),this->_pickups.end());
 
 	sf::Vector2i size = map.size();
@@ -28,10 +27,16 @@ void Pickups::init(Map &map, int level)
 	std::shuffle ( availableCells.begin(), availableCells.end(), rng );
 	this->addPickup(availableCells.back(), PickupType::LevelUp);
 	availableCells.pop_back();
-	this->addPickup(availableCells.back(), PickupType::BombTotal);
-	availableCells.pop_back();
-	this->addPickup(availableCells.back(), PickupType::BombRange);
-	availableCells.pop_back();
+	if (level != 0 && level % 2 == 0)
+	{
+		this->addPickup(availableCells.back(), PickupType::BombRange);
+		availableCells.pop_back();
+	}
+	if (level != 0 && (level + 1) % 2 == 0)
+	{
+		this->addPickup(availableCells.back(), PickupType::BombTotal);
+		availableCells.pop_back();
+	}
 }
 
 void Pickups::addPickup(sf::Vector2i pos, PickupType type)

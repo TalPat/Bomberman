@@ -143,7 +143,7 @@ void IEnemy::move(float deltaTime, const Map &map)
 		i++;
 		sf::Vector2i cell = enemyCell + direction;
 		Tile tile = map.tileAt(cell);
-		if (!(tile == Tile::Clear || (_wallPass && (tile == Tile::Destructible || tile == Tile::Bomb))))
+		if (tile != Tile::Flame && !(tile == Tile::Clear || (_wallPass && (tile == Tile::Destructible || tile == Tile::Bomb))))
 		{
 			if (correctEnemyCellCollision(cell) && i < 4)
 			// Only change if a collision is detected on a cardinal direction. 

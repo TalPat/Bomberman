@@ -14,11 +14,11 @@ public:
 	void updateAll(float deltaTime, const Map &map, Player &player);
 	void populate();
 	void populate(int numEnemies);
-	void populate(int numEnemies,int level, const Map &map);
+	void populate(int level, const Map &map);
 	Enemies();
 	~Enemies();
 	void init(int level);
-	void kill(const Map &map); 
+	void kill(const Map &map, Player &player); 
 
 	std::string to_string();
 	void from_string(std::istream &istream);
