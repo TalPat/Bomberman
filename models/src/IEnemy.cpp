@@ -185,9 +185,8 @@ std::string IEnemy::to_string()
 	return sstream.str();
 }
 
-void IEnemy::from_string(std::string str)
+void IEnemy::from_string(std::istringstream &istream)
 {
-	std::istringstream istream(str);
 	int mvState;
 	int type;
 

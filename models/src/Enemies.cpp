@@ -139,9 +139,9 @@ std::string Enemies::to_string()
 	return sstream.str();
 }
 
-void Enemies::from_string(std::string str)
+void Enemies::from_string(std::istringstream &istream)
 {
 	IEnemy *enemy;
-	enemy->from_string(str);
+	enemy->from_string(istream);
 	this->list.push_back(enemy);
 }

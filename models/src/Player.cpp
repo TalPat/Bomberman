@@ -149,8 +149,14 @@ std::string Player::to_string()
 	return sstream.str();
 }
 
-void Player::from_string(std::string str)
+void Player::from_string(std::istringstream &istream)
 {
-	std::istringstream istream(str);
-	istream >> this->_playerSpeed >> this->_alive >> this->_lives >> this->_bombRange >> this->_maxBombs >> this->_score >> this->_position.x >> this->_position.y;
+	istream >> this->_playerSpeed
+			>> this->_alive
+			>> this->_lives
+			>> this->_bombRange
+			>> this->_maxBombs
+			>> this->_score
+			>> this->_position.x
+			>> this->_position.y;
 }

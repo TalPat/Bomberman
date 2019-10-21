@@ -21,6 +21,6 @@ public:
 	void kill(const Map &map); 
 
 	std::string to_string();
-	void from_string(std::string str);
+	void from_string(std::istringstream &istream);
 };
 #endif

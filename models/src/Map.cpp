@@ -99,9 +99,8 @@ std::string Map::to_string()
 	return sstream.str();
 }
 
-void Map::from_string(std::string str)
+void Map::from_string(std::istringstream &istream)
 {
-	std::istringstream istream(str);
 	istream >> this->_size.x >> this->_size.y;
 
 	int length = this->_size.x * this->_size.y;
