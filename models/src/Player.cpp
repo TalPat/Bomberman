@@ -138,7 +138,14 @@ std::string Player::to_string()
 {
 	std::ostringstream sstream;
 
-	sstream << this->_playerSpeed << " " << this->_alive << " " << this->_lives << " " << this->_bombRange << " " << this->_maxBombs << " " << this->_score << " " << this->_position.x << " " << this->_position.y;
+	sstream << this->_playerSpeed << " "
+			<< this->_alive << " "
+			<< this->_lives << " "
+			<< this->_bombRange << " "
+			<< this->_maxBombs << " "
+			<< this->_score << " "
+			<< this->_position.x << " "
+			<< this->_position.y << '\n';
 	return sstream.str();
 }
 
