@@ -125,3 +125,24 @@ void Enemies::kill(const Map &map)
 	}
 	enemiesToKill.clear();
 }
+
+std::string Enemies::to_string()
+{
+	int n = this->list.size();
+	std::string ret = std::to_string(n) + '\n';
+
+	for (IEnemy *enemy : this->list)
+	{
+		ret += enemy->to_string();
+		ret += '\n';
+	}
+
+	return ret;
+}
+
+void Enemies::from_string(std::string str)
+{
+	IEnemy *enemy;
+	enemy->from_string(str);
+	this->list.push_back(enemy);
+}

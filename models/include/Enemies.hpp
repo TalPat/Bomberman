@@ -19,5 +19,8 @@ public:
 	~Enemies();
 	void init(int level);
 	void kill(const Map &map); 
+
+	std::string to_string();
+	void from_string(std::string str);
 };
 #endif
