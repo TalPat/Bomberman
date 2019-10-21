@@ -8,6 +8,7 @@
 #include "Map.hpp"
 #include "Bombs.hpp"
 #include "Pickups.hpp"
+#include "Sound.hpp"
 
 #include <SFML/System.hpp>
 #include <iostream>
@@ -16,6 +17,7 @@
 class GameState
 {
 public:
+	Sound sound;
 	Player player;
 	Enemies enemies;
 	Map map;
