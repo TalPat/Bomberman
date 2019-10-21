@@ -90,6 +90,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 		{
 			this->gameStarted = true;
 			this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::ContinueGame));
+			this->mainMenu.renameOption(1, "Restart");
 			this->mainMenu.resetSelected();
 		}
 		break;
@@ -210,6 +211,7 @@ void Bomberman::loadGame()
 		// Indicate in menu that game can be continued.
 		this->gameStarted = true;
 		this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::ContinueGame));
+		this->mainMenu.renameOption(1, "Restart");
 		this->mainMenu.resetSelected();
 
 		saveFile.close();

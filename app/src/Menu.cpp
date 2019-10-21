@@ -268,3 +268,11 @@ void Menu::addOption(MenuItem item)
 	this->menuItems.insert(this->menuItems.begin(), item);
 	this->alignItems();
 }
+
+void Menu::renameOption(int index, std::string name)
+{
+	if (index > this->menuItems.size() - 1)
+		return;
+	else
+		this->menuItems[index].text = name;
+}

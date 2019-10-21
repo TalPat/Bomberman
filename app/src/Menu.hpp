@@ -73,6 +73,7 @@ public:
 	void resetSelected();
 	void alignItems();
 	void addOption(MenuItem item);
+	void renameOption(int index, std::string name);
 
 	static std::map<Key, std::string> keyStrings;
 };
