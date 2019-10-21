@@ -3,6 +3,7 @@
 
 #include <Renderer.hpp>
 #include <EngineEvent.hpp>
+#include <Sound.hpp>
 
 #include "./Input.hpp"
 
@@ -51,6 +52,7 @@ private:
 	void menuUp();
 	void menuDown();
 	MenuAction select();
+	Sound sound;
 
 protected:
 	Renderer *_renderer;

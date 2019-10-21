@@ -8,7 +8,7 @@ Sound::Sound(/* args */)
 {
 	music.openFromFile(std::string(SOUNDRES_DIR) + "/music.wav");
 	music.setLoop(true);
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < 5; i++)
 	{
 		buffers.push_back(sf::SoundBuffer());
 		sounds.push_back(sf::Sound());
@@ -17,7 +17,8 @@ Sound::Sound(/* args */)
 	buffers[beep2].loadFromFile(std::string(SOUNDRES_DIR) + "/beep2.wav");
 	buffers[boom].loadFromFile(std::string(SOUNDRES_DIR) + "/boom.wav");
 	buffers[sad].loadFromFile(std::string(SOUNDRES_DIR) + "/sad.wav");
-	for (size_t i = 0; i < 4; i++)
+	buffers[click].loadFromFile(std::string(SOUNDRES_DIR) + "/click.wav");
+	for (size_t i = 0; i < 5; i++)
 	{
 		sounds[i].setBuffer(buffers[i]);
 	}

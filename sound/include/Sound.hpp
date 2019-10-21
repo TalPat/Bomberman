@@ -9,7 +9,8 @@ enum clips
 	beep1,
 	beep2,
 	boom,
-	sad
+	sad,
+	click
 };
 
 class Sound

@@ -182,6 +182,7 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 
 void Menu::menuUp()
 {
+	this->sound.playSound(click);
 	if (this->menuItems[0].selected)
 	{
 		this->menuItems[this->menuItems.size() - 1].selected = true;
@@ -202,6 +203,7 @@ void Menu::menuUp()
 
 void Menu::menuDown()
 {
+	this->sound.playSound(click);
 	for (int i = 0; i < this->menuItems.size(); i++)
 	{
 		if (this->menuItems[i].selected)
@@ -218,6 +220,7 @@ void Menu::menuDown()
 
 MenuAction Menu::select()
 {
+	this->sound.playSound(click);
 	for (int i = 0; i < this->menuItems.size(); i++)
 	{
 		if (this->menuItems[i].selected)
