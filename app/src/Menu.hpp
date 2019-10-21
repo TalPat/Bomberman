@@ -15,6 +15,7 @@ enum MenuAction
 	ToControlsMenu,
 	ToSettingsMenu,
 	ToResolutionMenu,
+	ToVolumeMenu,
 	ToMainMenu,
 	SetResolution800,
 	SetResolution1024,
@@ -24,6 +25,8 @@ enum MenuAction
 	SetLeftControl,
 	SetRightControl,
 	SetBombControl,
+	IncreaseVolume,
+	DecreaseVolume,
 	Exit,
 	Nothing
 };

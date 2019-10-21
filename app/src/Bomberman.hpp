@@ -35,6 +35,7 @@ enum MenuState
 	SettingsMenu,
 	ResolutionMenu,
 	ControlsMenu,
+	VolumeMenu,
 	Playing
 };
 
@@ -50,6 +51,7 @@ private:
 	Menu pauseMenu;
 	Menu settingsMenu;
 	Menu resolutionMenu;
+	Menu volumeMenu;
 	ControlMenu controlsMenu;
 
 	MenuState menuState;
