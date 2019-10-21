@@ -8,7 +8,7 @@ add_library(Sound STATIC
 include_directories(${SFMLAUDIO_INCLUDE_DIRS})
 target_link_libraries(Sound ${SFMLAUDIO_LIBRARIES})
 if (APPLE)
-    target_link_libraries(Renderer "-framework OpenAL")
+    target_link_libraries(Sound "-framework OpenAL")
 endif()
 
 set(SOUNDRES_DIR \"${PROJECT_SOURCE_DIR}/sound/res\")
