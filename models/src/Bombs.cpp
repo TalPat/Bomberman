@@ -130,3 +130,48 @@ void Bombs::placeFlame(sf::Vector2i pos, Map &map)
 		this->_flames.push_back(newFlame);
 	}
 }
+
+std::string Bombs::to_string()
+{
+	std::ostringstream sstream;
+
+	sstream << this->_bombs.size() << " ";
+
+	for (sBomb bomb : this->_bombs)
+	{
+		sstream << bomb.position.x << " " << bomb.position.y << " " << bomb.timeLeft << " ";
+	}
+	sstream << '\n';
+
+	sstream << this->_flames.size() << " ";
+
+	for (sFlame flame : this->_flames)
+	{
+		sstream << flame.position.x << " " << flame.position.y << " " << flame.timeLeft << " ";
+	}
+	sstream << '\n';
+
+	return sstream.str();
+}
+
+void Bombs::from_string(std::istringstream &istream)
+{
+	int n;
+	istream >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		sBomb bomb;
+		istream >> bomb.position.x >> bomb.position.y >> bomb.timeLeft;
+		this->_bombs.push_back(bomb);
+	}
+
+	istream >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		sFlame flame;
+		istream >> flame.position.x >> flame.position.y >> flame.timeLeft;
+		this->_flames.push_back(flame);
+	}
+}
