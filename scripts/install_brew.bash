@@ -15,8 +15,6 @@ else
         esac
     done
 
-    # Place brew install script here
     echo "installing brew"
-    # Uncomment for live test
-    # sh -c "$(curl -fsSL https://raw.githubusercontent.com/wethinkcode/homebrew/master/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/wethinkcode/homebrew/master/install.sh)"
 fi;
