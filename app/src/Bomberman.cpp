@@ -38,31 +38,53 @@ Bomberman::~Bomberman()
 
 void Bomberman::startGame()
 {
-	this->saveGame();
+	this->loadGame();
+	// this->input.load();
 	this->start();
 };
 
-// std::string path = SETTINGS_DIR + std::string("/input_map.cfg");
 void Bomberman::saveGame()
 {
 	std::string path = SETTINGS_DIR + std::string("/gamestate.cfg");
-	std::ofstream saveFile;
-	saveFile.open(path);
+	std::ofstream saveFile(path);
 
-	saveFile << this->gameState.player.to_string()
-			 << this->gameState.enemies.to_string()
-			 << this->gameState.map.to_string()
-			 << this->gameState.bombs.to_string()
-			 << this->gameState.pickups.to_string()
-			 << std::to_string(this->gameState.level) + "\n"
-			 << std::to_string(this->gameState.loading) + "\n"
-			 << std::to_string(this->gameState.waitTime) + "\n";
-	saveFile.close();
+	if (saveFile.is_open())
+	{
+		saveFile << this->gameState.player.to_string()
+				<< this->gameState.enemies.to_string()
+				<< this->gameState.map.to_string()
+				<< this->gameState.bombs.to_string()
+				<< this->gameState.pickups.to_string()
+				<< std::to_string(this->gameState.level) + "\n"
+				<< std::to_string(this->gameState.loading) + "\n"
+				<< std::to_string(this->gameState.waitTime) + "\n";
+		saveFile.close();
+	}
+	else
+	{
+		std::cout << "Unable to save game" << std::endl;
+	}
+	
 }
 
 void Bomberman::loadGame()
 {
+	std::string path = SETTINGS_DIR + std::string("/gamestate.cfg");
+	std::ifstream saveFile(path);
 
+	if (saveFile.is_open())
+	{
+		this->gameState.player.from_string(saveFile);
+		this->gameState.enemies.from_string(saveFile);
+		this->gameState.map.from_string(saveFile);
+		this->gameState.bombs.from_string(saveFile);
+		this->gameState.pickups.from_string(saveFile);
+		saveFile >> this->gameState.level
+				>> this->gameState.loading
+				>> this->gameState.waitTime;
+
+		saveFile.close();
+	}
 }
 
 void *Bomberman::threadFunction(void *arg)
@@ -82,7 +104,11 @@ void *Bomberman::threadFunction(void *arg)
 void Bomberman::updateFunc()
 {
 	if (!this->window->isOpen())
+	{
+		this->saveGame();
+		// this->input.save()
 		this->stop();
+	}
 
 	sf::Event event;
 	std::vector<EngineEvent> actions;
