@@ -37,7 +37,7 @@ public:
 	void updateMap(Player &player, Map &map);
 
 	std::string to_string();
-	void from_string(std::istringstream &istream);
+	void from_string(std::istream &istream);
 };
 
 #endif

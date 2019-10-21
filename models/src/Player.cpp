@@ -149,7 +149,7 @@ std::string Player::to_string()
 	return sstream.str();
 }
 
-void Player::from_string(std::istringstream &istream)
+void Player::from_string(std::istream &istream)
 {
 	istream >> this->_playerSpeed
 			>> this->_alive

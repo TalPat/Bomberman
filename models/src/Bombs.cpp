@@ -154,7 +154,7 @@ std::string Bombs::to_string()
 	return sstream.str();
 }
 
-void Bombs::from_string(std::istringstream &istream)
+void Bombs::from_string(std::istream &istream)
 {
 	int n;
 	istream >> n;

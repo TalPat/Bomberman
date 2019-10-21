@@ -36,7 +36,7 @@ public:
 	const sf::Vector2i &size() const;
 
 	std::string to_string();
-	void from_string(std::istringstream &istream);
+	void from_string(std::istream &istream);
 };
 
 #endif

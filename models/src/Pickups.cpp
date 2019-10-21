@@ -97,7 +97,7 @@ std::string Pickups::to_string()
 	return sstream.str();
 }
 
-void Pickups::from_string(std::istringstream &istream)
+void Pickups::from_string(std::istream &istream)
 {
 	int n;
 	istream >> n;

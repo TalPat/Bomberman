@@ -139,7 +139,7 @@ std::string Enemies::to_string()
 	return sstream.str();
 }
 
-void Enemies::from_string(std::istringstream &istream)
+void Enemies::from_string(std::istream &istream)
 {
 	IEnemy *enemy;
 	enemy->from_string(istream);
