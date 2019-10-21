@@ -109,7 +109,7 @@ Menu::Menu() {}
 
 Menu::~Menu() {}
 
-void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption)
+void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption, bool align)
 {
 	this->_renderer = &renderer;
 	this->_shader = renderer.shader();
@@ -117,7 +117,8 @@ void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction bac
 	this->backOption = backOption;
 
 	this->menuItems = items;
-	this->alignItems();
+	if (align)
+		this->alignItems();
 }
 
 void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)

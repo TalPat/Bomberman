@@ -67,7 +67,7 @@ public:
 	Menu();
 	~Menu();
 
-	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption);
+	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption, bool align);
 	MenuAction render(sf::RenderWindow &window);
 
 	void resetSelected();
