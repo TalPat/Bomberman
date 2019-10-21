@@ -1,4 +1,4 @@
-echo -n "Fetching resources, this may take a minuite..."
+echo -n "Fetching resources, this may take a minute..."
 
 TEMP_PATH="$HOME/tmp_bomberman_res"
 SOUND_PATH="sound/res"
