@@ -159,6 +159,9 @@ void Bombs::from_string(std::istream &istream)
 	int n;
 	istream >> n;
 
+	this->_bombs.clear();
+	this->_flames.clear();
+
 	for (int i = 0; i < n; i++)
 	{
 		sBomb bomb;

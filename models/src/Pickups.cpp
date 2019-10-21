@@ -99,6 +99,7 @@ std::string Pickups::to_string()
 
 void Pickups::from_string(std::istream &istream)
 {
+	this->_pickups.clear();
 	int n;
 	istream >> n;
 

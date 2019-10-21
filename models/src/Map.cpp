@@ -101,6 +101,7 @@ std::string Map::to_string()
 
 void Map::from_string(std::istream &istream)
 {
+	this->_tiles.clear();
 	istream >> this->_size.x >> this->_size.y;
 
 	int length = this->_size.x * this->_size.y;

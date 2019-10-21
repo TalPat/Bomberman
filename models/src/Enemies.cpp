@@ -144,6 +144,8 @@ void Enemies::from_string(std::istream &istream)
 	int n;
 	istream >> n;
 
+	this->list.clear();
+
 	for (int i = 0; i < n; i++)
 	{
 		IEnemy *enemy = new IEnemy;
