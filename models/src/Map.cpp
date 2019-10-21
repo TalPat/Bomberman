@@ -94,6 +94,7 @@ std::string Map::to_string()
 	{
 		sstream << tile << " ";
 	}
+	sstream << '\n';
 
 	return sstream.str();
 }
