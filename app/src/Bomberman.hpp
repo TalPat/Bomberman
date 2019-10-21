@@ -3,6 +3,8 @@
 
 #include "./AMainLoop.hpp"
 #include "./Input.hpp"
+#include "./Menu.hpp"
+#include "./ControlMenu.hpp"
 
 #include <Engine.hpp>
 #include <EngineEvent.hpp>
@@ -19,6 +21,23 @@ static const uint WINDOW_WIDTH = 800;
 static const uint WINDOW_HEIGHT = 800;
 static const char *WINDOW_TITLE = "Bomberman";
 
+enum Resolution
+{
+	Default,
+	Medium,
+	Fullscreen
+};
+
+enum MenuState
+{
+	MainMenu,
+	PauseMenu,
+	SettingsMenu,
+	ResolutionMenu,
+	ControlsMenu,
+	Playing
+};
+
 class Bomberman : private AMainLoop
 {
 private:
@@ -26,6 +45,16 @@ private:
 	Engine engine;
 	Renderer renderer;
 	Input input;
+	
+	Menu mainMenu;
+	Menu pauseMenu;
+	Menu settingsMenu;
+	Menu resolutionMenu;
+	ControlMenu controlsMenu;
+
+	MenuState menuState;
+	Resolution resolution;
+	bool gameStarted;
 
 	GameState gameState;
 
@@ -35,6 +64,11 @@ private:
 	float engineTime;
 
 	virtual void updateFunc();
+
+	void handleMenuAction(MenuAction option);
+
+	EngineEvent settingKey = EngineEvent::unknown;
+	void setKey();
 
 	static void *threadFunction(void *arg); //thread stuff
 	pthread_t myThread;
