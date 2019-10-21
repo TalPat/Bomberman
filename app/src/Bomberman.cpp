@@ -118,7 +118,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 			delete this->window;
 			this->window = new sf::RenderWindow(sf::VideoMode(1024, 1000), WINDOW_TITLE, sf::Style::Default, settings);
 			this->renderer.init();
-			this->resolution = Resolution::Default;
+			this->resolution = Resolution::Medium;
 		}
 		break;
 	case MenuAction::SetResolutionFullscreen:
@@ -129,7 +129,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 			delete this->window;
 			this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), WINDOW_TITLE, sf::Style::Fullscreen, settings);
 			this->renderer.init();
-			this->resolution = Resolution::Default;
+			this->resolution = Resolution::Fullscreen;
 		}
 		break;
 	case MenuAction::SetUpControl:
