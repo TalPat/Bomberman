@@ -453,3 +453,13 @@ void Renderer::writeLine(sf::RenderWindow &window, std::string string, sf::Vecto
 		posMat = glm::translate(posMat, glm::vec3(stride, 0.0f, 0.0f));
 	}
 }
+
+Shader *Renderer::shader()
+{
+	return this->_shader;
+}
+
+Camera *Renderer::camera()
+{
+	return this->_camera;
+}

@@ -8,40 +8,51 @@
 #include <SFML/Window.hpp>
 #include <vector>
 
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/map.hpp>
+
 #include <map>
+#include <fstream>
 
 typedef sf::Keyboard::Key Key;
+
+enum InputResponse
+{
+	resume,
+	quit,
+	pause
+};
 
 class Input
 {
 private:
-	Key _up;
-	Key _down;
-	Key _left;
-	Key _right;
-	Key _bomb;
+	Key _pause;
+
+	std::map<Key, EngineEvent> keyMap;
+
+	void removeMapping(EngineEvent event);
 
 public:
 	Input();
 	~Input();
 
-	void parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
-	// EngineEvent getInput(Key key);
+	template <class Archive>
+	void serialize(Archive &ar)
+	{
+		ar(this->keyMap);
+	}
 
-	Key getUp() const;
-	void setUp(Key key);
+	InputResponse parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
 
-	Key getDown() const;
-	void setDown(Key key);
+	void saveConfig() const;
+	void loadConfig();
 
-	Key getLeft() const;
-	void setLeft(Key key);
+	// Throws a runtime_error if key is already mapped
+	void setKey(EngineEvent event, Key key);
 
-	Key getRight() const;
-	void setRight(Key key);
-
-	Key getBomb() const;
-	void setBomb(Key key);
+	// TODO: Maybe add function to get Key
+	// that returns a string representation of said Key
+	// for display in a menu.
 };
 
 #endif
