@@ -29,9 +29,9 @@ Bomberman::Bomberman()
 	mainMenu.init(renderer, mainMenuItems, MenuAction::Nothing);
 
 	std::vector<MenuItem> pauseMenuItems;
-	pauseMenuItems.push_back(MenuItem(1, "Continue", true, MenuAction::StartGame));
+	pauseMenuItems.push_back(MenuItem(1, "Continue", true, MenuAction::ContinueGame));
 	pauseMenuItems.push_back(MenuItem(-1, "Main Menu", false, MenuAction::ToMainMenu));
-	pauseMenu.init(renderer, pauseMenuItems, MenuAction::StartGame);
+	pauseMenu.init(renderer, pauseMenuItems, MenuAction::ContinueGame);
 
 	std::vector<MenuItem> settingsMenuItems;
 	settingsMenuItems.push_back(MenuItem(2, "Resolution", true, MenuAction::ToResolutionMenu));
@@ -72,18 +72,29 @@ void Bomberman::startGame()
 	this->start();
 }
 
+void Bomberman::restartGame()
+{
+	threadActive = false;
+	this->gameState.level = 0;
+	this->engine.init(this->gameState);
+}
+
 void Bomberman::handleMenuAction(MenuAction option)
 {
 	switch (option)
 	{
 	case MenuAction::StartGame:
 		this->menuState = MenuState::Playing;
+		this->restartGame();
 		if (!this->gameStarted)
 		{
 			this->gameStarted = true;
-			this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::StartGame));
+			this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::ContinueGame));
 			this->mainMenu.resetSelected();
 		}
+		break;
+	case MenuAction::ContinueGame:
+		this->menuState = MenuState::Playing;
 		break;
 	case MenuAction::ToMainMenu:
 		this->menuState = MenuState::MainMenu;
@@ -198,7 +209,7 @@ void Bomberman::loadGame()
 
 		// Indicate in menu that game can be continued.
 		this->gameStarted = true;
-		this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::StartGame));
+		this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::ContinueGame));
 		this->mainMenu.resetSelected();
 
 		saveFile.close();

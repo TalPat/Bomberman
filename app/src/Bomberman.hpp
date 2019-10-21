@@ -82,6 +82,7 @@ public:
 	void setMutex(pthread_mutex_t *mutex);
 
 	void startGame();
+	void restartGame();
 	void saveGame();
 	void loadGame();
 };

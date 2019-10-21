@@ -11,6 +11,7 @@ typedef sf::Keyboard::Key Key;
 enum MenuAction
 {
 	StartGame,
+	ContinueGame,
 	ToControlsMenu,
 	ToSettingsMenu,
 	ToResolutionMenu,
