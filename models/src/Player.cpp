@@ -31,7 +31,7 @@ void Player::init(int level)
 
 void Player::kill(void)
 {
-	sound.playSound(sad);
+	// sound.playSound(sad);
 	this->_lives--;
 	this->_alive = false;
 	this->_bombRange = this->previousState._bombRange;
