@@ -61,8 +61,13 @@ void Input::saveConfig() const
 
 	cereal::BinaryOutputArchive archive(os);
 
-	Input input = *this;
-	archive(CEREAL_NVP(input));
+	try
+	{
+		Input input = *this;
+		archive(CEREAL_NVP(input));
+	}
+	catch (const std::exception& e)
+	{}
 }
 
 void Input::loadConfig()
@@ -70,8 +75,13 @@ void Input::loadConfig()
 	std::string path = SETTINGS_DIR + std::string("/input_map.cfg");
 	std::ifstream is(path, std::ios::binary);
 
-	cereal::BinaryInputArchive archive_in(is);
-	archive_in(this->keyMap);
+	try
+	{
+		cereal::BinaryInputArchive archive_in(is);
+		archive_in(this->keyMap);
+	}
+	catch (const std::exception &e)
+	{}
 }
 
 void Input::setKey(EngineEvent event, Key key)
