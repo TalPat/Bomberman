@@ -12,22 +12,20 @@ void Engine::init(GameState &gameState)
 	gameState.enemies.init(gameState.level);
 	gameState.player.init(gameState.level);
 	gameState.pickups.init(gameState.map, gameState.level);
-	gameState.enemies.populate(10, gameState.level, gameState.map);
+	gameState.enemies.populate(gameState.level, gameState.map);
 	gameState.loading = false;
 }
 
 void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameState &gameState)
 {
+	if (gameState.waitTime > 0.0)
+	{
+		gameState.waitTime -= deltaTime;
+		return;
+	}
 	if (gameState.loading)
 	{
 		this->init(gameState);
-		return;
-	}
-	if (gameState.waitTime > 0.0)
-	{
-		if (gameState.player.getLives() <= 0)
-			gameState.waitTime = WAIT_TIME;
-		gameState.waitTime -= deltaTime;	
 		return;
 	}
 
@@ -74,13 +72,18 @@ void Engine::update(double deltaTime, std::vector<EngineEvent> &actions, GameSta
 		gameState.bombs.updateMap(gameState.player, gameState.map);
 		gameState.pickups.update(gameState);
 		gameState.enemies.updateAll(deltaTime, gameState.map, gameState.player);
-		gameState.enemies.kill(gameState.map);
+		gameState.enemies.kill(gameState.map, gameState.player);
 	}
 	else
 	{
 		if (!gameState.player.isAlive())
 		{
 			gameState.loading = true;
+			if (gameState.player.getLives() <= 0)
+			{
+				gameState.level = 0;
+				gameState.player = Player();	
+			}
 		}
 	}
 	gameState.player.update(deltaTime, gameState.map);

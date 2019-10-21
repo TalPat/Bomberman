@@ -1,6 +1,6 @@
 #include "../include/Map.hpp"
 
-const sf::Vector2i DEFAULT_SIZE(21, 21);
+const sf::Vector2i DEFAULT_SIZE(17, 17);
 const float DESTRUCTABLE_CHANCE = 0.1;
 
 Map::Map()

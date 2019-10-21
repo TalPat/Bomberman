@@ -49,8 +49,10 @@ public:
 	void init(int level);
 	void handleMovement(float deltaTime, const Map &map);
 	void update(float deltaTime, const Map &map);
-	void addLife(void);
+	void addLives(int lives);
+	void addScore(int score);
 	int getLives(void) const;
+	int getScore(void) const;
 	bool isAlive(void) const;
 	const sf::Vector2f &position() const;
 };
