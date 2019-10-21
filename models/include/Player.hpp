@@ -3,6 +3,7 @@
 
 #include "Map.hpp"
 #include "EngineEvent.hpp"
+// #include "Sound.hpp"
 
 #include <sstream>
 #include <cmath>
@@ -32,6 +33,7 @@ class Player
 	int _maxBombs;
 	int _score;
 	sf::Vector2f _position;
+	// Sound sound;
 
 public:
 	Player();

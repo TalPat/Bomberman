@@ -67,6 +67,7 @@ void Bombs::update(float deltaTime, Map &map, Player &player)
 		// If current bomb is on a flame, detonate the bomb
 		if (bomb.timeLeft < 0)
 		{
+			sound.playSound(boom);
 			this->placeFlame(bomb.position, map);
 			this->explode(map, bomb.position, EAST, player.getBombRange());
 			this->explode(map, bomb.position, WEST, player.getBombRange());
