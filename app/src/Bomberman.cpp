@@ -258,9 +258,11 @@ void Bomberman::updateFunc()
 		this->handleMenuAction(option);
 		break;
 	case MenuState::PauseMenu:
-		sf::sleep(sf::milliseconds(50));
-		option = this->pauseMenu.render(*(this->window));
-		this->handleMenuAction(option);
+		if (!threadActive)
+		{
+			option = this->pauseMenu.render(*(this->window));
+			this->handleMenuAction(option);
+		}
 		break;
 	case MenuState::SettingsMenu:
 		option = this->settingsMenu.render(*(this->window));
