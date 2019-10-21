@@ -128,16 +128,15 @@ void Enemies::kill(const Map &map)
 
 std::string Enemies::to_string()
 {
-	int n = this->list.size();
-	std::string ret = std::to_string(n) + '\n';
+	std::ostringstream sstream;
 
+	sstream << this->list.size() << '\n';
 	for (IEnemy *enemy : this->list)
 	{
-		ret += enemy->to_string();
-		ret += '\n';
+		sstream << enemy->to_string() << '\n';
 	}
 
-	return ret;
+	return sstream.str();
 }
 
 void Enemies::from_string(std::string str)
