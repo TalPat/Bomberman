@@ -4,9 +4,9 @@
 #include <Renderer.hpp>
 #include <EngineEvent.hpp>
 
-#include "./Input.hpp"
-
 #include <vector>
+
+typedef sf::Keyboard::Key Key;
 
 enum MenuAction
 {

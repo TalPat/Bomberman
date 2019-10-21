@@ -70,7 +70,7 @@ void Input::saveConfig() const
 	{}
 }
 
-void Input::loadConfig()
+void Input::loadConfig(ControlMenu &ctrlMenu)
 {
 	std::string path = SETTINGS_DIR + std::string("/input_map.cfg");
 	std::ifstream is(path, std::ios::binary);
@@ -79,6 +79,11 @@ void Input::loadConfig()
 	{
 		cereal::BinaryInputArchive archive_in(is);
 		archive_in(this->keyMap);
+
+		for (auto const &k : this->keyMap)
+		{
+			ctrlMenu.setControl(k.second, k.first);
+		}
 	}
 	catch (const std::exception &e)
 	{}

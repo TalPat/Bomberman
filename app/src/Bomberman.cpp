@@ -68,7 +68,7 @@ Bomberman::~Bomberman()
 void Bomberman::startGame()
 {
 	this->loadGame();
-	// this->input.load();
+	this->input.loadConfig(this->controlsMenu);
 	this->start();
 }
 
@@ -148,6 +148,8 @@ void Bomberman::handleMenuAction(MenuAction option)
 		this->settingKey = EngineEvent::place_bomb;
 		break;
 	case MenuAction::Exit:
+		this->saveGame();
+		this->input.saveConfig();
 		this->stop();
 		break;
 	default:
@@ -219,6 +221,8 @@ void Bomberman::setKey()
 			}
 			break;
 		case event.Closed:
+			this->saveGame();
+			this->input.saveConfig();
 			this->stop();
 			break;
 		default:
@@ -246,7 +250,7 @@ void Bomberman::updateFunc()
 	if (!this->window->isOpen())
 	{
 		this->saveGame();
-		// this->input.save()
+		this->input.saveConfig();
 		this->stop();
 	}
 
@@ -257,6 +261,8 @@ void Bomberman::updateFunc()
 		switch (response)
 		{
 		case InputResponse::quit:
+			this->saveGame();
+			this->input.saveConfig();
 			this->stop();
 			break;
 		case InputResponse::pause:
