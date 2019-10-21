@@ -82,3 +82,32 @@ const sf::Vector2i &Map::size() const
 {
 	return this->_size;
 }
+
+std::string Map::to_string()
+{
+	std::ostringstream sstream;
+
+	sstream << this->_size.x << " "
+			<< this->_size.y << " ";
+
+	for (Tile tile : this->_tiles)
+	{
+		sstream << tile << " ";
+	}
+
+	return sstream.str();
+}
+
+void Map::from_string(std::string str)
+{
+	std::istringstream istream(str);
+	istream >> this->_size.x >> this->_size.y;
+
+	int length = this->_size.x * this->_size.y;
+	for (int i = 0; i < length; i++)
+	{
+		int t;
+		istream >> t;
+		this->_tiles.push_back(Tile(t));
+	}
+}
