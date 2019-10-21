@@ -81,3 +81,33 @@ void Pickups::update(GameState &state)
 		}
 	}
 }
+
+std::string Pickups::to_string()
+{
+	std::ostringstream sstream;
+
+	sstream << this->_pickups.size() << "\n";
+
+	for (sPickup pickup : this->_pickups)
+	{
+		sstream << pickup.position.x << " " << pickup.position.y << " " << pickup.type << " ";
+	}
+	sstream << '\n';
+
+	return sstream.str();
+}
+
+void Pickups::from_string(std::istringstream &istream)
+{
+	int n;
+	istream >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		sPickup pickup;
+		int type;
+		istream >> pickup.position.x >> pickup.position.y >> type;
+		pickup.type = PickupType(type);
+		this->_pickups.push_back(pickup);
+	}
+}
