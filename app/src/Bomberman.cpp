@@ -49,8 +49,14 @@ void Bomberman::saveGame()
 	std::ofstream saveFile;
 	saveFile.open(path);
 
-	
-
+	saveFile << this->gameState.player.to_string()
+			 << this->gameState.enemies.to_string()
+			 << this->gameState.map.to_string()
+			 << this->gameState.bombs.to_string()
+			 << this->gameState.pickups.to_string()
+			 << std::to_string(this->gameState.level) + "\n"
+			 << std::to_string(this->gameState.loading) + "\n"
+			 << std::to_string(this->gameState.waitTime) + "\n";
 	saveFile.close();
 }
 
