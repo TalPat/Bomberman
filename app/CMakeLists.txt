@@ -8,10 +8,12 @@ add_library(App STATIC
 
 target_link_libraries(App
     sfml-graphics
+    sfml-audio
     sfml-window
     sfml-system
     Engine
     Renderer
+    Sound
     Models
     pthread
 )

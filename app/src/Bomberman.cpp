@@ -59,6 +59,7 @@ Bomberman::Bomberman()
 	threadActive = false;
 	this->gameState.level = 0;
 	this->engine.init(this->gameState);
+	gameState.sound.playMusic();
 }
 
 Bomberman::~Bomberman()
