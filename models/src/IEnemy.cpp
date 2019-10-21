@@ -166,3 +166,42 @@ int IEnemy::getid(void)
 {
 	return(id);
 }
+
+std::string IEnemy::to_string()
+{
+	std::ostringstream sstream;
+
+	sstream << this->_position.x << " "
+			<< this->_position.y << " "
+			<< this->_enemySpeed << " "
+			<< this->moveState << " "
+			<< this->_switchTime << " "
+			<< this->appears.min << " "
+			<< this->appears.max << " "
+			<< this->type << " "
+			<< this->_wallPass << " "
+			<< this->idCounter;
+
+	return sstream.str();
+}
+
+void IEnemy::from_string(std::string str)
+{
+	std::istringstream istream(str);
+	int mvState;
+	int type;
+
+	istream >> this->_position.x
+			>> this->_position.y
+			>> this->_enemySpeed
+			>> mvState
+			>> this->_switchTime
+			>> this->appears.min
+			>> this->appears.max
+			>> type
+			>> this->_wallPass
+			>> this->idCounter;
+
+	this->moveState = EnemyMoveState(mvState);
+	this->type = EnemyType(type);
+}
