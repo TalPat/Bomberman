@@ -66,7 +66,7 @@ Bomberman::Bomberman()
 	threadActive = false;
 	this->gameState.level = 0;
 	this->engine.init(this->gameState);
-	gameState.sound.playMusic();
+	Sound::playMusic();
 }
 
 Bomberman::~Bomberman()
@@ -157,10 +157,10 @@ void Bomberman::handleMenuAction(MenuAction option)
 		this->settingKey = EngineEvent::place_bomb;
 		break;
 	case MenuAction::IncreaseVolume:
-		this->gameState.sound.increaseVol();
+		Sound::increaseVol();
 		break;
 	case MenuAction::DecreaseVolume:
-		this->gameState.sound.decreaseVol();
+		Sound::decreaseVol();
 		break;
 	case MenuAction::Exit:
 		this->stop();

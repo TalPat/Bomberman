@@ -10,6 +10,7 @@
 #include <EngineEvent.hpp>
 #include <Renderer.hpp>
 #include <GameState.hpp>
+#include <Sound.hpp>
 
 #include <vector>
 #include <ctime>
@@ -59,6 +60,7 @@ private:
 	bool gameStarted;
 
 	GameState gameState;
+	Sound sound;
 
 	sf::Clock deltaClock;
 	sf::Clock frameClock;

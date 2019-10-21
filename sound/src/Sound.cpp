@@ -4,6 +4,10 @@
 
 int Sound::vol = 50;
 
+std::vector<sf::SoundBuffer> Sound::buffers(5, sf::SoundBuffer());
+std::vector<sf::Sound> Sound::sounds(5, sf::Sound());
+sf::Music Sound::music = sf::Music();
+
 Sound::Sound(/* args */)
 {
 	music.openFromFile(std::string(SOUNDRES_DIR) + "/music.wav");
@@ -44,7 +48,7 @@ void Sound::increaseVol(void)
 	vol += 10;
 	if (vol > 100)
 		vol = 100;
-	for (auto mysound : sounds)
+	for (auto &mysound : sounds)
 	{
 		mysound.setVolume(vol);
 	}
@@ -56,7 +60,7 @@ void Sound::decreaseVol(void)
 	vol -= 10;
 	if (vol < 0)
 		vol = 0;
-	for (auto mysound : sounds)
+	for (auto &mysound : sounds)
 	{
 		mysound.setVolume(vol);
 	}

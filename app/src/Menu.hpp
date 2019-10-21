@@ -55,7 +55,6 @@ private:
 	void menuUp();
 	void menuDown();
 	MenuAction select();
-	Sound sound;
 
 protected:
 	Renderer *_renderer;
