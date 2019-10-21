@@ -97,6 +97,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 	case MenuAction::ToSettingsMenu:
 		this->resolutionMenu.resetSelected();
 		this->controlsMenu.resetSelected();
+		this->volumeMenu.resetSelected();
 		this->menuState = MenuState::SettingsMenu;
 		break;
 	case MenuAction::ToResolutionMenu:
