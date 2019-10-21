@@ -196,6 +196,11 @@ void Bomberman::loadGame()
 				>> this->gameState.loading
 				>> this->gameState.waitTime;
 
+		// Indicate in menu that game can be continued.
+		this->gameStarted = true;
+		this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::StartGame));
+		this->mainMenu.resetSelected();
+
 		saveFile.close();
 	}
 }
