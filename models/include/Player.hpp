@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "EngineEvent.hpp"
 
+#include <sstream>
 #include <cmath>
 #include <SFML/System.hpp>
 
@@ -38,6 +39,9 @@ public:
 
 	PreviousState previousState;
 	MoveState moveState;
+
+	std::string to_string();
+	void from_string(std::string str);
 
 	void addBombRange(void);
 	void addMaxBombs(void);
