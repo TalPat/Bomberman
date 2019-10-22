@@ -38,6 +38,9 @@ public:
 	void init(Map &map, int level);
 	void addPickup(sf::Vector2i pos, PickupType type);
 	void update(GameState &state);
+
+	std::string to_string();
+	void from_string(std::istream &istream);
 };
 
 #endif

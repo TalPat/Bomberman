@@ -4,13 +4,14 @@
 #include <Renderer.hpp>
 #include <EngineEvent.hpp>
 
-#include "./Input.hpp"
-
 #include <vector>
+
+typedef sf::Keyboard::Key Key;
 
 enum MenuAction
 {
 	StartGame,
+	ContinueGame,
 	ToControlsMenu,
 	ToSettingsMenu,
 	ToResolutionMenu,
@@ -66,11 +67,13 @@ public:
 	Menu();
 	~Menu();
 
-	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption);
+	void init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption, bool align);
 	MenuAction render(sf::RenderWindow &window);
 
 	void resetSelected();
+	void alignItems();
 	void addOption(MenuItem item);
+	void renameOption(int index, std::string name);
 
 	static std::map<Key, std::string> keyStrings;
 };

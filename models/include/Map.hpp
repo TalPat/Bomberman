@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <sstream>
 
 enum Tile
 {
@@ -33,6 +34,9 @@ public:
 	Tile tileAt(sf::Vector2i pos) const;
 	void setTile(sf::Vector2i pos, Tile tile);
 	const sf::Vector2i &size() const;
+
+	std::string to_string();
+	void from_string(std::istream &istream);
 };
 
 #endif

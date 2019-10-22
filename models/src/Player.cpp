@@ -144,3 +144,30 @@ const sf::Vector2f &Player::position() const
 {
 	return this->_position;
 };
+
+std::string Player::to_string()
+{
+	std::ostringstream sstream;
+
+	sstream << this->_playerSpeed << " "
+			<< this->_alive << " "
+			<< this->_lives << " "
+			<< this->_bombRange << " "
+			<< this->_maxBombs << " "
+			<< this->_score << " "
+			<< this->_position.x << " "
+			<< this->_position.y << '\n';
+	return sstream.str();
+}
+
+void Player::from_string(std::istream &istream)
+{
+	istream >> this->_playerSpeed
+			>> this->_alive
+			>> this->_lives
+			>> this->_bombRange
+			>> this->_maxBombs
+			>> this->_score
+			>> this->_position.x
+			>> this->_position.y;
+}

@@ -2,6 +2,7 @@
 #define _Input_hpp_
 
 #include <EngineEvent.hpp>
+#include "ControlMenu.hpp"
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics.hpp>
@@ -45,7 +46,7 @@ public:
 	InputResponse parseKeys(std::vector<EngineEvent> &engineEvents, sf::RenderWindow &window);
 
 	void saveConfig() const;
-	void loadConfig();
+	void loadConfig(ControlMenu &ctrlMenu);
 
 	// Throws a runtime_error if key is already mapped
 	void setKey(EngineEvent event, Key key);

@@ -37,6 +37,9 @@ public:
 	void explode(Map &map, sf::Vector2i pos, sf::Vector2i dir, int range);
 	void update(float deltaTime, Map &map, Player &player);
 	void updateMap(Player &player, Map &map);
+
+	std::string to_string();
+	void from_string(std::istream &istream);
 };
 
 #endif

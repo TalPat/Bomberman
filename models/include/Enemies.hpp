@@ -19,5 +19,8 @@ public:
 	~Enemies();
 	void init(int level);
 	void kill(const Map &map, Player &player); 
+
+	std::string to_string();
+	void from_string(std::istream &istream);
 };
 #endif

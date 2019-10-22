@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <ctime>
+#include <fstream>
 #if !__APPLE__
 	#include <X11/Xlib.h>
 #endif
@@ -81,6 +82,9 @@ public:
 	void setMutex(pthread_mutex_t *mutex);
 
 	void startGame();
+	void restartGame();
+	void saveGame();
+	void loadGame();
 };
 
 #endif
