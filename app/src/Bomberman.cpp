@@ -201,7 +201,8 @@ void Bomberman::saveGame()
 				<< this->gameState.pickups.to_string()
 				<< std::to_string(this->gameState.level) + "\n"
 				<< std::to_string(this->gameState.loading) + "\n"
-				<< std::to_string(this->gameState.waitTime) + "\n";
+				<< std::to_string(this->gameState.waitTime) + "\n"
+				<< Sound::getVol() << '\n';
 		saveFile.close();
 	}
 	else
@@ -217,6 +218,8 @@ void Bomberman::loadGame()
 
 	if (saveFile.is_open())
 	{
+		int newVolume;
+
 		this->gameState.player.from_string(saveFile);
 		this->gameState.enemies.from_string(saveFile);
 		this->gameState.map.from_string(saveFile);
@@ -224,7 +227,10 @@ void Bomberman::loadGame()
 		this->gameState.pickups.from_string(saveFile);
 		saveFile >> this->gameState.level
 				>> this->gameState.loading
-				>> this->gameState.waitTime;
+				>> this->gameState.waitTime
+				>> newVolume;
+		
+		Sound::setVol(newVolume);
 
 		// Indicate in menu that game can be continued.
 		this->gameStarted = true;

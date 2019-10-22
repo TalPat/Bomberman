@@ -66,3 +66,22 @@ void Sound::decreaseVol(void)
 	}
 	music.setVolume(vol);
 }
+
+void Sound::setVol(unsigned int volume)
+{
+	if (volume > 100)
+		return;
+	else
+		vol = volume;
+
+	for (auto &mysound : sounds)
+	{
+		mysound.setVolume(vol);
+	}
+	music.setVolume(vol);
+}
+
+int Sound::getVol(void)
+{
+	return Sound::vol;
+}

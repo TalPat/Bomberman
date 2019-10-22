@@ -30,6 +30,8 @@ public:
 	static void playMusic(void);
 	static void increaseVol(void);
 	static void decreaseVol(void);
+	static void setVol(unsigned int volume);
+	static int getVol(void);
 };
 
 #endif
