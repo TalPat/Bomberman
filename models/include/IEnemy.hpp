@@ -61,5 +61,8 @@ public:
 
 	sf::Clock getLifeClock(void);
 	int getid(void);
+
+	std::string to_string();
+	void from_string(std::istream &istream);
 };
 #endif

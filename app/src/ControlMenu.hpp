@@ -4,10 +4,11 @@
 #include <Renderer.hpp>
 #include <EngineEvent.hpp>
 
-#include "./Input.hpp"
 #include "./Menu.hpp"
 
 #include <vector>
+
+typedef sf::Keyboard::Key Key;
 
 class ControlMenu : public Menu
 {

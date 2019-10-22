@@ -109,7 +109,7 @@ Menu::Menu() {}
 
 Menu::~Menu() {}
 
-void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption)
+void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction backOption, bool align)
 {
 	this->_renderer = &renderer;
 	this->_shader = renderer.shader();
@@ -117,6 +117,8 @@ void Menu::init(Renderer &renderer, std::vector<MenuItem> &items, MenuAction bac
 	this->backOption = backOption;
 
 	this->menuItems = items;
+	if (align)
+		this->alignItems();
 }
 
 void Menu::drawMenuText(sf::RenderWindow &window, MenuItem &item)
@@ -253,7 +255,27 @@ void Menu::resetSelected()
 		this->menuItems[i].selected = false;
 }
 
+void Menu::alignItems()
+{
+	int offset = 3;
+
+	for (MenuItem &item : this->menuItems)
+	{
+		item.offset = offset;
+		offset -= 2;
+	}
+}
+
 void Menu::addOption(MenuItem item)
 {
 	this->menuItems.insert(this->menuItems.begin(), item);
+	this->alignItems();
+}
+
+void Menu::renameOption(int index, std::string name)
+{
+	if (index > this->menuItems.size() - 1)
+		return;
+	else
+		this->menuItems[index].text = name;
 }

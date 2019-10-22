@@ -26,32 +26,32 @@ Bomberman::Bomberman()
 	mainMenuItems.push_back(MenuItem(2, "Start", true, MenuAction::StartGame));
 	mainMenuItems.push_back(MenuItem(0, "Settings", false, MenuAction::ToSettingsMenu));
 	mainMenuItems.push_back(MenuItem(-2, "Exit", false, MenuAction::Exit));
-	mainMenu.init(renderer, mainMenuItems, MenuAction::Nothing);
+	mainMenu.init(renderer, mainMenuItems, MenuAction::Nothing, true);
 
 	std::vector<MenuItem> pauseMenuItems;
-	pauseMenuItems.push_back(MenuItem(1, "Continue", true, MenuAction::StartGame));
+	pauseMenuItems.push_back(MenuItem(1, "Continue", true, MenuAction::ContinueGame));
 	pauseMenuItems.push_back(MenuItem(-1, "Main Menu", false, MenuAction::ToMainMenu));
-	pauseMenu.init(renderer, pauseMenuItems, MenuAction::StartGame);
+	pauseMenu.init(renderer, pauseMenuItems, MenuAction::ContinueGame, false);
 
 	std::vector<MenuItem> settingsMenuItems;
 	settingsMenuItems.push_back(MenuItem(3, "Resolution", true, MenuAction::ToResolutionMenu));
 	settingsMenuItems.push_back(MenuItem(1, "Controls", false, MenuAction::ToControlsMenu));
 	settingsMenuItems.push_back(MenuItem(-1, "Volume", false, MenuAction::ToVolumeMenu));
 	settingsMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToMainMenu));
-	settingsMenu.init(renderer, settingsMenuItems, MenuAction::ToMainMenu);
+	settingsMenu.init(renderer, settingsMenuItems, MenuAction::ToMainMenu, true);
 
 	std::vector<MenuItem> resolutionMenuItems;
 	resolutionMenuItems.push_back(MenuItem(3, "800 x 800", true, MenuAction::SetResolution800));
 	resolutionMenuItems.push_back(MenuItem(1, "1024 x 1000 ", false, MenuAction::SetResolution1024));
 	resolutionMenuItems.push_back(MenuItem(-1, "Fullscreen", false, MenuAction::SetResolutionFullscreen));
 	resolutionMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
-	resolutionMenu.init(renderer, resolutionMenuItems, MenuAction::ToSettingsMenu);
+	resolutionMenu.init(renderer, resolutionMenuItems, MenuAction::ToSettingsMenu, true);
 
 	std::vector<MenuItem> volumeMenuItems;
 	volumeMenuItems.push_back(MenuItem(3, "Increase Volume", true, MenuAction::IncreaseVolume));
 	volumeMenuItems.push_back(MenuItem(1, "Decrease Volume", false, MenuAction::DecreaseVolume));
 	volumeMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
-	volumeMenu.init(renderer, volumeMenuItems, MenuAction::ToSettingsMenu);
+	volumeMenu.init(renderer, volumeMenuItems, MenuAction::ToSettingsMenu, true);
 
 	controlsMenu.init(renderer, MenuAction::ToSettingsMenu);
 
@@ -75,7 +75,16 @@ Bomberman::~Bomberman()
 
 void Bomberman::startGame()
 {
+	this->loadGame();
+	this->input.loadConfig(this->controlsMenu);
 	this->start();
+}
+
+void Bomberman::restartGame()
+{
+	threadActive = false;
+	this->gameState.level = 0;
+	this->engine.init(this->gameState);
 }
 
 void Bomberman::handleMenuAction(MenuAction option)
@@ -84,12 +93,17 @@ void Bomberman::handleMenuAction(MenuAction option)
 	{
 	case MenuAction::StartGame:
 		this->menuState = MenuState::Playing;
+		this->restartGame();
 		if (!this->gameStarted)
 		{
 			this->gameStarted = true;
-			this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::StartGame));
+			this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::ContinueGame));
+			this->mainMenu.renameOption(1, "Restart");
 			this->mainMenu.resetSelected();
 		}
+		break;
+	case MenuAction::ContinueGame:
+		this->menuState = MenuState::Playing;
 		break;
 	case MenuAction::ToMainMenu:
 		this->menuState = MenuState::MainMenu;
@@ -128,7 +142,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 			delete this->window;
 			this->window = new sf::RenderWindow(sf::VideoMode(1024, 1000), WINDOW_TITLE, sf::Style::Default, settings);
 			this->renderer.init();
-			this->resolution = Resolution::Default;
+			this->resolution = Resolution::Medium;
 		}
 		break;
 	case MenuAction::SetResolutionFullscreen:
@@ -139,7 +153,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 			delete this->window;
 			this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), WINDOW_TITLE, sf::Style::Fullscreen, settings);
 			this->renderer.init();
-			this->resolution = Resolution::Default;
+			this->resolution = Resolution::Fullscreen;
 		}
 		break;
 	case MenuAction::SetUpControl:
@@ -164,10 +178,61 @@ void Bomberman::handleMenuAction(MenuAction option)
 		Sound::decreaseVol();
 		break;
 	case MenuAction::Exit:
+		this->saveGame();
+		this->input.saveConfig();
 		this->stop();
 		break;
 	default:
 		break;
+	}
+}
+
+void Bomberman::saveGame()
+{
+	std::string path = SETTINGS_DIR + std::string("/gamestate.cfg");
+	std::ofstream saveFile(path);
+
+	if (saveFile.is_open())
+	{
+		saveFile << this->gameState.player.to_string()
+				<< this->gameState.enemies.to_string()
+				<< this->gameState.map.to_string()
+				<< this->gameState.bombs.to_string()
+				<< this->gameState.pickups.to_string()
+				<< std::to_string(this->gameState.level) + "\n"
+				<< std::to_string(this->gameState.loading) + "\n"
+				<< std::to_string(this->gameState.waitTime) + "\n";
+		saveFile.close();
+	}
+	else
+	{
+		std::cout << "Unable to save game" << std::endl;
+	}
+}
+
+void Bomberman::loadGame()
+{
+	std::string path = SETTINGS_DIR + std::string("/gamestate.cfg");
+	std::ifstream saveFile(path);
+
+	if (saveFile.is_open())
+	{
+		this->gameState.player.from_string(saveFile);
+		this->gameState.enemies.from_string(saveFile);
+		this->gameState.map.from_string(saveFile);
+		this->gameState.bombs.from_string(saveFile);
+		this->gameState.pickups.from_string(saveFile);
+		saveFile >> this->gameState.level
+				>> this->gameState.loading
+				>> this->gameState.waitTime;
+
+		// Indicate in menu that game can be continued.
+		this->gameStarted = true;
+		this->mainMenu.addOption(MenuItem(3, "Continue", false, MenuAction::ContinueGame));
+		this->mainMenu.renameOption(1, "Restart");
+		this->mainMenu.resetSelected();
+
+		saveFile.close();
 	}
 }
 
@@ -192,6 +257,8 @@ void Bomberman::setKey()
 			}
 			break;
 		case event.Closed:
+			this->saveGame();
+			this->input.saveConfig();
 			this->stop();
 			break;
 		default:
@@ -206,8 +273,14 @@ void *Bomberman::threadFunction(void *arg)
 
 	// uncomment if object must be mutated by renderer
 	// pthread_mutex_lock(bman->lock);
-
-	bman->renderer.render(*(bman->window), bman->gameState);
+	while (bman->menuState == MenuState::Playing)
+	{
+		if (bman->frameClock.getElapsedTime().asSeconds() >= bman->perFrameSeconds)
+		{
+			bman->frameClock.restart();
+			bman->renderer.render(*(bman->window), bman->gameState);
+		}
+	}
 	bman->threadActive = false;
 	return (NULL);
 	// uncomment if object must be mutated by renderer
@@ -217,7 +290,11 @@ void *Bomberman::threadFunction(void *arg)
 void Bomberman::updateFunc()
 {
 	if (!this->window->isOpen())
+	{
+		this->saveGame();
+		this->input.saveConfig();
 		this->stop();
+	}
 
 	std::vector<EngineEvent> actions;
 	if (this->menuState == Playing)
@@ -226,6 +303,8 @@ void Bomberman::updateFunc()
 		switch (response)
 		{
 		case InputResponse::quit:
+			this->saveGame();
+			this->input.saveConfig();
 			this->stop();
 			break;
 		case InputResponse::pause:
@@ -258,23 +337,22 @@ void Bomberman::updateFunc()
 	{
 	case MenuState::Playing:
 		// Only render if required to enforce frameRate
-		if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
-		{
 			if (!threadActive)
 			{
-				this->frameClock.restart();
 				threadActive = true;
 				pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
 			}
-		}
 		break;
 	case MenuState::MainMenu:
 		option = this->mainMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	case MenuState::PauseMenu:
-		option = this->pauseMenu.render(*(this->window));
-		this->handleMenuAction(option);
+		if (!threadActive)
+		{
+			option = this->pauseMenu.render(*(this->window));
+			this->handleMenuAction(option);
+		}
 		break;
 	case MenuState::SettingsMenu:
 		option = this->settingsMenu.render(*(this->window));
@@ -303,6 +381,7 @@ void Bomberman::updateFunc()
 	}
 }
 
-void Bomberman::setMutex(pthread_mutex_t *mutex) {
+void Bomberman::setMutex(pthread_mutex_t *mutex)
+{
 	lock = mutex;
 }

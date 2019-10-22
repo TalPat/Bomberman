@@ -119,3 +119,31 @@ void Enemies::kill(const Map &map, Player &player)
 	}
 	enemiesToKill.clear();
 }
+
+std::string Enemies::to_string()
+{
+	std::ostringstream sstream;
+
+	sstream << this->list.size() << '\n';
+	for (IEnemy *enemy : this->list)
+	{
+		sstream << enemy->to_string() << '\n';
+	}
+
+	return sstream.str();
+}
+
+void Enemies::from_string(std::istream &istream)
+{
+	int n;
+	istream >> n;
+
+	this->list.clear();
+
+	for (int i = 0; i < n; i++)
+	{
+		IEnemy *enemy = new IEnemy;
+		enemy->from_string(istream);
+		this->list.push_back(enemy);
+	}
+}

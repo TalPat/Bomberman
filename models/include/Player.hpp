@@ -5,6 +5,7 @@
 #include "EngineEvent.hpp"
 // #include "Sound.hpp"
 
+#include <sstream>
 #include <cmath>
 #include <SFML/System.hpp>
 
@@ -40,6 +41,9 @@ public:
 
 	PreviousState previousState;
 	MoveState moveState;
+
+	std::string to_string();
+	void from_string(std::istream &istream);
 
 	void addBombRange(void);
 	void addMaxBombs(void);
