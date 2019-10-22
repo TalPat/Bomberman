@@ -189,8 +189,14 @@ void *Bomberman::threadFunction(void *arg)
 
 	// uncomment if object must be mutated by renderer
 	// pthread_mutex_lock(bman->lock);
-
-	bman->renderer.render(*(bman->window), bman->gameState);
+	while (bman->menuState == MenuState::Playing)
+	{
+		if (bman->frameClock.getElapsedTime().asSeconds() >= bman->perFrameSeconds)
+		{
+			bman->frameClock.restart();
+			bman->renderer.render(*(bman->window), bman->gameState);
+		}
+	}
 	bman->threadActive = false;
 	return (NULL);
 	// uncomment if object must be mutated by renderer
@@ -241,23 +247,22 @@ void Bomberman::updateFunc()
 	{
 	case MenuState::Playing:
 		// Only render if required to enforce frameRate
-		if (this->frameClock.getElapsedTime().asSeconds() >= this->perFrameSeconds)
-		{
 			if (!threadActive)
 			{
-				this->frameClock.restart();
 				threadActive = true;
 				pthread_create(&myThread, NULL, Bomberman::threadFunction, (void*)this);
 			}
-		}
 		break;
 	case MenuState::MainMenu:
 		option = this->mainMenu.render(*(this->window));
 		this->handleMenuAction(option);
 		break;
 	case MenuState::PauseMenu:
-		option = this->pauseMenu.render(*(this->window));
-		this->handleMenuAction(option);
+		if (!threadActive)
+		{
+			option = this->pauseMenu.render(*(this->window));
+			this->handleMenuAction(option);
+		}
 		break;
 	case MenuState::SettingsMenu:
 		option = this->settingsMenu.render(*(this->window));
