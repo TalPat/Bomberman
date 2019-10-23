@@ -12,7 +12,7 @@ Player::Player() : _position(DEFAULT_START),
 					moveState({false, false, false, false}),
 					_alive(true),
 					_bombRange(2),
-					_maxBombs(3),
+					_maxBombs(1),
 					_score(0)
 {
 }
@@ -27,6 +27,10 @@ void Player::init(int level)
 	this->_position = DEFAULT_START;
 	this->moveState = {false, false, false, false};
 	this->previousState = {this->_bombRange, this->_maxBombs, this->_score};
+	if (level != 0 && level % 4 == 0)
+	{
+		this->_lives += 1;
+	}
 }
 
 void Player::kill(void)
