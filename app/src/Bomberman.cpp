@@ -34,9 +34,10 @@ Bomberman::Bomberman()
 	pauseMenu.init(renderer, pauseMenuItems, MenuAction::ContinueGame, false);
 
 	std::vector<MenuItem> settingsMenuItems;
-	settingsMenuItems.push_back(MenuItem(2, "Resolution", true, MenuAction::ToResolutionMenu));
-	settingsMenuItems.push_back(MenuItem(0, "Controls", false, MenuAction::ToControlsMenu));
-	settingsMenuItems.push_back(MenuItem(-2, "Back", false, MenuAction::ToMainMenu));
+	settingsMenuItems.push_back(MenuItem(3, "Resolution", true, MenuAction::ToResolutionMenu));
+	settingsMenuItems.push_back(MenuItem(1, "Controls", false, MenuAction::ToControlsMenu));
+	settingsMenuItems.push_back(MenuItem(-1, "Volume", false, MenuAction::ToVolumeMenu));
+	settingsMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToMainMenu));
 	settingsMenu.init(renderer, settingsMenuItems, MenuAction::ToMainMenu, true);
 
 	std::vector<MenuItem> resolutionMenuItems;
@@ -45,6 +46,12 @@ Bomberman::Bomberman()
 	resolutionMenuItems.push_back(MenuItem(-1, "Fullscreen", false, MenuAction::SetResolutionFullscreen));
 	resolutionMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
 	resolutionMenu.init(renderer, resolutionMenuItems, MenuAction::ToSettingsMenu, true);
+
+	std::vector<MenuItem> volumeMenuItems;
+	volumeMenuItems.push_back(MenuItem(3, "Increase Volume", true, MenuAction::IncreaseVolume));
+	volumeMenuItems.push_back(MenuItem(1, "Decrease Volume", false, MenuAction::DecreaseVolume));
+	volumeMenuItems.push_back(MenuItem(-3, "Back", false, MenuAction::ToSettingsMenu));
+	volumeMenu.init(renderer, volumeMenuItems, MenuAction::ToSettingsMenu, true);
 
 	controlsMenu.init(renderer, MenuAction::ToSettingsMenu);
 
@@ -59,7 +66,7 @@ Bomberman::Bomberman()
 	threadActive = false;
 	this->gameState.level = 0;
 	this->engine.init(this->gameState);
-	gameState.sound.playMusic();
+	Sound::playMusic();
 }
 
 Bomberman::~Bomberman()
@@ -104,6 +111,7 @@ void Bomberman::handleMenuAction(MenuAction option)
 	case MenuAction::ToSettingsMenu:
 		this->resolutionMenu.resetSelected();
 		this->controlsMenu.resetSelected();
+		this->volumeMenu.resetSelected();
 		this->menuState = MenuState::SettingsMenu;
 		break;
 	case MenuAction::ToResolutionMenu:
@@ -111,6 +119,9 @@ void Bomberman::handleMenuAction(MenuAction option)
 		break;
 	case MenuAction::ToControlsMenu:
 		this->menuState = MenuState::ControlsMenu;
+		break;
+	case MenuAction::ToVolumeMenu:
+		this->menuState = MenuState::VolumeMenu;
 		break;
 	case MenuAction::SetResolution800:
 		if (this->resolution != Resolution::Default)
@@ -160,6 +171,12 @@ void Bomberman::handleMenuAction(MenuAction option)
 	case MenuAction::SetBombControl:
 		this->settingKey = EngineEvent::place_bomb;
 		break;
+	case MenuAction::IncreaseVolume:
+		Sound::increaseVol();
+		break;
+	case MenuAction::DecreaseVolume:
+		Sound::decreaseVol();
+		break;
 	case MenuAction::Exit:
 		this->saveGame();
 		this->input.saveConfig();
@@ -184,7 +201,8 @@ void Bomberman::saveGame()
 				<< this->gameState.pickups.to_string()
 				<< std::to_string(this->gameState.level) + "\n"
 				<< std::to_string(this->gameState.loading) + "\n"
-				<< std::to_string(this->gameState.waitTime) + "\n";
+				<< std::to_string(this->gameState.waitTime) + "\n"
+				<< Sound::getVol() << '\n';
 		saveFile.close();
 	}
 	else
@@ -200,6 +218,8 @@ void Bomberman::loadGame()
 
 	if (saveFile.is_open())
 	{
+		int newVolume;
+
 		this->gameState.player.from_string(saveFile);
 		this->gameState.enemies.from_string(saveFile);
 		this->gameState.map.from_string(saveFile);
@@ -207,7 +227,10 @@ void Bomberman::loadGame()
 		this->gameState.pickups.from_string(saveFile);
 		saveFile >> this->gameState.level
 				>> this->gameState.loading
-				>> this->gameState.waitTime;
+				>> this->gameState.waitTime
+				>> newVolume;
+		
+		Sound::setVol(newVolume);
 
 		// Indicate in menu that game can be continued.
 		this->gameStarted = true;
@@ -356,6 +379,10 @@ void Bomberman::updateFunc()
 			this->controlsMenu.displaySettingScreen(*(this->window));
 			this->setKey();
 		}
+		break;
+	case MenuState::VolumeMenu:
+		option = this->volumeMenu.render(*(this->window));
+		this->handleMenuAction(option);
 		break;
 	}
 }

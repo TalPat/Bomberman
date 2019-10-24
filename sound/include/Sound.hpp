@@ -9,15 +9,16 @@ enum clips
 	beep1,
 	beep2,
 	boom,
-	sad
+	sad,
+	click
 };
 
 class Sound
 {
 private:
-	std::vector<sf::SoundBuffer> buffers;
-	std::vector<sf::Sound> sounds;
-	sf::Music music;
+	static std::vector<sf::SoundBuffer> buffers;
+	static std::vector<sf::Sound> sounds;
+	static sf::Music music;
 
 	static int vol;
 
@@ -25,10 +26,12 @@ public:
 	Sound(/* args */);
 	~Sound();
 	
-	void playSound(int n);
-	void playMusic(void);
-	void increaseVol(void);
-	void decreaseVol(void);
+	static void playSound(int n);
+	static void playMusic(void);
+	static void increaseVol(void);
+	static void decreaseVol(void);
+	static void setVol(unsigned int volume);
+	static int getVol(void);
 };
 
 #endif

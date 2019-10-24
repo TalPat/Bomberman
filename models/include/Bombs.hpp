@@ -24,7 +24,6 @@ class Bombs
 private:
 	std::list<sBomb> _bombs;
 	std::list<sFlame> _flames;
-	Sound sound;
 
 public:
 	static int bomb_range;

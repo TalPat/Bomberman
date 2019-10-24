@@ -4,11 +4,15 @@
 
 int Sound::vol = 50;
 
+std::vector<sf::SoundBuffer> Sound::buffers(5, sf::SoundBuffer());
+std::vector<sf::Sound> Sound::sounds(5, sf::Sound());
+sf::Music Sound::music = sf::Music();
+
 Sound::Sound(/* args */)
 {
 	music.openFromFile(std::string(SOUNDRES_DIR) + "/music.wav");
 	music.setLoop(true);
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < 5; i++)
 	{
 		buffers.push_back(sf::SoundBuffer());
 		sounds.push_back(sf::Sound());
@@ -17,7 +21,8 @@ Sound::Sound(/* args */)
 	buffers[beep2].loadFromFile(std::string(SOUNDRES_DIR) + "/beep2.wav");
 	buffers[boom].loadFromFile(std::string(SOUNDRES_DIR) + "/boom.wav");
 	buffers[sad].loadFromFile(std::string(SOUNDRES_DIR) + "/sad.wav");
-	for (size_t i = 0; i < 4; i++)
+	buffers[click].loadFromFile(std::string(SOUNDRES_DIR) + "/click.wav");
+	for (size_t i = 0; i < 5; i++)
 	{
 		sounds[i].setBuffer(buffers[i]);
 	}
@@ -43,7 +48,7 @@ void Sound::increaseVol(void)
 	vol += 10;
 	if (vol > 100)
 		vol = 100;
-	for (auto mysound : sounds)
+	for (auto &mysound : sounds)
 	{
 		mysound.setVolume(vol);
 	}
@@ -55,9 +60,28 @@ void Sound::decreaseVol(void)
 	vol -= 10;
 	if (vol < 0)
 		vol = 0;
-	for (auto mysound : sounds)
+	for (auto &mysound : sounds)
 	{
 		mysound.setVolume(vol);
 	}
 	music.setVolume(vol);
+}
+
+void Sound::setVol(unsigned int volume)
+{
+	if (volume > 100)
+		return;
+	else
+		vol = volume;
+
+	for (auto &mysound : sounds)
+	{
+		mysound.setVolume(vol);
+	}
+	music.setVolume(vol);
+}
+
+int Sound::getVol(void)
+{
+	return Sound::vol;
 }
