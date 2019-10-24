@@ -167,6 +167,8 @@ MenuAction Menu::handleInput(sf::RenderWindow &window)
 				case sf::Keyboard::Escape:
 					return this->backOption;
 					break;
+				default:
+					break;
 			}
 			break;
 		}
