@@ -66,7 +66,7 @@ Bomberman::Bomberman()
 	threadActive = false;
 	this->gameState.level = 0;
 	this->engine.init(this->gameState);
-	Sound::playMusic();
+	Sound::playMusic(musmen);
 }
 
 Bomberman::~Bomberman()
@@ -343,6 +343,7 @@ void Bomberman::updateFunc()
 	{
 	case MenuState::Playing:
 		// Only render if required to enforce frameRate
+			Sound::playMusic((this->gameState.level % 3) + 1);
 			if (!threadActive)
 			{
 				threadActive = true;
@@ -356,9 +357,11 @@ void Bomberman::updateFunc()
 	case MenuState::PauseMenu:
 		if (!threadActive)
 		{
+			Sound::playMusic(musmen);
 			option = this->pauseMenu.render(*(this->window));
 			this->handleMenuAction(option);
 		}
+		
 		break;
 	case MenuState::SettingsMenu:
 		option = this->settingsMenu.render(*(this->window));
